@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {Card, Button, Form} from 'react-bootstrap';
@@ -6,12 +6,16 @@ import axios from 'axios';
 import cookies from "js-cookie";
 
 import img from '../../image/trd_img.png'
+import { AuthContext } from "../../App";
 
 const InstructorDashboard = () => {
 
     const [assignedCourses, setAssignedCourses] = useState([]);
     const navigate = useNavigate();
     const ref = useRef(true)
+
+    const { authenticatedUser, handleAuth } = useContext(AuthContext);
+    console.log(authenticatedUser)
 
     useEffect(() => {
         if(ref.current) {
@@ -31,7 +35,7 @@ const InstructorDashboard = () => {
             })
             .catch(e => {
                 console.log(e);
-                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data)
+                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
             })
         }
         return () => ref.current = false;

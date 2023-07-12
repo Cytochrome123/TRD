@@ -57,7 +57,7 @@ const Signin = (props)=>{
             // }
         })
         .catch(e => {
-            alert(e.response.data.msg)
+            e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
             console.log(e);
             // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
         });

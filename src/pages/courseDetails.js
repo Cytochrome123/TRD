@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import {Card, Button} from 'react-bootstrap';
 import axios from 'axios';
+import cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 import img from '../image/trd_img.png'
 
@@ -13,9 +15,27 @@ const CourseDetails = () => {
 
     const [courseDetails, setCourseDetails]  = useState({
         details: {},
-        instructors: []
+        instructors: [],
+        students: []
     });
     const ref = useRef(true)
+    const navigate = useNavigate();
+
+    const token = cookies.get('token');
+    console.log(token, 'token')
+    let decoded;
+    let Authenticated;
+    let registeredBefore;
+    if (token) {
+        decoded = jwtDecode(token);
+        console.log(decoded)
+        Authenticated = token !== 'undefined'
+        registeredBefore = decoded.courses.some(obj => obj.courseID.toString() == id);
+    
+        console.log(Authenticated, 'con');
+        console.log(registeredBefore, 'dition')
+    }
+
 
     useEffect(() => {
         if (ref.current) {
@@ -32,7 +52,8 @@ const CourseDetails = () => {
                 setCourseDetails(prev => ({
                     ...prev,
                     details: res.data.course,
-                    instructors: res.data.course.instructors
+                    instructors: res.data.course.instructors,
+                    students: res.data.course.eenrolled,
                 }))
             })
             .catch(e => {
@@ -43,7 +64,35 @@ const CourseDetails = () => {
 
       return () => ref.current = false;
     })
-console.log(courseDetails.details.name)
+
+    const handleRegister = () => {
+        if (token === undefined) {
+            navigate('/signin')
+        }
+        console.log(decoded)
+        axios({
+            method: 'post',
+            url: `http://localhost:5001/api/course/${id}/register`,
+            // url: `${BASEURL}/subAdmin/student/new`,
+            // data: {},
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            console.log(res);
+            // props.studentsData();
+            navigate(`/course/${id}`)
+        })
+        .catch(err => {
+            console.log(err)
+            alert(err.message)
+        });
+    }
+
+        console.log(courseDetails.details.name)
+        console.log(decoded.userType === 'admin')
     return (
         <div>
             <img src={img}/>
@@ -61,11 +110,13 @@ console.log(courseDetails.details.name)
                 <p>Status: Upcoming</p>
 
 
-                
                 {/* {!registered ? <Button variant='primary' onClick={() => handleRegister()} >Register</Button> : <TableList />} */}
-                <Button variant='primary' onClick={'() => handleRegister()'} style={{float: 'right'}} >Register</Button>
-                {courseDetails.instructors && <TableList list={courseDetails.instructors} />}
+                {/* <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button> */}
+                {Authenticated && courseDetails.instructors && <TableList name='INSTRUCTORS' list={courseDetails.instructors} isAdmin={decoded.userType === 'admin'} />}
+                {Authenticated && decoded.userType === 'admin' && <TableList name='STUDENTS' list={courseDetails.students} isAdmin={decoded.userType === 'admin'} />}
 
+                {!Authenticated && decoded.userType !== 'admin' && <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button>}
+                {Authenticated && !registeredBefore && decoded.userType !== 'admin' && <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button>}
             </div>
         </div>
     )

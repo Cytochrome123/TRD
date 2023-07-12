@@ -49,6 +49,7 @@ const Signup = (props)=>{
         .catch(e => {
             console.log(e);
             alert('Error')
+            e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
             // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
         });
     }

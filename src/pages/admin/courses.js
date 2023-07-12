@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 import {Table, Button} from 'react-bootstrap';
 import axios from "axios";
+import cookies from 'js-cookie';
 
-import { hard } from "../../App";
 
-const Instructors = (props)=>{
 
-    const [ instructors , setInstructors ] = useState([])
+const AllCourses = (props)=>{
+
+    const [ courses , setCourses ] = useState([])
 
     const navigate = useNavigate();
     const ref = useRef(true);
@@ -16,23 +17,23 @@ const Instructors = (props)=>{
     useEffect(  () => {
         if (ref.current) {
 
-          // const token = cookies.get('token');
+          const token = cookies.get('token');
             axios({
               method: 'get',
-              url: 'http://localhost:5001/api/instructors',
+              url: 'http://localhost:5001/api/courses',
               // url: `${BASEURL}/examiner/exam`,
               headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${'token'}`
-                Authorization: `Bearer ${hard}`
               }
             })
             .then(res => {
                 // handleAlert(true, res.data.msg, 'success');
                 console.log(res.data.data)
-                setInstructors(res.data.data.instructors)
+                setCourses(res.data.courses)
             })
             .catch(e => {
+                console.log(e)
+                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
                 // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
             });
         }
@@ -50,23 +51,29 @@ const Instructors = (props)=>{
                 <thead>
                     <tr>
                         <th>S/N</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th> No of Instructors</th>
+                        <th>No of Students</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {instructors.map((instructor,index) => (
+                    {courses.map((course,index) => (
                         <tr key={index} >
                             <td>{index + 1}</td>
-                            <td>{instructor.firstName} </td>
-                            <td> {instructor.lastName} </td>
-                            <td>{instructor.email}</td>
-                            <td> {instructor.phoneNumber}</td>
+                            <td>{course.name} </td>
+                            <td> {course.description} </td>
+                            <td>{course.instuctors?.length}</td>
+                            <td>{course.enrolled?.length}</td>
+                            <td> {course.start_date}</td>
+                            <td> {course.end_date}</td>
+                            <td> {course.status}</td>
                             <td>
-                                <Button onClick={() => navigate(`/instructor/${instructor._id}`)}>View</Button>
+                                <Button onClick={() => navigate(`/course/${course._id}`)}>View</Button>
                             </td>
                         </tr>
                     ))}
@@ -76,4 +83,4 @@ const Instructors = (props)=>{
     );
 }
 
-export default Instructors;
+export default AllCourses;

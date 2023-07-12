@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
 import jwtDecode from 'jwt-decode';
@@ -14,7 +14,7 @@ const Navbarr = () => {
 		role: '',
     })
     const ref = useRef(true);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // cookies.set("jwt_auth",mytoken, {
     //     expires: new Date(decoded.exp * 1000),
@@ -26,18 +26,18 @@ const Navbarr = () => {
             console.log(token)
             let decoded;
             if (token) {
-            decoded = jwtDecode(token);
-            console.log(decoded)
+                decoded = jwtDecode(token);
+                console.log(decoded)
   
+                setAuthenticatedUser(prev => ({
+                    ...prev,
+                    authenticated: true,
+                    firstName: decoded.firstName,
+                    lastName: decoded.lastName,
+                    role: decoded.userType,
+                }))
             }
 
-            setAuthenticatedUser(prev => ({
-                ...prev,
-                authenticated: true,
-                firstName: decoded.firstName,
-                lastName: decoded.lastName,
-                role: decoded.userType,
-            }))
         }
 
         return () => ref.current = false;
@@ -45,7 +45,7 @@ const Navbarr = () => {
 
 
     const logOutUser = () => {
-        // cookies.remove('token');
+        cookies.remove('token');
         // cookies.remove('type');
         setAuthenticatedUser(prev => ({
             ...prev,
@@ -54,7 +54,7 @@ const Navbarr = () => {
             lastName: '',
             role: '',
         }))
-        // navigate('/courses')
+        navigate('/courses')
         // window.location.href = '/courses';
 
     }

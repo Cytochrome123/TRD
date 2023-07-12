@@ -6,7 +6,7 @@ import axios from 'axios';
 import CourseCard from "../component/courseCard"
 
 
-import { hard } from '../App';
+import cookies from 'js-cookie';
 
 const Courses = () => {
 
@@ -64,14 +64,14 @@ export default Courses
 
 export const loadCourses = async () => {
     try {
+        const token = cookies.get('token');
         let res = await axios({
             method: 'get',
             url: 'http://localhost:5001/api/courses',
             // url: `${BASEURL}/examiner/exam`,
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${'token'}`
-                Authorization: `Bearer ${hard}`
+                Authorization: `Bearer ${token}`
             }
         })
         if (res) return res.data.courses
@@ -88,6 +88,8 @@ export const loadCourses = async () => {
         // })
         // return courses
     } catch (err) {
+        console.log(err)
+        alert(err.message)
         return [err]
         // return [err.response.data.msg]
     }

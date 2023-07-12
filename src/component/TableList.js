@@ -1,9 +1,12 @@
 import { Table, Button } from "react-bootstrap";
 
-const TableList = ({list}) => {
+const TableList = ({name, list, isAdmin}) => {
     console.log(list.length)
+    console.log(isAdmin)
     return (
         <div>
+            <br></br>
+            <h2>{name}</h2>
             {list.length >= 1 ?
                 <Table striped bordered hover variant="dark">
                     <thead>
@@ -26,11 +29,13 @@ const TableList = ({list}) => {
                                 <td> {instructor.instructor.phoneNumber}</td>
                                 <td>
                                     <Button onClick={'() => navigate(`/instructor/${instructor._id}`)'}>View</Button>
+                                    {isAdmin && <Button>Edit</Button>}
+                                    {isAdmin && <Button>Delete</Button>}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
-                </Table> : <p>Instuctors has not been assigned yet</p> 
+                </Table> : <p>{name.toLowerCase()} has not been assigned yet</p> 
             }
         </div>
     )

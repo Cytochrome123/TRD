@@ -47,7 +47,7 @@ console.log(navigation.state)
                       <Card.Title>Courses</Card.Title>
                         <p style={{display: 'flex', float: "right", background: 'teal', color: 'white', width: "3rem", height: '3rem', borderRadius: '3rem', justifyContent: 'center', alignItems: 'center'}}>
 
-                        <Card.Text>10</Card.Text>
+                        <Card.Text>11</Card.Text>
                         </p>
                     </div>
                   </Card.Body>
@@ -73,7 +73,7 @@ console.log(navigation.state)
                       <Card.Title>Completed</Card.Title>
                         <p style={{display: 'flex', float: "right", background: 'teal', color: 'white', width: "3rem", height: '3rem', borderRadius: '3rem', justifyContent: 'center', alignItems: 'center'}}>
 
-                        <Card.Text>10</Card.Text>
+                        <Card.Text>1</Card.Text>
                         </p>
                     </div>
                   </Card.Body>
@@ -133,6 +133,7 @@ export const loadMyCourses = async () => {
         }
         
     } catch (err) {
+        alert(err.message)
         return [err]
         // return [err.response.data.msg]
     }
