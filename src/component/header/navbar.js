@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import cookies from "js-cookie";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { VscClose } from "react-icons/vsc";
+import { CiMenuBurger } from "react-icons/ci";
 import LOGO from "../../image/logo.png";
 
 const Navbarr = () => {
@@ -56,12 +57,14 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="bg-white text-gray-900 py-4 shadow-md px-4 md:px-0">
+    <nav className="bg-white text-gray-900 py-4 shadow-md px-7 md:px-0">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-10">
           <a href="/" className="text-gray-900 flex items-center">
             <img src={LOGO} alt="logo" className="w-14 mr-2" />
           </a>
+          
+          {/* Desktop nav */}
           <div className="space-x-7 font-semibold text-slate-600 hidden md:flex">
             <a
               href="#"
@@ -106,9 +109,10 @@ const Navbarr = () => {
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? (
-              <FaTimes className="h-6 w-6" />
+              // could be replaced with ""
+              <CiMenuBurger className="h-6 w-6" />
             ) : (
-              <FaBars className="h-6 w-6" />
+              <CiMenuBurger className="h-6 w-6" />
             )}
           </button>
           <div
@@ -121,11 +125,11 @@ const Navbarr = () => {
               onClick={toggleMobileMenu}
               aria-label="Close mobile menu"
             >
-              <FaTimes className="h-6 w-6" />
+              <VscClose className="h-6 w-6" />
             </button>
             <div className="h-full flex flex-col justify-start">
               <div className="mt-20 space-y-8">
-                <div className="space-y-4">
+                <div className="space-y-4 text-2xl font-semibold">
                   <a
                     href="#"
                     className={`${
@@ -172,7 +176,7 @@ const Navbarr = () => {
                     href="/signup"
                     className={`${
                       mobileMenuOpen ? "fade-in" : ""
-                    } bg-white font-bold text-blue-600 px-7 py-3 rounded-lg ml-4`}
+                    } bg-white font-semibold text-blue-600 px-7 py-3 rounded-lg ml-4`}
                   >
                     Sign Up
                   </a>
@@ -213,7 +217,8 @@ const Navbarr = () => {
           </div>
         </div>
 
-        {/* Desktop nav */}
+        {/* Desktop nav authenticated*/}
+        {/* TODO: authenticated user mobile navbar */}
         <div className="hidden md:flex items-center justify-end">
           {authenticatedUser.authenticated ? (
             <>

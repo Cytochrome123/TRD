@@ -5,7 +5,7 @@ body {
 }
 
 .fade-in {
-  animation: fade-in 0.8s ease-in;
+  animation: fade-in 0.9s ease-in;
   animation-fill-mode: forwards;
   opacity: 0;
 }
