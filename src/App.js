@@ -2,8 +2,6 @@ import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-
-import './App.css';
 import Courses, { loadCourses } from './pages/courses';
 import CourseDetails from './pages/courseDetails';
 import StudentDashboard, { loadMyCourses } from './pages/student/dashboard';
