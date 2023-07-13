@@ -1,7 +1,7 @@
 
 import { useLoaderData, useNavigation } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import CourseCard from "../component/courseCard"
 
@@ -89,8 +89,15 @@ export const loadCourses = async () => {
         // return courses
     } catch (err) {
         console.log(err)
-        alert(err.message)
-        return [err]
+        if(err && err instanceof AxiosError) {
+            alert(err.message)
+            return [err]
+        } else if(err && err instanceof Error) {
+            alert(err.response?.data.message);
+            return [err]
+        }
+        // alert(err.message)
+        
         // return [err.response.data.msg]
     }
 }

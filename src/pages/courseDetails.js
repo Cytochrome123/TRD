@@ -38,7 +38,7 @@ const CourseDetails = () => {
 
 
     useEffect(() => {
-        if (ref.current) {
+        // if (ref.current) {
             axios({
                 method: 'get',
                 url: `http://localhost:5001/api/course/${id}`,
@@ -49,6 +49,7 @@ const CourseDetails = () => {
                 }
             })
             .then(res => {
+                console.log(res)
                 setCourseDetails(prev => ({
                     ...prev,
                     details: res.data.course,
@@ -60,10 +61,10 @@ const CourseDetails = () => {
                 console.log(e)
                 // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
             });
-        }
+        // }
 
-      return () => ref.current = false;
-    })
+    //   return () => ref.current = false;
+    }, [])
 
     const handleRegister = () => {
         if (token === undefined) {
@@ -113,7 +114,7 @@ const CourseDetails = () => {
                 {/* {!registered ? <Button variant='primary' onClick={() => handleRegister()} >Register</Button> : <TableList />} */}
                 {/* <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button> */}
                 {Authenticated && courseDetails.instructors && <TableList name='INSTRUCTORS' list={courseDetails.instructors} isAdmin={decoded.userType === 'admin'} />}
-                {Authenticated && decoded.userType === 'admin' && <TableList name='STUDENTS' list={courseDetails.students} isAdmin={decoded.userType === 'admin'} />}
+                {/* {Authenticated && decoded.userType === 'admin' && <TableList name='STUDENTS' list={courseDetails.students} isAdmin={decoded.userType === 'admin'} />} */}
 
                 {!Authenticated && decoded.userType !== 'admin' && <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button>}
                 {Authenticated && !registeredBefore && decoded.userType !== 'admin' && <Button variant='primary' onClick={() => handleRegister()} style={{float: 'right'}} >Register</Button>}
