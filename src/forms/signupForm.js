@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 // import { BASEURL } from "../App";
 
 const Signup = (props)=>{
@@ -46,10 +46,15 @@ const Signup = (props)=>{
 
             navigate('/signin')
         })
-        .catch(e => {
-            console.log(e);
-            alert('Error')
-            e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
+        .catch(err => {
+            console.log(err)
+            if(err && err instanceof AxiosError) {
+                alert(err.message)
+            } else if(err && err instanceof Error) {
+                alert(err.response?.data.message);
+            } else {
+                alert('Error')
+            }
             // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
         });
     }

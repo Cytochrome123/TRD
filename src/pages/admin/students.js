@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import {Table, Button} from 'react-bootstrap';
-import axios from "axios";
+import axios, { AxiosError } from 'axios';
 import cookies from 'js-cookie';
 
 
@@ -33,9 +33,15 @@ const Students = (props)=>{
                 console.log(res.data.data)
                 setStudents(res.data.students)
             })
-            .catch(e => {
-                console.log(e)
-                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
+            .catch(err => {
+                console.log(err)
+                if(err && err instanceof AxiosError) {
+                    alert(err.message)
+                } else if(err && err instanceof Error) {
+                    alert(err.response?.data.message);
+                } else {
+                    alert('Error')
+                }
                 // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
             });
         }

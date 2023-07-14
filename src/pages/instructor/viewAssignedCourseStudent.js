@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
 
 import { Button, Table } from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import img from '../../image/trd_img.png'
 
@@ -36,10 +36,15 @@ const ViewAssignedCourseStudent = () => {
                     students: res.data.course.enrolled
                 }))
             })
-            .catch(e => {
-                console.log(e)
-                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data)
-                // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
+            .catch(err => {
+                console.log(err)
+                if(err && err instanceof AxiosError) {
+                    alert(err.message)
+                } else if(err && err instanceof Error) {
+                    alert(err.response?.data.message);
+                } else {
+                    alert('Error')
+                }
             });
         }
 

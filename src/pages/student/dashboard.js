@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLoaderData, useNavigation, useNavigate } from "react-router-dom";
 
 import {Card, Button, Form} from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 import jwtDecode from 'jwt-decode';
 
@@ -133,8 +133,15 @@ export const loadMyCourses = async () => {
         }
         
     } catch (err) {
-        alert(err.message)
-        return [err]
-        // return [err.response.data.msg]
+        console.log(err)
+        if(err && err instanceof AxiosError) {
+            alert(err.message)
+            return [err]
+        } else if(err && err instanceof Error) {
+            alert(err.response?.data.message);
+            return [err]
+        } else {
+            alert('Eroor')
+        }
     }
 }

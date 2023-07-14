@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {Card, Button, Form} from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 
 import img from '../../image/trd_img.png'
@@ -33,9 +33,15 @@ const InstructorDashboard = () => {
                 console.log(res)
                 setAssignedCourses(res.data.assignedcourses)
             })
-            .catch(e => {
-                console.log(e);
-                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
+            .catch(err => {
+                console.log(err)
+                if(err && err instanceof AxiosError) {
+                    alert(err.message)
+                } else if(err && err instanceof Error) {
+                    alert(err.response?.data.message);
+                } else {
+                    alert('Error')
+                }
             })
         }
         return () => ref.current = false;

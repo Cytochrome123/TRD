@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom";
 
 import {Card, Button} from 'react-bootstrap';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
@@ -37,7 +37,7 @@ const CourseDetails = () => {
     }
 
 
-    useEffect(() => {
+    useEffect( () => {
         // if (ref.current) {
             axios({
                 method: 'get',
@@ -49,7 +49,6 @@ const CourseDetails = () => {
                 }
             })
             .then(res => {
-                console.log(res)
                 setCourseDetails(prev => ({
                     ...prev,
                     details: res.data.course,
@@ -57,10 +56,18 @@ const CourseDetails = () => {
                     students: res.data.course.eenrolled,
                 }))
             })
-            .catch(e => {
-                console.log(e)
+            .catch(err => {
+                console.log(err)
+                if(err && err instanceof AxiosError) {
+                    alert(err.message)
+                } else if(err && err instanceof Error) {
+                    alert(err.response?.data.message);
+                } else {
+                    alert('Error')
+                }
                 // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
             });
+            
         // }
 
     //   return () => ref.current = false;
@@ -88,7 +95,13 @@ const CourseDetails = () => {
         })
         .catch(err => {
             console.log(err)
-            alert(err.message)
+            if(err && err instanceof AxiosError) {
+                alert(err.message)
+            } else if(err && err instanceof Error) {
+                alert(err.response?.data.message);
+            } else {
+                alert('Error')
+            }
         });
     }
 

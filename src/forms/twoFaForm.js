@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from 'js-cookie';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 // import { BASEURL } from "../App";
 
 import { AuthContext, hard } from "../App";
@@ -60,9 +60,15 @@ const TwoFAForm = (props) => {
                 window.location.back()
             }
         })
-        .catch(e => {
-            console.log(e);
-            e.response.data ? alert(e.response.data) : e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
+        .catch(err => {
+            console.log(err)
+            if(err && err instanceof AxiosError) {
+                alert(err.message)
+            } else if(err && err instanceof Error) {
+                alert(err.response?.data.message);
+            } else {
+                alert('Error')
+            }
             // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
         });
     }

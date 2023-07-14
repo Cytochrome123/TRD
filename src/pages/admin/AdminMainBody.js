@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useRef } from "react";
 
-import axios from "axios";
+import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 // import { Link } from "react-router-dom";
 import MetricCard from './MetricCard'
@@ -39,10 +39,15 @@ const AdminMainBody = () => {
                 console.log(res.data.users)
                 setData(res.data.users)
             })
-            .catch(e => {
-                console.log(e)
-                e.response.data.msg ? alert(e.response.data.msg) : alert(e.response.data.data.msg)
-                // handleAlert(true, e.response.data ? e.response.data : e.message, 'danger');
+            .catch(err => {
+                console.log(err)
+                if(err && err instanceof AxiosError) {
+                    alert(err.message)
+                } else if(err && err instanceof Error) {
+                    alert(err.response?.data.message);
+                } else {
+                    alert('Error')
+                }
             });
 
             axios({

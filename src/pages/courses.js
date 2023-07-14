@@ -95,6 +95,8 @@ export const loadCourses = async () => {
         } else if(err && err instanceof Error) {
             alert(err.response?.data.message);
             return [err]
+        } else {
+            alert('Eroor')
         }
         // alert(err.message)
         

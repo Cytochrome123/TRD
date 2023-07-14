@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import axios, { AxiosError } from 'axios';
 import cookies from 'js-cookie';
 import { BASEURL } from "../App";
 
@@ -53,9 +54,16 @@ const CreateCourse = (props)=>{
                 navigate('/student/allExams')
             }
         })
-        .catch(e => {
-            console.log(e);
-            props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
+        .catch(err => {
+            console.log(err);
+            if(err && err instanceof AxiosError) {
+                alert(err.message)
+            } else if(err && err instanceof Error) {
+                alert(err.response?.data.message);
+            } else {
+                alert('Error')
+            }
+            // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
         });
     }
 
