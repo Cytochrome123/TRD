@@ -2,8 +2,6 @@ import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-
-import './App.css';
 import Courses, { loadCourses } from './pages/courses';
 import CourseDetails from './pages/courseDetails';
 import StudentDashboard, { loadMyCourses } from './pages/student/dashboard';
@@ -21,6 +19,8 @@ import Instructors from './pages/admin/instructors';
 import Students from './pages/admin/students';
 import ViewStudent from './pages/admin/viewStudent';
 import AllCourses from './pages/admin/courses';
+import Landing from './pages/landing';
+import "./App.css";
 // import Home from './components/home';
 
 
@@ -34,26 +34,26 @@ function App() {
 
   const [authenticatedUser, setAuthenticatedUser] = useState({
     authenticated: false,
-		firstName: '',
-		lastName: '',
+    firstName: '',
+    lastName: '',
     courses: [],
-		role: '',
+    role: '',
     token: ''
   })
 
   const handleAuth = () => {
     const token = cookies.get('token')
     if (token) {
-        const decoded = jwtDecode(token);
-        console.log(decoded)
-        setAuthenticatedUser(prev => ({
-          authenticated: true,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          // courses: decoded.courses
-          role: decoded.role,
-          token
-        }))
+      const decoded = jwtDecode(token);
+      console.log(decoded)
+      setAuthenticatedUser(prev => ({
+        authenticated: true,
+        firstName: decoded.firstName,
+        lastName: decoded.lastName,
+        // courses: decoded.courses
+        role: decoded.role,
+        token
+      }))
     }
   }
 
@@ -75,15 +75,16 @@ function App() {
     createRoutesFromElements(
       <Route>
         <Route path='/' element={<Root />}>
-          <Route index path='/courses' element={<Courses />} loader={loadCourses}/>
-          <Route path='/course/:id' element={<CourseDetails />}/>
-          <Route path='/signup' element={<SignUp />}/>
-          <Route path='/signin' element={<SignIn />}/>
-          <Route path='/verify' element={<TwoFA />}/>
+          <Route path='/' element={<Landing />} />
+          <Route path='/courses' element={<Courses />} loader={loadCourses} />
+          <Route path='/course/:id' element={<CourseDetails />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/signin' element={<SignIn />} />
+          <Route path='/verify' element={<TwoFA />} />
           <Route element={<StudentRoutes />}>
-            <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} />
-          </Route>
-          <Route>
+          <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} />
+        </Route>
+        <Route>
             <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
             <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} />
           </Route>
@@ -98,32 +99,32 @@ function App() {
             <Route path='/admin/navigation' element={<AdminNavigation />} />
             <Route path='/admin/metric' element={<MetricCard />} />
           </Route>
-        </Route>  
+        </Route>
       </Route>
     )
   )
 
   return (
     <AuthContext.Provider value={{ authenticatedUser, handleAuth }}>
-    {/* <> */}
+      {/* <> */}
       {/* <Navbarr /> */}
 
       {/* <div>Temp</div> */}
-      <RouterProvider router={router}/>
-    {/* </> */}
+      <RouterProvider router={router} />
+      {/* </> */}
     </AuthContext.Provider>
   );
 }
 
 const Root = () => {
-    return (
-      <>
-        <Navbarr />
-        <div>
-            <Outlet />
-        </div>
-      </>
-    )
+  return (
+    <>
+      <Navbarr />
+      <div>
+        <Outlet />
+      </div>
+    </>
+  )
 }
 
 export default App;

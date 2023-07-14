@@ -14,7 +14,7 @@ const Courses = () => {
     //     _id: '1234567890',
     //     name: 'First',
     //     description: 'edfghjnfgvcfthghv'
-    //     // , justifyContent: 'space-between'
+    //   import './App.css';  // , justifyContent: 'space-between'
     // }
 
     const courses = useLoaderData();
