@@ -4,8 +4,18 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .fade-in {
   animation: fade-in 0.9s ease-in;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+.fade-in-faster {
+  animation: fade-in 0.5s ease-in;
   animation-fill-mode: forwards;
   opacity: 0;
 }

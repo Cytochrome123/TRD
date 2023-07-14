@@ -20,6 +20,7 @@ import Students from './pages/admin/students';
 import ViewStudent from './pages/admin/viewStudent';
 import AllCourses from './pages/admin/courses';
 import Landing from './pages/landing';
+import Footer from './component/footer';
 import "./App.css";
 // import Home from './components/home';
 
@@ -123,6 +124,7 @@ const Root = () => {
       <div>
         <Outlet />
       </div>
+      <Footer />
     </>
   )
 }
