@@ -214,11 +214,11 @@ function Landing() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center mt-20 md:mt-32">
+      <div className="flex flex-col items-center mt-20 md:mt-44">
         <h2 className="text-2xl text-white w-full justify-center flex rounded-lg bg-slate-800 font-bold leading-relaxed mb-10">
           Announcements
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-x-32">
           {announcements.map((announcement, index) => (
             <div key={index}>
               <div className="flex flex-col space-y-5">
