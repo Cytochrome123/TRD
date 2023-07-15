@@ -63,11 +63,11 @@ const Navbarr = () => {
           <a href="/" className="text-gray-900 flex items-center">
             <img src={LOGO} alt="logo" className="w-14 mr-2" />
           </a>
-          
+
           {/* Desktop nav */}
           <div className="space-x-7 font-semibold text-slate-600 hidden md:flex">
             <a
-              href="#"
+              href="/"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
@@ -109,7 +109,6 @@ const Navbarr = () => {
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? (
-              // could be replaced with ""
               <CiMenuBurger className="h-6 w-6" />
             ) : (
               <CiMenuBurger className="h-6 w-6" />
@@ -131,7 +130,7 @@ const Navbarr = () => {
               <div className="mt-20 space-y-8">
                 <div className="space-y-4 text-2xl font-semibold">
                   <a
-                    href="#"
+                    href="/"
                     className={`${
                       mobileMenuOpen ? "fade-in" : ""
                     } block hover:text-gray-200 transition duration-300 ease-in-out`}
@@ -163,72 +162,129 @@ const Navbarr = () => {
                     Courses
                   </a>
                 </div>
-                <div className="flex items-center space-x-10">
-                  <a
-                    href="/signin"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } text-blue-200 font-semibold hover:text-gray-200 transition duration-300 ease-in-out`}
-                  >
-                    Login
-                  </a>
-                  <a
-                    href="/signup"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } bg-white font-semibold text-blue-600 px-7 py-3 rounded-lg ml-4`}
-                  >
-                    Sign Up
-                  </a>
+                <div className="flex flex-col space-y-3">
+                  {authenticatedUser.role && (
+                    <a href="#" className="text-white font-bold underline">
+                      Hello {authenticatedUser.firstName}
+                    </a>
+                  )}
+                  {authenticatedUser.role === "admin" && (
+                    <div className="flex flex-col space-y-3">
+                      <a
+                        href="/instructors"
+                        className="text-white"
+                      >
+                        Instructors
+                      </a>
+                      <a
+                        href="/students"
+                        className="text-white"
+                      >
+                        Students
+                      </a>
+                    </div>
+                  )}
+                  {authenticatedUser.role === "instructor" && (
+                    <a
+                      href="#"
+                      className="text-white"
+                    >
+                      Assigned Courses
+                    </a>
+                  )}
+                  {authenticatedUser.role === "student" && (
+                    <a
+                      href="#"
+                      className="text-white"
+                    >
+                      My Courses
+                    </a>
+                  )}
+                  {authenticatedUser.authenticated ? (
+                    <div className="flex flex-col space-y-3">
+                      <a
+                        className={`${
+                          mobileMenuOpen ? "fade-in" : ""
+                        } text-white`}
+                        onClick={logOutUser}
+                      >
+                        Logout
+                      </a>
+                    </div>
+                  ) : (
+                    <>
+                      <a
+                        href="/signin"
+                        className={`${
+                          mobileMenuOpen ? "fade-in" : ""
+                        } text-white`}
+                      >
+                        Login
+                      </a>
+                      <a
+                        href="/signup"
+                        className={`${
+                          mobileMenuOpen ? "fade-in" : ""
+                        } text-white`}
+                      >
+                        Sign Up
+                      </a>
+                    </>
+                  )}
                 </div>
-              </div>
-              <div className="mt-auto">
-                {authenticatedUser.authenticated ? (
-                  <>
-                    <button className="text-white" onClick={logOutUser}>
-                      Logout
-                    </button>
-                    <a href="/courses" className="text-white ml-4">
-                      Courses
-                    </a>
-                  </>
-                ) : (
-                  <div className="items-center space-x-10 hidden md:flex">
-                    <a
-                      href="/signin"
-                      className={`${
-                        mobileMenuOpen ? "fade-in" : ""
-                      } text-white font-semibold hover:text-gray-200 transition duration-300 ease-in-out`}
-                    >
-                      Login
-                    </a>
-                    <a
-                      href="/signup"
-                      className={`${
-                        mobileMenuOpen ? "fade-in" : ""
-                      } text-white font-bold bg-blue-600 px-7 py-3 rounded-lg ml-4 hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out`}
-                    >
-                      Sign Up
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
 
         {/* Desktop nav authenticated*/}
-        {/* TODO: authenticated user mobile navbar */}
         <div className="hidden md:flex items-center justify-end">
-          {authenticatedUser.authenticated ? (
-            <>
-              <button className="text-gray-900" onClick={logOutUser}>
-                Logout
-              </button>
-              <a href="/courses" className="text-gray-900 ml-4">
-                Courses
+          {authenticatedUser.role && (
+            <a href="#" className="text-slate-900 font-bold mr-10 underline">
+              Hello {authenticatedUser.firstName}
+            </a>
+          )}
+          {authenticatedUser.role === "admin" && (
+            <div className="flex items-center space-x-5">
+              <a
+                href="/instructors"
+                className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+              >
+                Instructors
               </a>
-            </>
+              <a
+                href="/students"
+                className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+              >
+                Students
+              </a>
+            </div>
+          )}
+          {authenticatedUser.role === "instructor" && (
+            <a
+              href="#"
+              className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+            >
+              Assigned Courses
+            </a>
+          )}
+          {authenticatedUser.role === "student" && (
+            <a
+              href="#"
+              className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+            >
+              My Courses
+            </a>
+          )}
+          {authenticatedUser.authenticated ? (
+            <div className="flex items-center ml-5">
+              <a
+                className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg ml-4 hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
+                onClick={logOutUser}
+              >
+                Logout
+              </a>
+            </div>
           ) : (
             <div className="flex items-center space-x-10">
               <a
@@ -239,41 +295,12 @@ const Navbarr = () => {
               </a>
               <a
                 href="/signup"
-                className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg ml-4 hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
+                className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
               >
                 Sign Up
               </a>
             </div>
           )}
-
-          {authenticatedUser.role === "admin" ? (
-            <>
-              <a href="/instructors" className="text-gray-900 ml-4">
-                Instructors
-              </a>
-              <a href="/students" className="text-gray-900 ml-4">
-                Students
-              </a>
-            </>
-          ) : authenticatedUser.role === "instructor" ? (
-            <>
-              <a href="#" className="text-gray-900 ml-4">
-                Assigned Courses
-              </a>
-            </>
-          ) : authenticatedUser.role === "student" ? (
-            <>
-              <a href="#" className="text-gray-900 ml-4">
-                My Courses
-              </a>
-            </>
-          ) : (
-            authenticatedUser.role
-          )}
-
-          <a href="#" className="text-gray-900 ml-4">
-            {authenticatedUser.firstName}
-          </a>
         </div>
       </div>
     </nav>
