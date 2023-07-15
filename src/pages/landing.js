@@ -140,7 +140,7 @@ function Landing() {
             className="w-full md:w-2/5 rounded-lg"
             alt="vision"
           />
-          <div className="flex flex-col w-full items-start p-4 md:p-10 space-y-5">
+          <div className="flex flex-col w-full items-center md:items-start p-4 md:p-10 space-y-5">
             <div className="flex flex-row space-x-6 items-center">
               <span
                 className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
@@ -150,7 +150,7 @@ function Landing() {
                 }`}
                 onClick={handleVisionClick}
               >
-                Our Vision
+                Vision
               </span>
               <span
                 className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
@@ -160,11 +160,11 @@ function Landing() {
                 }`}
                 onClick={handleMissionClick}
               >
-                Our Mission
+                Mission
               </span>
             </div>
             <p
-              className={`text-md text-slate-700 leading-loose fade-in-faster ${
+              className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
                 isVisionVisible ? "" : "hidden"
               }`}
             >
@@ -177,7 +177,7 @@ function Landing() {
               a lasting impact on society.
             </p>
             <p
-              className={`text-md text-slate-700 leading-loose fade-in-faster ${
+              className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
                 isVisionVisible ? "hidden" : ""
               }`}
             >
