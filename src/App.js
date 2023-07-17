@@ -23,6 +23,7 @@ import Landing from './pages/landing';
 import Footer from './component/footer';
 import "./App.css";
 import Contact from './pages/contact';
+import AboutPage from './pages/about';
 // import Home from './components/home';
 
 
@@ -78,6 +79,7 @@ function App() {
       <Route>
         <Route path='/' element={<Root />}>
           <Route path='/' element={<Landing />} />
+          <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/courses' element={<Courses />} loader={loadCourses} />
           <Route path='/course/:id' element={<CourseDetails />} />
