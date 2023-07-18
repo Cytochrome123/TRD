@@ -1,4 +1,5 @@
 import React from 'react'
+import Staff from "../component/Staff";
 
 
 const AboutPage = () => {
@@ -119,6 +120,16 @@ Through our training workshops and seminars, we focus on providing future-ready 
                         <p><strong>IT & Computer Training</strong>
 This helps members of the University and society learn how to use and implement ICT tools and technologies. We provide classroom training on the following:, Mail management, Learning, Management Module (LMS), Microsoft Excel, Microsoft Word, Microsoft Powerpoint, Data Processing, Desktop Publishing, Research Tools & Data Analysis (SPSS; STATA; R; CSPRO; EPIDATA; EPI INFO; SAS, etc.).</p>
                     </div>
+                </div>
+
+                {/* staff */}
+                <div className='grid grid-cols-2 md:grid-cols-3  lg:grid-cols-4'>
+
+                    < Staff/>
+                    < Staff/>
+                    < Staff/>
+                    < Staff/>
+                    < Staff/>
                 </div>
             </section>
         </div>
