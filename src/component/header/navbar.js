@@ -57,7 +57,7 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="sticky top-0 bg-white text-gray-900 py-4 shadow-md px-7 md:px-0">
+    <nav className="sticky top-0 bg-white text-gray-900 py-4 shadow-md px-7 md:px-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-10">
           <a href="/" className="text-gray-900 flex items-center">
