@@ -57,7 +57,7 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="bg-white text-gray-900 py-4 shadow-md px-7 md:px-0">
+    <nav className="sticky top-0 bg-white text-gray-900 py-4 shadow-md px-7 md:px-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-10">
           <a href="/" className="text-gray-900 flex items-center">
@@ -75,7 +75,7 @@ const Navbarr = () => {
               Home
             </a>
             <a
-              href="#"
+              href="/about"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
@@ -97,6 +97,14 @@ const Navbarr = () => {
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Courses
+            </a>
+            <a
+              href="/contact"
+              className={`${
+                mobileMenuOpen ? "fade-in" : ""
+              } hover:text-slate-900 transition duration-300 ease-in-out`}
+            >
+              Contact Us
             </a>
           </div>
         </div>
@@ -138,7 +146,7 @@ const Navbarr = () => {
                     Home
                   </a>
                   <a
-                    href="#"
+                    href="/about"
                     className={`${
                       mobileMenuOpen ? "fade-in" : ""
                     } block hover:text-gray-200 transition duration-300 ease-in-out`}
@@ -160,6 +168,14 @@ const Navbarr = () => {
                     } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     Courses
+                  </a>
+                  <a
+                    href="/contact"
+                    className={`${
+                      mobileMenuOpen ? "fade-in" : ""
+                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  >
+                    Contact Us
                   </a>
                 </div>
                 <div className="flex flex-col space-y-3">
