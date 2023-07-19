@@ -22,6 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-userr/
+# userr/
 Appp.js
 mic/
+admin/
+instructor/
+student/

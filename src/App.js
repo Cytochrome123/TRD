@@ -24,6 +24,7 @@ import Footer from './component/footer';
 import "./App.css";
 import Contact from './pages/contact';
 import AboutPage from './pages/about';
+import Events from './pages/events';
 // import Home from './components/home';
 
 
@@ -81,6 +82,7 @@ function App() {
           <Route path='/' element={<Landing />} />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/events' element={<Events />} />
           <Route path='/courses' element={<Courses />} loader={loadCourses} />
           <Route path='/course/:id' element={<CourseDetails />} />
           <Route path='/signup' element={<SignUp />} />
