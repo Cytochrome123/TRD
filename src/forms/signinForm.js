@@ -70,7 +70,8 @@ const Signin = (props)=>{
     }
 
     return(
-        <div className="flex justify-center">
+        <div className="min-h-screen flex flex-col ">
+                    <div className="flex-1 flex justify-center items-center">
             {/* container start */}
 
             <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md  w-full  p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -120,6 +121,7 @@ const Signin = (props)=>{
 
 
             {/* container end */}
+        </div>
         </div>
 
     )
