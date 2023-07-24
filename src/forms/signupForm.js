@@ -75,8 +75,9 @@ const Signup = (props)=>{
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter First Name" required
           type="text"
           
+          // onChange={handleChange} value={formData.firstName}
+
           // placeholder="First Name"
-          onChange={handleChange} value={formData.firstName}
         //   value={text}
         //   onChange={(e) => setText(e.target.value)}
         />
@@ -87,8 +88,9 @@ const Signup = (props)=>{
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required
           type="text"
           placeholder="Enter Last Name"
+          // onChange={handleChange} value={formData.lastName}
+
         //   value={}
-        onChange={handleChange} value={formData.lastName}
         //   onChange={(e) => setDay(e.target.value)}
         />
       </div>
@@ -98,8 +100,9 @@ const Signup = (props)=>{
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required
           type="text"
           placeholder="Email"
+          // onChange={handleChange} value={formData.email}
+
         //   value={}
-        onChange={handleChange} value={formData.email}
         //   onChange={(e) => setDay(e.target.value)}
         />
       </div>
@@ -109,8 +112,10 @@ const Signup = (props)=>{
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required
           type="password"
           placeholder="Password"
+          // onChange={handleChange} value={formData.password}
+
+
         //   value={}
-        onChange={handleChange} value={formData.password}
         //   onChange={(e) => setDay(e.target.value)}
         />
       </div>
@@ -131,8 +136,10 @@ const Signup = (props)=>{
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"  required
           type="Number"
           placeholder="phone Number"
+          // onChange={handleChange} value={formData.phoneNumber}
+
+          
         //   value={}
-        onChange={handleChange} value={formData.phoneNumber}
         //   onChange={(e) => setDay(e.target.value)}
         />
       </div>
