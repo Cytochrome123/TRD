@@ -70,10 +70,12 @@ const Signin = (props) => {
   return (
     <div className="my-10 flex flex-col">
       <div className="flex-1 flex justify-center items-center">
-        <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md  w-full  p-4 bg-white border border-slate-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-slate-800 dark:border-slate-700">
+        <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md  w-full p-10 bg-white border border-slate-200 rounded-lg shadow">
           <div className="text-xl mb-8 font-semibold text-blue-600 text-center dark:text-white lg:justify-center">
             Log in to your account
           </div>
+
+          {/* TODO: fix form focus */}
 
           <form className="" action="#">
             <div className="form-control mb-6">
@@ -84,8 +86,6 @@ const Signin = (props) => {
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
                 required
                 type="text"
-                //   value={}
-                //   onChange={(e) => setDay(e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -96,27 +96,16 @@ const Signin = (props) => {
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
                 required
                 type="password"
-                //   value={}
-                //   onChange={(e) => setDay(e.target.value)}
               />
             </div>
 
             <button
               type="submit"
-              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-8"
+              class="w-full text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mt-8"
             >
               LOG IN
             </button>
-
-            {/* <input type="submit" value="Submit" /> */}
           </form>
-
-          {/* <form onSubmit={handleSubmit}>
-                <input type='email' name='email' placeholder="Email" onChange={handleChange} value={formData.email} />
-                <input type='password' name='password' placeholder="Password" onChange={handleChange} value={formData.password} />
-            
-                <button type='submit'>Submit</button>
-            </form> */}
         </div>
       </div>
     </div>
