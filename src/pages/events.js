@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import img from '../image/pic (4).png'
+import img from '../images/pic (4).png'
 
 const Events = () => {
 

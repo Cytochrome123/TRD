@@ -1,28 +1,37 @@
 import React from "react";
-import ABOUTIMG1 from "../image/about1.png";
-import ABOUTIMG2 from "../image/about2.png";
-import PROFILE from "../image/profile.jpeg";
+import ABOUTIMG1 from "../images/About1.png";
+import ABOUTIMG2 from "../images/About2.png";
+import PROFILE from "../images/profile.jpeg";
+import adisa from '../images/staff/adisa.jpeg';
+import makanju from '../images/staff/makanju.jpeg';
+import olanrewaju from '../images/staff/olanrewaju.jpeg';
+import olubodun from '../images/staff/olubodun.jpeg';
 
 const team = [
   {
+    name: "Abiodun ALAO",
+    role: "Director ITeMS",
+    image: PROFILE,
+  },
+  {
     name: "Rufus Olusoji ADISA",
     role: "Deputy Director",
-    image: PROFILE,
+    image: adisa,
   },
   {
     name: "Taofik Adewale MAKANJU",
     role: "Placeholder",
-    image: PROFILE,
+    image: makanju,
   },
   {
     name: "Ahmed Babajide OLANREWAJU",
     role: "Placeholder",
-    image: PROFILE,
+    image: olanrewaju,
   },
   {
     name: "Olorunfemi OLUBODUN",
     role: "Placeholder",
-    image: PROFILE,
+    image: olubodun,
   },
   {
     name: "Olawale Ebenezer AYENI",

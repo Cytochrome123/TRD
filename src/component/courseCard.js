@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import {Card, Button} from 'react-bootstrap';
 
-import img from '../image/trd_img.png'
+import img from '../images/trd_img.png'
 
 const CourseCard = ({course}) => {
 
