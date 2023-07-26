@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import cookies from "js-cookie";
 import { VscClose } from "react-icons/vsc";
 import { CiMenuBurger } from "react-icons/ci";
-import LOGO from "../../image/logo.png";
+import LOGO from "../../images/logo.png";
 
 const Navbarr = () => {
   const [authenticatedUser, setAuthenticatedUser] = useState({
@@ -60,52 +60,52 @@ const Navbarr = () => {
     <nav className="sticky top-0 bg-white text-gray-900 py-4 shadow-md px-7 md:px-0 z-50">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-10">
-          <a href="/" className="text-gray-900 flex items-center">
+          <Link to='/' className="text-gray-900 flex items-center">
             <img src={LOGO} alt="logo" className="w-14 mr-2" />
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <div className="space-x-7 font-semibold text-slate-600 hidden md:flex">
-            <a
-              href="/"
+            <Link
+              to="/"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Home
-            </a>
-            <a
-              href="/about"
+            </Link>
+            <Link
+              to="/about"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               About
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Events
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="#"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Courses
-            </a>
-            <a
-              href="/contact"
+            </Link>
+            <Link
+              to="/contact"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
 

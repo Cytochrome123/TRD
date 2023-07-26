@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import HEROIMG from "../image/building.jpg";
-import VISION from "../image/vision.svg";
+import HEROIMG from "../images/building.jpg";
+import VISION from "../images/vision.svg";
 import { PiChalkboardTeacherBold } from "react-icons/pi";
 import { MdOutlineComputer } from "react-icons/md";
 import { AiOutlineDatabase } from "react-icons/ai";

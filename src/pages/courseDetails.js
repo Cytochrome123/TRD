@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
-import img from '../image/trd_img.png'
+import img from '../images/trd_img.png'
 
 import TableList from '../component/TableList';
 

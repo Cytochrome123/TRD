@@ -3,22 +3,22 @@ import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterPro
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import Courses, { loadCourses } from './pages/courses';
-import CourseDetails from './pages/courseDetails';
-import StudentDashboard, { loadMyCourses } from './pages/student/dashboard';
-import StudentRoutes from './pages/student/StudentRoutes';
+// import CourseDetails from './pages/courseDetails';
+// import StudentDashboard, { loadMyCourses } from './pages/student/dashboard';
+// import StudentRoutes from './pages/student/StudentRoutes';
 import Navbarr from './component/header/navbar';
 import SignUp from './pages/auth/signUp';
 import SignIn from './pages/auth/signIn';
 import TwoFA from './pages/auth/twoFA';
-import InstructorDashboard from './pages/instructor/dashboard';
-import ViewAssignedCourseStudent from './pages/instructor/viewAssignedCourseStudent';
-import AdminMainBody from './pages/admin/AdminMainBody';
-import AdminNavigation from './pages/admin/AdminNavigation';
-import MetricCard from './pages/admin/MetricCard';
-import Instructors from './pages/admin/instructors';
-import Students from './pages/admin/students';
-import ViewStudent from './pages/admin/viewStudent';
-import AllCourses from './pages/admin/courses';
+// import InstructorDashboard from './pages/instructor/dashboard';
+// import ViewAssignedCourseStudent from './pages/instructor/viewAssignedCourseStudent';
+// import AdminMainBody from './pages/admin/AdminMainBody';
+// import AdminNavigation from './pages/admin/AdminNavigation';
+// import MetricCard from './pages/admin/MetricCard';
+// import Instructors from './pages/admin/instructors';
+// import Students from './pages/admin/students';
+// import ViewStudent from './pages/admin/viewStudent';
+// import AllCourses from './pages/admin/courses';
 import Landing from './pages/landing';
 import Footer from './component/footer';
 import "./App.css";
@@ -84,27 +84,27 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/events' element={<Events />} />
           <Route path='/courses' element={<Courses />} loader={loadCourses} />
-          <Route path='/course/:id' element={<CourseDetails />} />
+          {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/verify' element={<TwoFA />} />
-          <Route element={<StudentRoutes />}>
-          <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} />
-        </Route>
-        <Route>
-            <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
-            <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} />
+          {/* <Route element={<StudentRoutes />}> */}
+            {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+          {/* </Route> */}
+          <Route>
+            {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
+            <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
           </Route>
           <Route >
-            <Route path='/admin/dashboard' element={<AdminMainBody />} />
+            {/* <Route path='/admin/dashboard' element={<AdminMainBody />} />
             <Route path='/admin/instructors' element={<Instructors />} />
-            <Route path='/admin/students' element={<Students />} />
+            <Route path='/admin/students' element={<Students />} /> */}
             {/* <Route path='/instructor/:id' element={<ViewStudent />} /> */}
-            <Route path='/student/:id' element={<ViewStudent />} />
-            <Route path='/admin/courses' element={<AllCourses />} />
+            {/* <Route path='/student/:id' element={<ViewStudent />} />
+            <Route path='/admin/courses' element={<AllCourses />} /> */}
             {/* <Route path='/admin/users' element={<AdminMainBody />} /> */}
-            <Route path='/admin/navigation' element={<AdminNavigation />} />
-            <Route path='/admin/metric' element={<MetricCard />} />
+            {/* <Route path='/admin/navigation' element={<AdminNavigation />} />
+            <Route path='/admin/metric' element={<MetricCard />} /> */}
           </Route>
         </Route>
       </Route>

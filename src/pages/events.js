@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import EventCard from "../component/EventCard";
+import img from '../images/pic (4).png'
 
 const Events = () => {
 
@@ -37,38 +37,23 @@ const Events = () => {
         },
     ]
     console.log(tempEvents)
-    return (
-        <div className="container mx-auto">
-            <div className="my-8">
-                <input
-                    type="text"
-                    className="px-4 py-2 border rounded-md w-64"
-                    placeholder="Search events..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button
-                    className="px-4 py-2 ml-2 bg-blue-500 text-white rounded-md"
-                    onClick={() => setSearchQuery('')}
-                >
-                    Clear
-                </button>
+    return (  
+        <div className='flex items-center justify-center min-h-screen container mx-auto'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+                {tempEvents.map((event, index) => (
+                    <div key={index}>
+                        <div className="rounded-xl shadow-lg">
+                            <div className="p-2 flex flex-col">
+                                <div className="rounded-xl overflow-hidden">
+                                    <img src={img} />
+                                </div>
+                            </div>
+                        </div>
+                        <h5 className='text-1xl md:text-2xl font-small mt-3'>{event.title}</h5>
+                    </div>
+                ))}
             </div>
-            <div className='flex items-center justify-center min-h-screen'>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-                    {tempEvents.map((event, index) => (
-                        <EventCard 
-                            key={index}
-                            title={event.title} 
-                            date={event.date}
-                            description={event.description}
-                            location={event.location}
-                        />
-                    ))}
-                </div>
-            </div>
-        </div>
-        
+        </div>        
     )
 }
 
