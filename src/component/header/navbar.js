@@ -83,7 +83,7 @@ const Navbarr = () => {
               About
             </Link>
             <Link
-              to="#"
+              to="/events"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
@@ -91,7 +91,7 @@ const Navbarr = () => {
               Events
             </Link>
             <Link
-              to="#"
+              to="/courses"
               className={`${
                 mobileMenuOpen ? "fade-in" : ""
               } hover:text-slate-900 transition duration-300 ease-in-out`}
@@ -154,7 +154,7 @@ const Navbarr = () => {
                     About
                   </a>
                   <a
-                    href="#"
+                    href="/events"
                     className={`${
                       mobileMenuOpen ? "fade-in" : ""
                     } block hover:text-gray-200 transition duration-300 ease-in-out`}
@@ -162,7 +162,7 @@ const Navbarr = () => {
                     Events
                   </a>
                   <a
-                    href="#"
+                    href="/courses"
                     className={`${
                       mobileMenuOpen ? "fade-in" : ""
                     } block hover:text-gray-200 transition duration-300 ease-in-out`}
