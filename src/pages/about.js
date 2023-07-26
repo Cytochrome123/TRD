@@ -2,22 +2,26 @@ import React from "react";
 import ABOUTIMG1 from "../images/About1.png";
 import ABOUTIMG2 from "../images/About2.png";
 import PROFILE from "../images/profile.jpeg";
-import adisa from '../images/staff/adisa.jpeg';
-import makanju from '../images/staff/makanju.jpeg';
-import olanrewaju from '../images/staff/olanrewaju.jpeg';
-import olubodun from '../images/staff/olubodun.jpeg';
+
+import adisa from "../images/staff/adisa.jpeg";
+import makanju from "../images/staff/makanju.jpeg";
+import olanrewaju from "../images/staff/olanrewaju.jpeg";
+import olubodun from "../images/staff/olubodun.jpeg";
+import alao from "../images/staff/alao.jpg";
+import ayeni from "../images/staff/ayeni.jpeg"
 
 const team = [
-  {
-    name: "Abiodun ALAO",
-    role: "Director ITeMS",
-    image: PROFILE,
-  },
   {
     name: "Rufus Olusoji ADISA",
     role: "Deputy Director",
     image: adisa,
   },
+  {
+    name: "Abiodun ALAO",
+    role: "Placeholder",
+    image: alao,
+  },
+
   {
     name: "Taofik Adewale MAKANJU",
     role: "Placeholder",
@@ -36,7 +40,7 @@ const team = [
   {
     name: "Olawale Ebenezer AYENI",
     role: "Placeholder",
-    image: PROFILE,
+    image: ayeni,
   },
 ];
 
@@ -77,12 +81,20 @@ const AboutPage = () => {
             </p>
           </div>
           <div className="w-full md:w-1/2 md:mb-0 md:mt-0">
-            <img className="w-full rounded-lg" src={ABOUTIMG1} alt="About Image 1" />
+            <img
+              className="w-full rounded-lg"
+              src={ABOUTIMG1}
+              alt="About Image 1"
+            />
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-center items-center space-y-5 md:space-y-0 md:space-x-20 mt-16 md:mt-32">
           <div className="w-full md:w-1/2">
-            <img className="w-full rounded-lg" src={ABOUTIMG2} alt="About Image 2" />
+            <img
+              className="w-full rounded-lg"
+              src={ABOUTIMG2}
+              alt="About Image 2"
+            />
           </div>
           <div className="w-full md:w-1/2">
             <div>
