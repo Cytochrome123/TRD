@@ -52,7 +52,7 @@ const Events = () => {
 
   return (
     <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <h2 className="text-2xl md:text-4xl w-full text-slate-900 flex justify-center font-bold mt-10 md:mt-16">
+      <h2 className="text-2xl md:text-5xl w-full text-slate-900 flex justify-center font-bold mt-10 md:mt-16">
         Events & Campaigns
       </h2>
       <div className="mt-10">
