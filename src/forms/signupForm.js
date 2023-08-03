@@ -58,15 +58,15 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="my-10 flex flex-col">
-      <div className="flex-1 flex justify-center items-center">
-        <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md w-full p-10 bg-white border border-slate-200 rounded-lg shadow">
-          <div className="text-xl mb-8 font-semibold text-blue-600 text-center dark:text-white lg:justify-center">
+    <div className="flex flex-col my-10">
+      <div className="flex items-center justify-center flex-1">
+        <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
+          <div className="mb-8 text-xl font-semibold text-center text-blue-600 dark:text-white lg:justify-center">
             Sign Up to our platform
           </div>
 
           <form className="" onSubmit={handleSubmit}>
-            <div className="form-control mb-3">
+            <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
                 First Name
               </label>
@@ -78,7 +78,7 @@ const Signup = (props) => {
                 value={formData.firstName}
               />
             </div>
-            <div className="form-control mb-3">
+            <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
                 Last Name
               </label>
@@ -91,7 +91,7 @@ const Signup = (props) => {
                 value={formData.lastName}
               />
             </div>
-            <div className="form-control mb-3">
+            <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
                 Email
               </label>
@@ -104,7 +104,7 @@ const Signup = (props) => {
                 value={formData.email}
               />
             </div>
-            <div className="form-control mb-3">
+            <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
                 Password
               </label>
@@ -117,7 +117,7 @@ const Signup = (props) => {
                 value={formData.password}
               />
             </div>
-            <div className="form-control mb-3">
+            <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
                 Confirm Password
               </label>
