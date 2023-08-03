@@ -74,6 +74,7 @@ const Signup = (props) => {
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
                 required
                 type="text"
+                name="firstName"
                 onChange={handleChange}
                 value={formData.firstName}
               />
@@ -135,8 +136,8 @@ const Signup = (props) => {
               <input
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 required
-                type="text"
-                name="Phone Number"
+                type="number"
+                name="phoneNumber"
                 onChange={handleChange}
                 value={formData.phoneNumber}
               />
