@@ -100,14 +100,12 @@ const Contact = () => {
       });
     } catch (err) {
       console.log(err);
-      if(err && err instanceof AxiosError) {
-          alert(err.message)
-          return [err];
-      } else if(err && err instanceof Error) {
-          alert(err.response?.data.message);
-          return [err];
+      if(err && err instanceof Error) {
+        alert(err.response?.data.msg);
+      } else if(err && err instanceof AxiosError) {
+        alert(err.message)
       } else {
-          alert('Eroor')
+          alert('Error')
       }
     }
   };

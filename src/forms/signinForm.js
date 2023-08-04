@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-// import { BASEURL } from "../App";
+import { BASEURL } from "../App";
 
 import { hard } from "../App";
 
@@ -28,8 +28,7 @@ const Signin = (props) => {
     event.preventDefault();
     axios({
       method: "post",
-      // url: `${BASEURL}/Signin`,
-      url: "http://localhost:5001/api/signin",
+      url: `${BASEURL}/signin`,
       data: formData,
       headers: {
         'Content-Type': 'application/json',
@@ -58,12 +57,12 @@ const Signin = (props) => {
     })
     .catch((err) => {
       console.log(err);
-      if (err && err instanceof AxiosError) {
-        alert(err.message);
-      } else if (err && err instanceof Error) {
-        alert(err.response?.data.message);
+      if(err && err instanceof Error) {
+        alert(err.response?.data.msg);
+      } else if(err && err instanceof AxiosError) {
+        alert(err.message)
       } else {
-        alert("Error");
+          alert('Error')
       }
       // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
     });

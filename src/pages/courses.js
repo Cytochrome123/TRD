@@ -89,11 +89,11 @@ export const loadCourses = async () => {
         // return courses
     } catch (err) {
         console.log(err)
-        if(err && err instanceof AxiosError) {
-            alert(err.message)
+        if(err && err instanceof Error) {
+            alert(err.response?.data.msg);
             return [err]
-        } else if(err && err instanceof Error) {
-            alert(err.response?.data.message);
+        } else if(err && err instanceof AxiosError) {
+            alert(err.message);
             return [err]
         } else {
             alert('Eroor')

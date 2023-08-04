@@ -33,8 +33,8 @@ import Events from './pages/events';
 
 export const AuthContext = createContext();
 
-// export const BASEURL = 'http://localhost:5000/api';
-// export const BASEURL = 'https://exam-mgt-server.herokuapp.com/api'
+// export const BASEURL = 'http://localhost:5001/api';
+export const BASEURL = 'https://trd-server.onrender.com/api'
 
 function App() {
 

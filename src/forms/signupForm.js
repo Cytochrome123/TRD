@@ -63,12 +63,12 @@ const Signup = (props) => {
     })
     .catch((err) => {
       console.log(err);
-      if (err && err instanceof AxiosError) {
-        alert(err.message);
-      } else if (err && err instanceof Error) {
-        alert(err.response?.data.message);
+      if(err && err instanceof Error) {
+        alert(err.response?.data.msg);
+      } else if(err && err instanceof AxiosError) {
+        alert(err.message)
       } else {
-        alert("Error");
+          alert('Error')
       }
       // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
     });

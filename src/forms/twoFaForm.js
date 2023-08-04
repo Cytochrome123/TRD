@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from 'js-cookie';
 import axios, { AxiosError } from 'axios';
-// import { BASEURL } from "../App";
+import { BASEURL } from "../App";
 
 import { AuthContext, hard } from "../App";
 
@@ -26,8 +26,7 @@ const TwoFAForm = (props) => {
         const email = searchParams.get('email');
         axios({
             method: 'post',
-            // url: `${BASEURL}/Signin`,
-            url: 'http://localhost:5001/api/verify',
+            url: `${BASEURL}/verify`,
             data: {otp},
             params: {email} ,
             headers: {
@@ -62,10 +61,10 @@ const TwoFAForm = (props) => {
         })
         .catch(err => {
             console.log(err)
-            if(err && err instanceof AxiosError) {
-                alert(err.message)
-            } else if(err && err instanceof Error) {
-                alert(err.response?.data.message);
+            if(err && err instanceof Error) {
+              alert(err.response?.data.msg);
+            } else if(err && err instanceof AxiosError) {
+              alert(err.message)
             } else {
                 alert('Error')
             }
@@ -86,10 +85,10 @@ const TwoFAForm = (props) => {
 
 
         // new
-        <div className="h-screen flex flex-col">
-        <div className="flex-1 flex justify-center items-center">
-          <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md  w-full p-10 bg-white border border-slate-200 rounded-lg shadow">
-            <div className="text-xl mb-8 font-semibold text-blue-600 text-center dark:text-white lg:justify-center">
+        <div className="flex flex-col h-screen">
+        <div className="flex items-center justify-center flex-1">
+          <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
+            <div className="mb-8 text-xl font-semibold text-center text-blue-600 dark:text-white lg:justify-center">
               Enter OTP 
             </div>
   
