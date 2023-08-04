@@ -56,8 +56,8 @@ const TwoFAForm = (props) => {
             } else if(res.data.user.userType === 'student') {
                 navigate('/student/dashboard');
             } else {
-                // navigate('/courses/allExams')
-                window.location.back()
+                navigate('/courses')
+                // window.location.back()
             }
         })
         .catch(err => {

@@ -33,28 +33,32 @@ const Signup = (props) => {
       // url: `${BASEURL}/Signin`,
       url: "http://localhost:5001/api/signup",
       data: formData,
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: `Bearer ${token}`
+      }
       // withCredentials: true
     })
-      .then((res) => {
-        console.log(res);
-        alert(res.data.msg);
-        // console.log(res.data.token)
-        // cookies.set('token', res.data.token );
-        // props.handleAlert(true, 'successfully Loged In!!!', 'success');
+    .then((res) => {
+      console.log(res);
+      alert(res.data.msg);
+      // console.log(res.data.token)
+      // cookies.set('token', res.data.token );
+      // props.handleAlert(true, 'successfully Loged In!!!', 'success');
 
-        navigate("/signin");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err && err instanceof AxiosError) {
-          alert(err.message);
-        } else if (err && err instanceof Error) {
-          alert(err.response?.data.message);
-        } else {
-          alert("Error");
-        }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
-      });
+      navigate("/signin");
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err && err instanceof AxiosError) {
+        alert(err.message);
+      } else if (err && err instanceof Error) {
+        alert(err.response?.data.message);
+      } else {
+        alert("Error");
+      }
+      // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
+    });
   };
 
   return (
