@@ -6,14 +6,17 @@ import axios, { AxiosError } from "axios";
 // import { BASEURL } from "../App";
 
 const Signup = (props) => {
+  // const [confirmPassword, setConfirmPassword] = useState('');
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     phoneNumber: "",
   });
-
+  const [error, setError] = useState('');
+  
   const navigate = useNavigate();
 
   function handleChange(event) {
@@ -28,6 +31,16 @@ const Signup = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match .');
+      return
+    } else {
+      setError('');
+      // Perform further actions like submitting the form or making API calls here
+    }
+
+
     axios({
       method: "post",
       // url: `${BASEURL}/Signin`,
@@ -121,6 +134,7 @@ const Signup = (props) => {
                 onChange={handleChange}
                 value={formData.password}
               />
+                <p className="text-red-500">{error}</p>
             </div>
             <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
@@ -130,6 +144,12 @@ const Signup = (props) => {
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
                 required
                 type="password"
+                name="confirmPassword"
+                onChange={handleChange}
+                // setConfirmPassword(value)
+                value={formData.confirmPassword}
+                // value={}
+                
               />
             </div>
 
@@ -146,9 +166,10 @@ const Signup = (props) => {
                 value={formData.phoneNumber}
               />
             </div>
+            {/* <br/> */}
             <button
               type="submit"
-              class="w-full text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mt-8"
+              className="w-full text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mt-8"
             >
               SIGN UP
             </button>

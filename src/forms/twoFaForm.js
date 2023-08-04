@@ -74,15 +74,55 @@ const TwoFAForm = (props) => {
     }
 
     return(
-        <div className="form">
-            <div>Verify</div>
+        // <div className="form">
+        //     <div>Verify</div>
 
-            <form onSubmit={handleSubmit}>
-                <input type='text' name='otp' placeholder="OTP" onChange={(event) => setOtp(event.target.value)} value={otp} />
+        //     <form onSubmit={handleSubmit}>
+        //         <input type='text' name='otp' placeholder="OTP" onChange={(event) => setOtp(event.target.value)} value={otp} />
 
-                <button type='submit'>Submit</button>
+        //         <button type='submit'>Submit</button>
+        //     </form>
+        // </div>
+
+
+        // new
+        <div className="h-screen flex flex-col">
+        <div className="flex-1 flex justify-center items-center">
+          <div className="mx-5 my-1 sm:mx-7 md:m-10 md:max-w-md  w-full p-10 bg-white border border-slate-200 rounded-lg shadow">
+            <div className="text-xl mb-8 font-semibold text-blue-600 text-center dark:text-white lg:justify-center">
+              Enter OTP 
+            </div>
+  
+            {/* TODO: fix form focus */}
+  
+            <form className=""  onSubmit={handleSubmit}>
+  
+              {/* OTP INPUT AREA */}
+              <div className="form-control">
+                {/* <label className="text-xs font-semibold text-slate-800">
+                  Phone Number
+                </label> */}
+                <input
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  required
+                  placeholder="OTP"
+                  type="number"
+                  name="otp"
+                  onChange={(event) => setOtp(event.target.value)}
+                  value={otp}
+                />
+              </div>
+              
+              <button
+                type="submit"
+                class="w-full text-white bg-blue-600 hover:bg-blue-700 transition duration-300 ease-in-out focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center mt-8"
+              >
+                Verify
+              </button>
             </form>
+          </div>
         </div>
+      </div>
 
     )
 }

@@ -9,6 +9,8 @@ import Courses, { loadCourses } from './pages/courses';
 import Navbarr from './component/header/navbar';
 import SignUp from './pages/auth/signUp';
 import SignIn from './pages/auth/signIn';
+// import OtpForm from './pages/auth/otp';
+// import OtpForm from './forms/auth/OTP';
 import TwoFA from './pages/auth/twoFA';
 // import InstructorDashboard from './pages/instructor/dashboard';
 // import ViewAssignedCourseStudent from './pages/instructor/viewAssignedCourseStudent';
@@ -87,6 +89,7 @@ function App() {
           {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
+          {/* <Route path='/otpForm' element={<OtpForm />} /> */}
           <Route path='/verify' element={<TwoFA />} />
           {/* <Route element={<StudentRoutes />}> */}
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
