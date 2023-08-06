@@ -1,3 +1,4 @@
+import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { BsTelephone } from "react-icons/bs";
 import { IoMailOutline, IoLocationOutline } from "react-icons/io5";
@@ -73,29 +74,52 @@ const Contact = () => {
     }));
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
-    // Reset form fields
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      message: "",
-    });
+  console.log(formData)
+
+  const handleFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      // Handle form submission logic here
+      const res = await axios({
+        method: 'post',
+        url: 'http://localhost:5001/api/message',
+        data: formData,
+        headers: {
+            'Content-Type': 'application/json',
+            // Authorization: `Bearer ${'token'}`
+        }
+      })
+      if(!res) return alert('Error submitting form')
+      alert(res.data.msg)
+      // Reset form fields
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
+    } catch (err) {
+      console.log(err);
+      if(err && err instanceof Error) {
+        alert(err.response?.data.msg);
+      } else if(err && err instanceof AxiosError) {
+        alert(err.message)
+      } else {
+          alert('Error')
+      }
+    }
   };
 
   return (
-    <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <h2 className="text-2xl md:text-4xl w-full text-slate-900 flex justify-center font-bold mt-10 md:mt-16">
+    <div className="px-8 py-8 pb-20 lg:px-16 xl:px-20">
+      <h2 className="flex justify-center w-full mt-10 text-2xl font-bold md:text-4xl text-slate-900 md:mt-16">
         Get in touch
       </h2>
-      <div className="flex flex-col lg:flex-row items-center justify-between mt-10 md:mt-20 gap-y-10 lg:gap-x-20">
-        <div className="flex flex-col gap-y-5 items-stretch">
+      <div className="flex flex-col items-center justify-between mt-10 lg:flex-row md:mt-20 gap-y-10 lg:gap-x-20">
+        <div className="flex flex-col items-stretch gap-y-5">
           <div
             onClick={handleCall}
-            className="rounded-lg px-10 py-5 hover:bg-slate-200 transition duration-300 cursor-pointer flex flex-col items-center justify-center border border-slate-300"
+            className="flex flex-col items-center justify-center px-10 py-5 transition duration-300 border rounded-lg cursor-pointer hover:bg-slate-200 border-slate-300"
           >
             <BsTelephone className="text-2xl text-slate-600" />
             <div className="flex flex-col items-center justify-center my-3 text-slate-600">
@@ -105,7 +129,7 @@ const Contact = () => {
           </div>
           <div
             onClick={handleMessage}
-            className="rounded-lg px-10 py-5 hover:bg-slate-200 transition duration-300 cursor-pointer flex flex-col items-center justify-center border border-slate-300"
+            className="flex flex-col items-center justify-center px-10 py-5 transition duration-300 border rounded-lg cursor-pointer hover:bg-slate-200 border-slate-300"
           >
             <IoMailOutline className="text-2xl text-slate-600" />
             <div className="flex flex-col items-center justify-center my-3 text-slate-600">
@@ -115,7 +139,7 @@ const Contact = () => {
           </div>
           <div
             onClick={handleMap}
-            className="rounded-lg px-10 py-5 hover:bg-slate-200 transition duration-300 cursor-pointer flex flex-col items-center justify-center border border-slate-300"
+            className="flex flex-col items-center justify-center px-10 py-5 transition duration-300 border rounded-lg cursor-pointer hover:bg-slate-200 border-slate-300"
           >
             <IoLocationOutline className="text-2xl text-slate-600" />
             <div className="flex flex-col items-center justify-center my-3 text-slate-600">
@@ -128,22 +152,22 @@ const Contact = () => {
         </div>
         {/* Contact Form Section */}
         <div className="w-full rounded-3xl md:px-6 py-8 md:shadow-[0_5px_20px_2px_rgba(0,0,0,0.1)]">
-          <h3 className="text-2xl mb-6 text-center text-slate-900 font-bold">
+          <h3 className="mb-6 text-2xl font-bold text-center text-slate-900">
             Contact Us
           </h3>
           <form onSubmit={handleFormSubmit}>
             <div className="flex flex-col">
-              <label className="text-gray-600 font-medium mb-1">Name</label>
+              <label className="mb-1 font-medium text-gray-600">Name</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleFormChange}
-                className="border border-slate-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-3 py-2 mb-4 border rounded-md border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
 
-              <label className="text-gray-600 font-medium mb-1">
+              <label className="mb-1 font-medium text-gray-600">
                 Phone Number
               </label>
               <input
@@ -151,32 +175,32 @@ const Contact = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleFormChange}
-                className="border border-slate-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-3 py-2 mb-4 border rounded-md border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
 
-              <label className="text-gray-600 font-medium mb-1">Email</label>
+              <label className="mb-1 font-medium text-gray-600">Email</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleFormChange}
-                className="border border-slate-300 rounded-md py-2 px-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="px-3 py-2 mb-4 border rounded-md border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
 
-              <label className="text-gray-600 font-medium mb-1">Message</label>
+              <label className="mb-1 font-medium text-gray-600">Message</label>
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleFormChange}
-                className="border border-slate-300 rounded-md py-2 px-3 h-32 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"
+                className="h-32 px-3 py-2 mb-4 border rounded-md resize-none border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               ></textarea>
 
               <button
                 type="submit"
-                className="bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300 w-max self-end"
+                className="self-end px-4 py-2 text-white transition duration-300 bg-blue-600 rounded-md hover:bg-blue-700 w-max"
               >
                 Submit
               </button>
@@ -185,7 +209,7 @@ const Contact = () => {
         </div>
       </div>
       <div className="mt-20">
-        <h3 className="text-lg md:text-2xl mb-10 text-center text-slate-900 font-bold">
+        <h3 className="mb-10 text-lg font-bold text-center md:text-2xl text-slate-900">
           Frequently Asked Questions
         </h3>
         {faqData.map((faq, index) => (
@@ -216,8 +240,8 @@ const Contact = () => {
               </div>
               {expandedQuestion === index && (
                 <div className="w-full">
-                  <hr className="w-full border border-slate-200 mt-3" />
-                  <p className="mt-3 text-gray-600 text-xs md:text-base">{faq.answer}</p>
+                  <hr className="w-full mt-3 border border-slate-200" />
+                  <p className="mt-3 text-xs text-gray-600 md:text-base">{faq.answer}</p>
                 </div>
               )}
             </div>

@@ -100,29 +100,44 @@ const Courses = () => {
 export default Courses;
 
 export const loadCourses = async () => {
-  try {
-    const token = cookies.get("token");
-    if (!token) {
-      // Redirect to the login page or handle unauthorized access
-      return [];
-    }
-
-    const res = await axios.get("http://localhost:5001/api/courses", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return res.data.courses;
-  } catch (err) {
-    console.log(err);
-    if (err && err instanceof AxiosError) {
-      alert(err.message);
-    } else if (err && err.response && err.response.data) {
-      alert(err.response.data.message);
-    } else {
-      alert("Error");
+    try {
+        const token = cookies.get('token');
+        let res = await axios({
+            method: 'get',
+            url: 'http://localhost:5001/api/courses',
+            // url: `${BASEURL}/examiner/exam`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
+        if (res) return res.data.courses
+        // .then(res => (res.data.courses))
+        // .catch(err => (err))
+        // .then(res => {
+        //     console.log(res.data.courses)
+        //     courses = res.data.courses
+        //     // return courses
+        // })
+        // .catch(err => {
+        //     console.log(err)
+        //     courses = [err]
+        // })
+        // return courses
+    } catch (err) {
+        console.log(err)
+        if(err && err instanceof AxiosError) {
+            alert(err.message)
+            return [err]
+        } else if(err && err instanceof Error) {
+            alert(err.response?.data.message);
+            return [err]
+        } else {
+            alert('Eroor')
+        }
+        // alert(err.message)
+        
+        // return [err.response.data.msg]
     }
     return [];
   }

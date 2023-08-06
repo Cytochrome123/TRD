@@ -3,25 +3,25 @@ import ABOUTIMG1 from "../images/About1.png";
 import ABOUTIMG2 from "../images/About2.png";
 import PROFILE from "../images/profile.jpeg";
 
+import alao from "../images/staff/alao.jpeg";
 import adisa from "../images/staff/adisa.jpeg";
 import makanju from "../images/staff/makanju.jpeg";
 import olanrewaju from "../images/staff/olanrewaju.jpeg";
 import olubodun from "../images/staff/olubodun.jpeg";
-import alao from "../images/staff/alao.jpg";
+import olusanya from "../images/staff/olusanya.jpg";
 import ayeni from "../images/staff/ayeni.jpeg"
 
 const team = [
+  {
+    name: 'Abiodun Alao',
+    role: 'Dirctor ITeMS',
+    image: alao,
+  },
   {
     name: "Rufus Olusoji ADISA",
     role: "Deputy Director",
     image: adisa,
   },
-  {
-    name: "Abiodun ALAO",
-    role: "Placeholder",
-    image: alao,
-  },
-
   {
     name: "Taofik Adewale MAKANJU",
     role: "Placeholder",
@@ -42,26 +42,31 @@ const team = [
     role: "Placeholder",
     image: ayeni,
   },
+  {
+    name: 'Olusanya Temitope',
+    role: 'Secretary',
+    image: olusanya,
+  },
 ];
 
 const AboutPage = () => {
   return (
-    <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <div className="md:text-5xl text-3xl font-bold text-slate-900 flex justify-center md:mt-16 md:mb-32 mt-10 mb-10 md:w-2/3 text-center mx-auto flex-col">
+    <div className="px-8 py-8 pb-20 lg:px-16 xl:px-20">
+      <div className="flex flex-col justify-center mx-auto mt-10 mb-10 text-3xl font-bold text-center md:text-5xl text-slate-900 md:mt-16 md:mb-32 md:w-2/3">
         Training Research & Development
-        <span className="text-sm text-center font-medium md:w-4/5 mx-auto text-slate-700 md:mt-5 mt-3">
+        <span className="mx-auto mt-3 text-sm font-medium text-center md:w-4/5 text-slate-700 md:mt-5">
           Empowering the University community through cutting-edge technology
           and knowledge sharing.
         </span>
       </div>
 
       <div>
-        <div className="flex flex-col-reverse md:gap-y-0 gap-y-8 md:flex-row justify-center items-center space-y-5 md:space-y-0 md:space-x-20">
+        <div className="flex flex-col-reverse items-center justify-center space-y-5 md:gap-y-0 gap-y-8 md:flex-row md:space-y-0 md:space-x-20">
           <div className="w-full md:w-1/2">
-            <div className="md:text-3xl text-xl md:mb-5 mb-3 font-bold text-gray-900">
+            <div className="mb-3 text-xl font-bold text-gray-900 md:text-3xl md:mb-5">
               TRD and Tech Empowerment
             </div>
-            <p className="text-justify leading-relaxed mb-3">
+            <p className="mb-3 leading-relaxed text-justify">
               We are a unit within the University of Ibadan's Directorate of
               Information Technology and Media Services. Our primary focus is to
               meet the IT needs of the University community through training and
@@ -69,7 +74,7 @@ const AboutPage = () => {
               while also serving as a convergence academy for IT and Telecoms
               training.
             </p>
-            <p className="text-justify leading-relaxed">
+            <p className="leading-relaxed text-justify">
               Our unit focuses on creating enabling environments for IT systems
               through training and meeting the IT training and development needs
               of the University community. We support teaching, learning,
@@ -88,7 +93,7 @@ const AboutPage = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-center items-center space-y-5 md:space-y-0 md:space-x-20 mt-16 md:mt-32">
+        <div className="flex flex-col items-center justify-center mt-16 space-y-5 md:flex-row md:space-y-0 md:space-x-20 md:mt-32">
           <div className="w-full md:w-1/2">
             <img
               className="w-full rounded-lg"
@@ -98,10 +103,10 @@ const AboutPage = () => {
           </div>
           <div className="w-full md:w-1/2">
             <div>
-              <div className="mb-5 text-xl md:text-3xl font-bold">
+              <div className="mb-5 text-xl font-bold md:text-3xl">
                 We are into the following services
               </div>
-              <p className="mb-4 text-justify leading-relaxed">
+              <p className="mb-4 leading-relaxed text-justify">
                 <strong>Specialized Workshops</strong>
                 <br />
                 Through our training workshops and seminars, we focus on
@@ -111,7 +116,7 @@ const AboutPage = () => {
                 Design & Graphics, ICT in Course Registration, Examination
                 Preparation and Result Processing.
               </p>
-              <p className="mb-4 text-justify leading-relaxed">
+              <p className="mb-4 leading-relaxed text-justify">
                 <strong>IT & Computer Training</strong>
                 <br />
                 This helps members of the University and society learn how to
@@ -128,22 +133,22 @@ const AboutPage = () => {
       </div>
 
       <div>
-        <div className="md:text-4xl text-3xl font-extrabold text-center text-gray-900 mt-16 md:mt-32 mb-16">
+        <div className="mt-16 mb-16 text-3xl font-extrabold text-center text-gray-900 md:text-4xl md:mt-32">
           Our Team
         </div>
         <div className="flex items-center justify-center mb-10">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
             {team.map((member) => (
               <div key={member.name} className="flex flex-col items-center">
                 <img
-                  className="md:w-48 md:h-48 w-36 h-36 rounded-full object-cover"
+                  className="object-cover rounded-full md:w-48 md:h-48 w-36 h-36"
                   src={member.image}
                   alt={member.name}
                 />
-                <div className="md:text-sm text-xs text-center text-gray-900 font-bold mt-2">
+                <div className="mt-2 text-xs font-bold text-center text-gray-900 md:text-sm">
                   {member.name}
                 </div>
-                <div className="md:text-sm text-xs text-center text-gray-700 font-medium">
+                <div className="text-xs font-medium text-center text-gray-700 md:text-sm">
                   {member.role}
                 </div>
               </div>
