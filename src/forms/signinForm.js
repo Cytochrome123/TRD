@@ -83,7 +83,7 @@ const Signin = (props) => {
                 Email
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="text"
               />
@@ -93,7 +93,7 @@ const Signin = (props) => {
                 Password
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="password"
               />

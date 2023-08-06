@@ -71,7 +71,7 @@ const Signup = (props) => {
                 First Name
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="text"
                 onChange={handleChange}
@@ -83,7 +83,7 @@ const Signup = (props) => {
                 Last Name
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="text"
                 name="lastName"
@@ -96,7 +96,7 @@ const Signup = (props) => {
                 Email
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="text"
                 name="email"
@@ -109,7 +109,7 @@ const Signup = (props) => {
                 Password
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="password"
                 name="password"
@@ -122,7 +122,7 @@ const Signup = (props) => {
                 Confirm Password
               </label>
               <input
-                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5"
+                className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
                 type="password"
               />
