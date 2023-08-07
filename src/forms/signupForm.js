@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
 import axios, { AxiosError } from "axios";
-// import { BASEURL } from "../App";
+import { BASEURL } from "../App";
 
 const Signup = (props) => {
   // const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,8 +15,8 @@ const Signup = (props) => {
     confirmPassword: "",
     phoneNumber: "",
   });
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   function handleChange(event) {
@@ -33,45 +33,43 @@ const Signup = (props) => {
     event.preventDefault();
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match .');
-      return
+      setError("Passwords do not match .");
+      return;
     } else {
-      setError('');
+      setError("");
       // Perform further actions like submitting the form or making API calls here
     }
 
-
     axios({
       method: "post",
-      // url: `${BASEURL}/Signin`,
-      url: "http://localhost:5001/api/signup",
+      url: `${BASEURL}/signup`,
       data: formData,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         // Authorization: `Bearer ${token}`
-      }
+      },
       // withCredentials: true
     })
-    .then((res) => {
-      console.log(res);
-      alert(res.data.msg);
-      // console.log(res.data.token)
-      // cookies.set('token', res.data.token );
-      // props.handleAlert(true, 'successfully Loged In!!!', 'success');
+      .then((res) => {
+        console.log(res);
+        alert(res.data.msg);
+        // console.log(res.data.token)
+        // cookies.set('token', res.data.token );
+        // props.handleAlert(true, 'successfully Loged In!!!', 'success');
 
-      navigate("/signin");
-    })
-    .catch((err) => {
-      console.log(err);
-      if(err && err instanceof Error) {
-        alert(err.response?.data.msg);
-      } else if(err && err instanceof AxiosError) {
-        alert(err.message)
-      } else {
-          alert('Error')
-      }
-      // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
-    });
+        navigate("/signin");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err && err instanceof Error) {
+          alert(err.response?.data.msg);
+        } else if (err && err instanceof AxiosError) {
+          alert(err.message);
+        } else {
+          alert("Error");
+        }
+        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
+      });
   };
 
   return (
@@ -79,7 +77,7 @@ const Signup = (props) => {
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 dark:text-white lg:justify-center">
-            Sign Up to our platform
+            Sign up to our platform
           </div>
 
           <form className="" onSubmit={handleSubmit}>
@@ -134,7 +132,7 @@ const Signup = (props) => {
                 onChange={handleChange}
                 value={formData.password}
               />
-                <p className="text-red-500">{error}</p>
+              <p className="text-red-500">{error}</p>
             </div>
             <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
@@ -149,7 +147,6 @@ const Signup = (props) => {
                 // setConfirmPassword(value)
                 value={formData.confirmPassword}
                 // value={}
-                
               />
             </div>
 
@@ -158,9 +155,9 @@ const Signup = (props) => {
                 Phone Number
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:outline-blue-500"
                 required
-                type="number"
+                type="phone"
                 name="phoneNumber"
                 onChange={handleChange}
                 value={formData.phoneNumber}
