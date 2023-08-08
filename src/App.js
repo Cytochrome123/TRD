@@ -27,6 +27,9 @@ import "./App.css";
 import Contact from './pages/contact';
 import AboutPage from './pages/about';
 import Events from './pages/events';
+import StudentDashboard from './pages/dashboard/student';
+import AdminDashboard from './pages/dashboard/admin';
+import StudentDetail from './pages/detail/student';
 // import Home from './components/home';
 
 
@@ -92,9 +95,12 @@ function App() {
           {/* <Route path='/otpForm' element={<OtpForm />} /> */}
           <Route path='/verify' element={<TwoFA />} />
           {/* <Route element={<StudentRoutes />}> */}
+            {/* <Route path='/dashboard/student' element={<StudentDashboard />} /> */}
+            <Route path='/student/:id' element={<StudentDetail />} />
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
           {/* </Route> */}
           <Route>
+            {/* <Route path='/dashboard/instructor' element={<AdminDashboard />} /> */}
             {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
             <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
           </Route>
