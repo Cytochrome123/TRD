@@ -76,7 +76,7 @@ const TwoFAForm = (props) => {
       const newOtp = [...otp];
       newOtp[index] = ""; // Clear the current digit
       setOtp(newOtp);
-  
+
       if (index > 0) {
         inputRefs.current[index - 1].focus();
       }
@@ -84,13 +84,12 @@ const TwoFAForm = (props) => {
       const newOtp = [...otp];
       newOtp[index] = event.key;
       setOtp(newOtp);
-  
+
       if (index < otp.length - 1) {
         inputRefs.current[index + 1].focus();
       }
     }
   };
-  
 
   return (
     <div className="flex flex-col h-screen">
@@ -107,6 +106,7 @@ const TwoFAForm = (props) => {
             <div className="flex justify-center space-x-2 w-full">
               {otp.map((digit, index) => (
                 <input
+                  autoComplete="off"
                   key={index}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-lg w-12 h-12 rounded-lg text-center focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
                   maxLength={1}

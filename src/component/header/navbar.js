@@ -293,7 +293,7 @@ const Navbarr = () => {
             </a>
           )}
           {authenticatedUser.authenticated ? (
-            <div className="flex items-center ml-5">
+            <div className="flex items-center cursor-pointer">
               <a
                 className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg ml-4 hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
                 onClick={logOutUser}
