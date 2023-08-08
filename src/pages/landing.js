@@ -123,9 +123,12 @@ function Landing() {
               </a>
             </div>
           ))}
-          <button className="col-span-1 text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out">
-            <a href="#">View all our courses</a>
-          </button>
+          <a
+            href="/courses"
+            className="col-span-1 justify-center align-middle flex text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out"
+          >
+            <button>View all our courses</button>
+          </a>
         </div>
       </div>
 

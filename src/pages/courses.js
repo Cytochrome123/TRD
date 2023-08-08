@@ -4,16 +4,16 @@ import { Form, Button } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { BsSearch } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
+import { LuCalendarClock } from "react-icons/lu";
 import CourseHTML from "../images/html.jpg";
 import CourseExcel from "../images/excel.png";
-import CourseIMG from "../images/excel.png";
 import CourseWord from "../images/word.jpg";
 import CourseDAP from "../images/dapython.jpg";
 import CoursePHP from "../images/PHP.jpg";
 import CoursePython from "../images/python.jpg";
 import CoursePPT from "../images/powerpoint.jpg";
 import CourseReact from "../images/react.jpg";
-
+import CourseDetails from "../component/CourseDetails";
 // import CourseCard from "../component/courseCard";
 
 import cookies from "js-cookie";
@@ -35,62 +35,99 @@ const Courses = () => {
   const initialCourses = [
     {
       id: 1,
-      title: "Microsoft word for beginners",
+      title: "Microsoft Word for Beginners",
       category: "Introduction to I.C.T.",
       image: CourseWord,
       featured: true,
+      duration: "2 weeks",
+      description:
+        "Master Microsoft Word basics to create and edit documents with confidence.",
     },
     {
       id: 2,
-      title: "HTML, CSS and Javascript",
-      category: "Web development",
+      title: "HTML, CSS, and JavaScript Fundamentals",
+      category: "Web Development",
       image: CourseHTML,
       featured: true,
+      duration: "4 weeks",
+      description:
+        "Build web pages with HTML, style them with CSS, and add interactivity with JavaScript.",
     },
     {
       id: 3,
-      title: "Data analysis with python",
-      category: "Data science",
+      title: "Data Analysis with Python",
+      category: "Data Science",
       image: CourseDAP,
+      duration: "6 weeks",
+      description:
+        "Analyze data using Python, from data manipulation to visualization.",
     },
     {
       id: 4,
-      title: "Working with microsoft excel",
+      title: "Excel Mastery: Data Management and Analysis",
       category: "Introduction to I.C.T.",
       image: CourseExcel,
       featured: true,
+      duration: "3 weeks",
+      description:
+        "Excel skills for data management, formulas, and generating insights.",
     },
     {
       id: 5,
-      title: "PHP and MySQL",
-      category: "Web development",
+      title: "PHP and MySQL: Dynamic Web Development",
+      category: "Web Development",
       image: CoursePHP,
+      duration: "5 weeks",
+      description:
+        "Create dynamic web apps using PHP and connect to MySQL databases.",
     },
     {
       id: 6,
-      title: "Introduction to python",
-      category: "Data science",
+      title: "Introduction to Python Programming",
+      category: "Data Science",
       image: CoursePython,
       featured: true,
+      duration: "4 weeks",
+      description: "Learn Python basics for programming and problem-solving.",
     },
     {
       id: 7,
-      title: "Powerpoint presentation",
+      title: "Crafting Engaging Presentations with PowerPoint",
       category: "Introduction to I.C.T.",
       image: CoursePPT,
+      duration: "2 weeks",
+      description: "Design captivating presentations using PowerPoint.",
     },
     {
       id: 8,
-      title: "Introduction to react",
-      category: "Web development",
+      title: "Introduction to React: Building Modern Web Apps",
+      category: "Web Development",
       image: CourseReact,
       featured: true,
+      duration: "6 weeks",
+      description:
+        "Create interactive web apps with React's component-based architecture.",
     },
   ];
 
   const [courses, setCourses] = useState(initialCourses);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Featured");
+  const [showCourse, setShowCourse] = useState("hidden");
+
+  const [selectedCourse, setSelectedCourse] = useState(null);
+
+  const handleViewDetails = (course) => {
+    setShowCourse("block");
+    setSelectedCourse(course);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleCloseDetails = () => {
+    setShowCourse("hidden");
+    setSelectedCourse(null);
+    document.body.style.overflow = "auto";
+  };
 
   const handleSearch = (event) => {
     const newSearchQuery = event.target.value || "";
@@ -141,20 +178,31 @@ const Courses = () => {
   // }
 
   return (
-    <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <h2 className="text-2xl md:text-4xl w-full text-slate-900 flex justify-center font-bold mt-10 md:mt-16">
+    <div className="px-4 py-4 md:px-8 lg:px-16 xl:px-20 pb-20">
+      {selectedCourse && (
+        <CourseDetails
+          title={selectedCourse.title}
+          className={showCourse}
+          image={selectedCourse.image}
+          description={selectedCourse.description}
+          duration={selectedCourse.duration}
+          onClose={handleCloseDetails}
+        />
+      )}
+
+      <h2 className="text-xl md:text-4xl text-center font-bold mt-6 md:mt-10">
         Courses
       </h2>
       {/* Search bar */}
-      <div className="w-full flex justify-center mt-10">
+      <div className="w-full flex justify-center mt-6">
         <form
-          className="w-3/6 p-3 flex flex-row gap-23justify-between bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg"
+          className="w-4/5 md:w-3/5 p-2 md:p-3 flex flex-row items-center bg-gray-100 border border-gray-300 rounded-lg"
           onSubmit={(event) => {
             event.preventDefault();
           }}
         >
           <input
-            className="focus:outline-none bg-transparent w-full"
+            className="flex-1 bg-transparent outline-none"
             type="text"
             placeholder="Search"
             value={searchQuery}
@@ -162,29 +210,30 @@ const Courses = () => {
               handleSearch(event);
             }}
           />
-
-          <BsSearch className="text-2xl text-blue-600" />
+          <BsSearch className="text-2xl text-blue-600 ml-2" />
         </form>
       </div>
 
-      <div className="flex mt-8 space-x-4">
+      {/* Category buttons */}
+      <div className="flex flex-wrap align-middle mt-6 space-y-2 md:space-y-0 space-x-2">
+        {/* Weird fix */}
+        <div className="hidden"></div>
+
         <button
-          className={`p-3 text-sm rounded-full text-blue-600 ${
+          className={`px-3 py-2 md:text-sm text-xs rounded-full text-blue-600 ${
             selectedCategory === "Featured"
               ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
               : "border border-blue-500"
           }`}
           onClick={() => handleCategoryClick("Featured")}
         >
-          <span>
-            <AiFillStar />
-          </span>
+          <AiFillStar />
         </button>
         <button
-          className={`py-2 px-4 text-sm rounded-full  ${
+          className={`px-3 py-2 md:text-sm text-xs rounded-full  ${
             selectedCategory === null
               ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
-              : "border border-blue-500 text-slate-500"
+              : "border border-blue-500 text-gray-700"
           }`}
           onClick={() => handleCategoryClick(null)}
         >
@@ -194,7 +243,7 @@ const Courses = () => {
           (category) => (
             <button
               key={category}
-              className={`py-2 px-4 text-sm rounded-full  ${
+              className={`py-2 px-4 md:text-sm text-xs rounded-full  ${
                 selectedCategory === category
                   ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
                   : "border border-blue-500 text-slate-500"
@@ -206,21 +255,42 @@ const Courses = () => {
           )
         )}
       </div>
+
       {/* Display courses */}
-      <div className="grid grid-cols-3 gap-6 mt-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
         {filteredCourses.map((course) => (
           <div
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
+            className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+            onClick={() => handleViewDetails(course)}
             key={course.id}
           >
             <div className="overflow-hidden h-44">
-              <img className="" src={course.image} alt="" />
+              <img
+                className="w-full h-full object-cover"
+                src={course.image}
+                alt=""
+              />
             </div>
             <div className="px-4 py-4">
-              <h3 className="text-gray-800 text-xl font-bold">
+              <div className="text-xs text-slate-600 mb-3 rounded-full bg-slate-300 w-max py-2 px-3">
+                {course.category}
+              </div>
+              <h3 className="text-gray-800 text-lg font-bold mb-5">
                 {course.title}
               </h3>
-              <p className="mt-1 text-gray-600 text-sm">{course.category}</p>
+              <div className="flex flex-row justify-between items-center space-x-2">
+                <div className="flex items-center space-x-2 text-slate-700 text-sm">
+                  {" "}
+                  <LuCalendarClock className=" text-xl" />
+                  <span>{course.duration}</span>
+                </div>
+                <span
+                  className="text-sm font-medium text-blue-500 hover:text-blue-600 cursor-pointer transition duration-300 ease-in-out"
+                  onClick={() => handleViewDetails(course)}
+                >
+                  View Details →
+                </span>
+              </div>
             </div>
           </div>
         ))}
