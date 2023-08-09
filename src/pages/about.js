@@ -9,12 +9,12 @@ import makanju from "../images/staff/makanju.jpeg";
 import olanrewaju from "../images/staff/olanrewaju.jpeg";
 import olubodun from "../images/staff/olubodun.jpeg";
 import olusanya from "../images/staff/olusanya.jpg";
-import ayeni from "../images/staff/ayeni.jpeg"
+import ayeni from "../images/staff/ayeni.jpeg";
 
 const team = [
   {
-    name: 'Abiodun Alao',
-    role: 'Dirctor ITeMS',
+    name: "Alao ABIODUN",
+    role: "Director ITeMS",
     image: alao,
   },
   {
@@ -24,27 +24,27 @@ const team = [
   },
   {
     name: "Taofik Adewale MAKANJU",
-    role: "Placeholder",
+    role: "Staff",
     image: makanju,
   },
   {
     name: "Ahmed Babajide OLANREWAJU",
-    role: "Placeholder",
+    role: "Staff",
     image: olanrewaju,
   },
   {
     name: "Olorunfemi OLUBODUN",
-    role: "Placeholder",
+    role: "Staff",
     image: olubodun,
   },
   {
     name: "Olawale Ebenezer AYENI",
-    role: "Placeholder",
-    image: ayeni,
+    role: "Secretary",
+      image: ayeni,
   },
   {
-    name: 'Olusanya Temitope',
-    role: 'Secretary',
+    name: "Temitope OLUSANYA",
+    role: "Secretary",
     image: olusanya,
   },
 ];

@@ -2,7 +2,8 @@ import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import Courses, { loadCourses } from './pages/courses';
+import Courses from './pages/courses';
+// import { loadCourses } from './pages/courses';
 // import CourseDetails from './pages/courseDetails';
 // import StudentDashboard, { loadMyCourses } from './pages/student/dashboard';
 // import StudentRoutes from './pages/student/StudentRoutes';
@@ -88,7 +89,9 @@ function App() {
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/events' element={<Events />} />
-          <Route path='/courses' element={<Courses />} loader={loadCourses} />
+          <Route path='/courses' element={<Courses />} 
+          // loader={loadCourses} 
+          />
           {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
