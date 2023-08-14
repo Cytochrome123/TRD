@@ -29,6 +29,7 @@ const Signup = (props) => {
   }
   console.log(formData);
 
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     // Validation
@@ -40,6 +41,21 @@ const Signup = (props) => {
       // Perform further actions like submitting the form or making API calls here
     }
 
+  //   console.log('first axios');
+  //   axios({
+  //     method: 'get',
+  //     url: `${BASEURL}/assigned-courses/students
+  //     `,
+  //     headers: {
+  //         'Content-Type': 'application/json',
+  //     }
+  // })
+  // .then(res => {
+  //     console.log("Course data",res.data)
+  //   }
+  //   )
+    console.log('second axios');
+    
     axios({
       method: "post",
       url: `${BASEURL}/signup`,
@@ -51,7 +67,11 @@ const Signup = (props) => {
       // withCredentials: true
     })
       .then((res) => {
-        console.log(res);
+        console.log('zzz',res);
+        // console.log('zzz',
+        // `${BASEURL}/assigned-courses
+        // `,
+        //  );
         alert(res.data.msg);
         // console.log(res.data.token)
         // cookies.set('token', res.data.token );

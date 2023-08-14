@@ -33,6 +33,12 @@ import AdminDashboard from './pages/dashboard/admin';
 import StudentDetail from './pages/detail/student';
 // import Home from './components/home';
 
+import InstructorDashboard from './pages/AdminDashboard';
+
+import AssignedCourses from './pages/AssignCourse';
+import StudentTakingCourse from './pages/StudentTakingCourse';
+import CompletedCourses from './pages/CompletedCourse';
+
 
 
 export const AuthContext = createContext();
@@ -102,7 +108,12 @@ function App() {
             <Route path='/student/:id' element={<StudentDetail />} />
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
           {/* </Route> */}
-          <Route>
+          <Route path='/admin/instructorDashboard/*' element={<InstructorDashboard />}>
+          {/* <Route path='listOfUsers' element={<ListOfUsers />} /> */}
+            <Route path='assignedCourses' element={<AssignedCourses />} />
+            <Route path='studentTakingCourse' element={<StudentTakingCourse />} />
+            <Route path='completedCourses' element={<CompletedCourses />} />
+            
             {/* <Route path='/dashboard/instructor' element={<AdminDashboard />} /> */}
             {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
             <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
