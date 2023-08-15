@@ -61,7 +61,7 @@ const Signup = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error) {
+        if (err && err instanceof Error && !AxiosError) {
           alert(err.response?.data.msg);
         } else if (err && err instanceof AxiosError) {
           alert(err.message);
