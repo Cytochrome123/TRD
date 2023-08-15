@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLoaderData, useNavigation } from "react-router-dom";
+import { useQuery } from '@tanstack/react-query';
 import { Form, Button } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { BsSearch } from "react-icons/bs";
@@ -31,6 +32,10 @@ const Courses = () => {
 
   //   setLoading(false);
   // }, [navigation.state]);
+
+  // const token = cookies.get('token');
+  
+
 
   const initialCourses = [
     {
@@ -116,7 +121,41 @@ const Courses = () => {
   const [showCourse, setShowCourse] = useState("hidden");
 
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const ref = useRef(true);
 
+  useEffect(() => {
+    if(ref.current) {
+      axios({
+        method: 'get',
+        // url: `${BASEURL}/mycourses`,
+        url: `http://localhost:5001/api/courses`,
+        headers: {
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${token}`
+        }
+      }).then(res => {
+        console.log(res)
+        setCourses(prev => ([
+          ...prev,
+          ...res.data.courses
+        ]))
+      })
+      .catch(err => {
+        console.log(err);
+        if (err && err instanceof Error && !AxiosError) {
+          alert(err.response?.data.msg);
+        } else if (err && err instanceof AxiosError) {
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
+        } else {
+          alert('Error')
+        }
+      });
+      
+    }
+    return () => (ref.current = false);
+  }, [])
+console.log(courses)
   const handleViewDetails = (course) => {
     setShowCourse("block");
     setSelectedCourse(course);
@@ -181,6 +220,7 @@ const Courses = () => {
     <div className="px-4 py-4 pb-20 md:px-8 lg:px-16 xl:px-20">
       {selectedCourse && (
         <CourseDetails
+          id={selectedCourse._id}
           title={selectedCourse.title}
           className={showCourse}
           image={selectedCourse.image}
@@ -220,21 +260,19 @@ const Courses = () => {
         <div className="hidden"></div>
 
         <button
-          className={`px-3 py-2 md:text-sm text-xs rounded-full text-blue-600 ${
-            selectedCategory === "Featured"
+          className={`px-3 py-2 md:text-sm text-xs rounded-full text-blue-600 ${selectedCategory === "Featured"
               ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
               : "border border-blue-500"
-          }`}
+            }`}
           onClick={() => handleCategoryClick("Featured")}
         >
           <AiFillStar />
         </button>
         <button
-          className={`px-3 py-2 md:text-sm text-xs rounded-full  ${
-            selectedCategory === null
+          className={`px-3 py-2 md:text-sm text-xs rounded-full  ${selectedCategory === null
               ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
               : "border border-blue-500 text-gray-700"
-          }`}
+            }`}
           onClick={() => handleCategoryClick(null)}
         >
           All Categories
@@ -243,11 +281,10 @@ const Courses = () => {
           (category) => (
             <button
               key={category}
-              className={`py-2 px-4 md:text-sm text-xs rounded-full  ${
-                selectedCategory === category
+              className={`py-2 px-4 md:text-sm text-xs rounded-full  ${selectedCategory === category
                   ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
                   : "border border-blue-500 text-slate-500"
-              }`}
+                }`}
               onClick={() => handleCategoryClick(category)}
             >
               {category}

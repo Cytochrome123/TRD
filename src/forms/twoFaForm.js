@@ -42,11 +42,11 @@ const TwoFAForm = (props) => {
         cookies.set("token", res.data.newAccessToken);
 
         if (res.data.user.userType === "admin") {
-          navigate("/admin/dashboard");
+          navigate("/dashboard/admin");
         } else if (res.data.user.userType === "instructor") {
-          navigate("/instructor/dashboard");
+          navigate("/dashboard/instructor");
         } else if (res.data.user.userType === "student") {
-          navigate("/student/dashboard");
+          navigate("/dashboard/student");
         } else {
           navigate("/courses");
         }
