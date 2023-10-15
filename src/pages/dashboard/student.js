@@ -166,11 +166,11 @@ const StudentDashboard = () => {
                                 >
                                     View Details →
                                 </span>
-                                
+
                             </div>
                         </div>
                     ))}
-                    
+
                 </div>
 
             </section>

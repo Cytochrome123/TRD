@@ -16,6 +16,7 @@ import imgCallback from "../../images/profile.jpeg";
 const ListCourses = () => {
   const [showAddPop, setShowAddPop] = useState(false);
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getCourses()
@@ -110,7 +111,9 @@ const ListCourses = () => {
         console.log("xxx created-courses", res.data);
         // const allPost = [newPost, ...courses]
 
-        setCourses(res.data.courses)
+        setCourses(res.data.courses);
+        setLoading(false);
+
 
 
 
@@ -173,35 +176,36 @@ const ListCourses = () => {
             </tr>
           </thead>
           <tbody>
+            {loading ? ('Loading') : courses.length == 0 ? ('No data yet') :
+              courses.map((student, index) => (
+                <tr key={index} className="hover:bg-gray-100 group">
+                  <td className="px-4 py-2">
+                    {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
+                    <img src={`https://trd-server.onrender.com/api/file/${student.image.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
+                    {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
 
-            {courses.map((student, index) => (
-              <tr key={index} className="hover:bg-gray-100 group">
-                <td className="px-4 py-2">
-                  {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
-                  <img src={`https://trd-server.onrender.com/api/file/${student.image.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
-                  {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
-
-                </td>
-                <td className="px-4 py-2">{student.title} </td>
-                <td className="px-4 py-2">{student.description}</td>
-                <td className="px-4 py-2">{student.duration}</td>
-                <td className="px-4 py-2">{student.capacity}</td>
-                <td className="px-4 py-2">{student.amount}</td>
-                <td className="px-4 py-2">{student.status ? student.status : "Upcoming"}</td>
-                <td className="px-4 py-2 ">
-                  <div className='relative flex justify-between'>
-                    <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
-                      View Profile
-                    </Link>
-                    {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
+                  </td>
+                  <td className="px-4 py-2">{student.title} </td>
+                  <td className="px-4 py-2">{student.description}</td>
+                  <td className="px-4 py-2">{student.duration}</td>
+                  <td className="px-4 py-2">{student.capacity}</td>
+                  <td className="px-4 py-2">{student.amount}</td>
+                  <td className="px-4 py-2">{student.status ? student.status : "Upcoming"}</td>
+                  <td className="px-4 py-2 ">
+                    <div className='relative flex justify-between'>
+                      <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
+                        View Profile
+                      </Link>
+                      {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
                 <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
                   <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
                 </svg>
                 </div> */}
-                  </div>
-                </td>
-              </tr>
-            ))}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>

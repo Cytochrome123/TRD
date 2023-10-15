@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 
 const Students = () => {
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const [searchQuery, setSearchQuery] = useState("");
   // const [studentData, setStudentData] = useState({});
@@ -90,7 +91,7 @@ const Students = () => {
         // const allPost = [newPost, ...courses]
 
         setStudents(res.data.students)
-
+        setLoading(false)
 
 
       })
@@ -172,31 +173,31 @@ const Students = () => {
             </tr>
           </thead>
           <tbody>
+            {loading ? ('Loading') : students.length == 0 ? ('No data yet') :
+              students.map((student, index) => (
+                <tr key={index} className="hover:bg-gray-100 group">
+                  <td className="px-4 py-2">
+                    <img src={`${student.imageUrl}${student.id}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
-            {students.map((student, index) => (
-              <tr key={index} className="hover:bg-gray-100 group">
-                <td className="px-4 py-2">
-                  <img src={`${student.imageUrl}${student.id}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
-
-                </td>
-                <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
-                <td className="px-4 py-2">{student._id}</td>
-                <td className="px-4 py-2">{student.phoneNumber}</td>
-                <td className="px-4 py-2">{student.createdDate}</td>
-                <td className="px-4 py-2 ">
-                  <div className='relative flex justify-between'>
-                    <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
-                      View Profile
-                    </Link>
-                    <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
-                      <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                        <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
-                      </svg>
+                  </td>
+                  <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
+                  <td className="px-4 py-2">{student._id}</td>
+                  <td className="px-4 py-2">{student.phoneNumber}</td>
+                  <td className="px-4 py-2">{student.createdDate}</td>
+                  <td className="px-4 py-2 ">
+                    <div className='relative flex justify-between'>
+                      <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
+                        View Profile
+                      </Link>
+                      <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
+                        <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+                          <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
