@@ -174,7 +174,8 @@ const InstructorsList = () => {
   //   ];
 
   useEffect(() => {
-    getInstructors()
+    getInstructors();
+    setLoading(false);
   }, []);
 
   function getInstructors() {
@@ -192,7 +193,6 @@ const InstructorsList = () => {
       .then((res) => {
         console.log("instructors", res.data);
         setInstructors(res.data.instructors);
-        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -245,7 +245,7 @@ const InstructorsList = () => {
             </tr>
           </thead>
           <tbody >
-            {loading ? ('Loading') : instructors.length == 0 ? ('No data yet') :
+            {loading ? ('Loading') : instructors.length === 0 ? ('No data yet') :
               instructors.map((instructor, index) => (
                 <tr key={index} className="hover:bg-gray-100 group">
                   <td className="px-4 py-2">

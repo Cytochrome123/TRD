@@ -20,6 +20,7 @@ const ListCourses = () => {
 
   useEffect(() => {
     getCourses()
+    setLoading(false);
   }, [])
 
   const handleAddStudent = (childData, imgChild) => {
@@ -112,7 +113,7 @@ const ListCourses = () => {
         // const allPost = [newPost, ...courses]
 
         setCourses(res.data.courses);
-        setLoading(false);
+        
 
 
 
@@ -131,7 +132,6 @@ const ListCourses = () => {
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
-
 
   // Responsible for the scrolling up of the nasted route in the dashboard
   useEffect(() => {
@@ -176,7 +176,7 @@ const ListCourses = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? ('Loading') : courses.length == 0 ? ('No data yet') :
+            {loading ? ('Loading') : courses.length === 0 ? ('No data yet') :
               courses.map((student, index) => (
                 <tr key={index} className="hover:bg-gray-100 group">
                   <td className="px-4 py-2">

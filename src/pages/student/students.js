@@ -27,6 +27,7 @@ const Students = () => {
 
   useEffect(() => {
     getStudents();
+    setLoading(false);
   }, []);
 
   // closing of the pop up
@@ -90,9 +91,7 @@ const Students = () => {
         console.log("Students", res.data);
         // const allPost = [newPost, ...courses]
 
-        setStudents(res.data.students)
-        setLoading(false)
-
+        setStudents(res.data.students);
 
       })
       .catch((err) => {
@@ -173,7 +172,7 @@ const Students = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? ('Loading') : students.length == 0 ? ('No data yet') :
+            {loading ? ('Loading') : students.length === 0 ? ('No data yet') :
               students.map((student, index) => (
                 <tr key={index} className="hover:bg-gray-100 group">
                   <td className="px-4 py-2">
