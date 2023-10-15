@@ -4,7 +4,7 @@ import MetricCard from '../../component/MetricCard'
 import Chart from "react-apexcharts";
 
 
-const Home = () => {
+const AdminDashboard = () => {
     // The donot chart data
     const [chartData, setChartData] = useState({
         options: {},
@@ -211,4 +211,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default AdminDashboard
