@@ -94,21 +94,22 @@ function App() {
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
-            <Route path='/dashboard/admin/courses' element={<ListCourses />} />
-            <Route path="/dashboard/admin/courses/:id" element={<CourseDetails />} />
-            <Route path='/dashboard/admin/instructors' element={<InstructorsList />} />
-            <Route path='/dashboard/admin/instructors/:id' element={<InstructorsProfile/>} />
-            <Route path='/dashboard/admin/students' element={<Students />} />
-            <Route path='/dashboard/admin/students/:id' element={<StudentProfile/>} />
+            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route path='/admin/dashboard/courses' element={<ListCourses />} />
+            <Route path="/admin/dashboard/courses/:id" element={<CourseDetails />} />
+            <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
+            <Route path='/admin/dashboard/instructors/:id' element={<InstructorsProfile/>} />
+            <Route path='/admin/dashboard/students' element={<Students />} />
+            <Route path='/admin/dashboard/students/:id' element={<StudentProfile/>} />
 
           {/* <Route element={<StudentRoutes />}> */}
-            <Route path='/dashboard/student' element={<StudentDashboard />} />
+            <Route path='/student/dashboard' element={<StudentDashboard />} />
             <Route path='/student/:id' element={<StudentDetail />} />
             <Route path='/course/:id' element={<CourseDetail />} />
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
           {/* </Route> */}
           <Route>
-            <Route path='/dashboard/admin' element={<AdminDashboard />} />
+            {/* <Route path='/dashboard/admin' element={<AdminDashboard />} /> */}
             {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
             <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
           </Route>
