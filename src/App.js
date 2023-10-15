@@ -15,7 +15,7 @@ import Contact from './pages/contact';
 import AboutPage from './pages/about';
 import Events from './pages/events';
 import StudentDashboard from './pages/dashboard/student';
-import AdminDashboard from './pages/dashboard/admin';
+import Home from './pages/dashboard/admin';
 import StudentDetail from './pages/detail/student';
 import CourseDetail from './pages/detail/course';
 import { Test } from './forms/test';
@@ -94,7 +94,7 @@ function App() {
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
-            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route path='/admin/dashboard' element={<Home />} />
             <Route path='/admin/dashboard/courses' element={<ListCourses />} />
             <Route path="/admin/dashboard/courses/:id" element={<CourseDetails />} />
             <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
