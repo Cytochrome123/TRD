@@ -1,435 +1,214 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
-import axios, { AxiosError } from 'axios';
-import cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react'
+import MetricCard from '../../component/MetricCard'
+// import ApexCharts from 'apexcharts'
+import Chart from "react-apexcharts";
 
-import { useQuery } from '@tanstack/react-query';
 
-import course_img from '../../images/trd_img.png'
-import AddCourseForm from '../../forms/addCourseForm';
-import StudentDetail from '../detail/student';
+const Home = () => {
+    // The donot chart data
+    const [chartData, setChartData] = useState({
+        options: {},
+        series: [44, 55, 41, 17, 15],
+        labels: ['A', 'B', 'C', 'D', 'E'],
+      });
 
-const AdminDashboard = () => {
-
-    const [data, setData] = useState({
-        id: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        userType: '',
-        courses: [],
-        instructors: [],
-        students: [],
-        users: []
-    });
-    const [showForm, setShowForm] = useState("hidden");
-    const [addForm, setAddForm] = useState(false);
-    const [selectedTable, setSelectedTable] = useState(null);
-
-    const navigate = useNavigate();
-    console.log('sfdgh')
-
+    // Responsible for the scrolling up of the nasted route in the dashboard
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const token = cookies.get('token');
-                const res = await axios({
-                    method: 'get',
-                    // url: `${BASEURL}/mycourses`,
-                    // url: `${BASEURL}/myData`,
-                    url: 'http://localhost:5001/api/myData',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (!res) return alert('Network Error')
-                console.log(res)
-                setData(prev => ({
-                    ...prev,
-                    id: res.data.details._id,
-                    firstName: res.data.details.firstName,
-                    lastName: res.data.details.lastName,
-                    email: res.data.details.email,
-                    phoneNumber: res.data.details.phoneNumber,
-                    userType: res.data.details.userType,
-                }))
-            } catch (err) {
-                console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
-            }
+      
 
-        }
-        fetchData();
-
-    }, []);
-
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const token = cookies.get('token');
-                const res = await axios({
-                    method: 'get',
-                    // url: `${BASEURL}/mycourses`,
-                    // url: `${BASEURL}/myData`,
-                    url: 'http://localhost:5001/api/courses',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (!res) return alert('Network Error')
-                console.log(res)
-                setData(prev => ({
-                    ...prev,
-                    courses: res.data.courses
-                }))
-            } catch (err) {
-                console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
-            }
-
-        }
-        fetchCourses();
-
-    }, []);
-
-    useEffect(() => {
-        const fetchStudents = async () => {
-            try {
-                const token = cookies.get('token');
-                const res = await axios({
-                    method: 'get',
-                    // url: `${BASEURL}/mycourses`,
-                    // url: `${BASEURL}/myData`,
-                    url: 'http://localhost:5001/api/students',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (!res) return alert('Network Error')
-                console.log(res)
-                setData(prev => ({
-                    ...prev,
-                    students: res.data.students
-                }))
-            } catch (err) {
-                console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
-            }
-
-        }
-        fetchStudents();
-
-    }, []);
-
-    useEffect(() => {
-        const fetchInstructors = async () => {
-            try {
-                const token = cookies.get('token');
-                const res = await axios({
-                    method: 'get',
-                    // url: `${BASEURL}/mycourses`,
-                    // url: `${BASEURL}/myData`,
-                    url: 'http://localhost:5001/api/instructors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (!res) return alert('Network Error')
-                console.log(res)
-                setData(prev => ({
-                    ...prev,
-                    instructors: res.data.instructors
-                }))
-            } catch (err) {
-                console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
-            }
-
-        }
-        fetchInstructors();
-
-    }, []);
-
-    useEffect(() => {
-        const fetchInstructors = async () => {
-            try {
-                const token = cookies.get('token');
-                const res = await axios({
-                    method: 'get',
-                    // url: `${BASEURL}/mycourses`,
-                    // url: `${BASEURL}/myData`,
-                    url: 'http://localhost:5001/api/users',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                if (!res) return alert('Network Error')
-                console.log(res)
-                setData(prev => ({
-                    ...prev,
-                    users: res.data.users
-                }))
-            } catch (err) {
-                console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
-            }
-
-        }
-        fetchInstructors();
-
-    }, []);
-    // console.log(data.users[0].count)
-
-    const logOutUser = () => {
-        cookies.remove("token");
-        navigate("/courses");
-    };
-
-    const handleViewForm = () => {
-        setShowForm("block");
-        setAddForm(!addForm)
-        // document.body.style.overflow = "hidden";
-    };
+        window.scroll(0,0)
+    }, [])
     
-    const handleCloseForm = () => {
-        setShowForm("hidden");
-        setAddForm(!addForm)
-        // document.body.style.overflow = "auto";
-    };
-console.log(data.userType);
-    // console.log(dataQuery.data.details.firstName, 'jkkj')
-    return (
-        <div>
-            <div className="container flex h-full gap-20 mx-auto mt-20 bg-white-400">
-                <section className="flex flex-col w-1/2 gap-14 side_bar">
-                    <div className="flex flex-col items-center gap-12 p-10 rounded-lg bg-gray-50 profile h-max">
-                        <div className="object-cover w-40 h-40 overflow-hidden rounded-full">
-                            <img src={course_img} alt="course_img" />
-                        </div>
-                        <div className='flex flex-col items-center text-blue-950'>
-                            <h2 className='text-3xl'>{data.firstName} {data.lastName} </h2>
-                            <p>{data.userType}</p>
-                        </div>
-                        <button className='w-5/6 p-6 text-xl font-medium text-blue-900 bg-blue-400 rounded-xl' onClick={handleViewForm}>Add New Course</button>
-                    </div>
-
-                    <div className="p-10 rounded-lg h-max bg-gray-50 profile">
-                        <h2 className='text-3xl'>Dashboard</h2>
-                        <ul className='leading-10'>
-                            <li className='mt-8 text-2xl text-blue-950'>Dashboard</li>
-
-                            <li className='mt-4 cursor-pointer hover:text-blue-500' onClick={() => navigate(`/student/${data.id}`)}>My Profile</li>
-                            <li className='mt-4'>Enrolled Courses</li>
-                            <li className='mt-4'>Whislist</li>
-                            <li className='mt-4'>Reviews</li>
-                            <li className='mt-4'>Order History</li>
-
-                            <li className='mt-8 text-2xl text-blue-950'>Account Setting</li>
-                            <li className='mt-4'>Edit Profile</li>
-                            <li className='mt-4'>Change Password</li>
-                            <li className='mt-4 cursor-pointer' onClick={logOutUser}>Logout</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <section className='w-fit'>
-                    <div className="grid grid-cols-3 gap-8 stat">
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>Active Courses</p>
-                            <h2 className='ml-8 text-4xl'>12</h2>
-                        </div>
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>Enrolled Courses</p>
-                            {/* {data.courses.length >= 1 && data.courses.reduce((accumulator, currentValue) => {
-                            console.log(accumulator, 'uyjf')
-                            console.log(accumulator?.enrolled.length)
-                        })} */}
-                            <h2 className='ml-8 text-4xl'></h2>
-                        </div>
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>Completed Courses</p>
-                            <h2 className='ml-8 text-4xl'>12</h2>
-                        </div>
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>No of instructor</p>
-                            <h2 className='ml-8 text-4xl'>{data.instructors.length}</h2>
-                        </div>
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>No of Student</p>
-                            <h2 className='ml-8 text-4xl'>{data.students.length}</h2>
-                        </div>
-                        <div className="h-40 py-8 rounded-lg bg-gray-50 w-72">
-                            <p className='mb-4 ml-8 text-2xl'>All Users</p>
-                            {/* <h2 className='ml-8 text-4xl'>{data.users[3]._id}</h2> */}
-                        </div>
-                    </div>
-
-                    <h2 className='my-10 text-3xl text-blue-950'>All Courses</h2>
-                    <div className={`${data.courses.length > 3 && 'overflow-auto h-[32rem]'}`}>
-                        <table className='w-full text-left bg-white rounded-lg shadow-md'>
-                            <thead >
-                                <tr className='bg-gray-50'>
-                                    <th className='px-4 py-8'>S/N</th>
-                                    <th className='px-4 py-8'>Courses</th>
-                                    <th className='px-4 py-8'>Enrolled</th>
-                                    <th className='px-4 py-8'>Status</th>
-                                    <th className='px-4 py-8'>Action</th>
-                                </tr>
-                            </thead>
-                            {/* {(dataQuery.isLoading) ? <h1>Is loading...</h1> : */}
-
-                            <tbody>
-                                {data.courses.map((course, index) => (
-                                    <tr className='border-b-2'>
-                                        <td className='px-4 py-8'>{index + 1}</td>
-                                        <td className='flex items-center px-4 py-8'>
-                                            <img className='object-cover w-16 h-16 mr-4 rounded-lg' src={course_img} alt="course_img" />
-                                            {course.name}
-                                        </td>
-                                        <td className='px-4 py-8'>{course.enrolled.length}</td>
-                                        <td className='px-4 py-8'>{course.status}</td>
-                                        <td className='px-4 py-8' onClick={() => navigate(`/course/${course._id}`)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-
-                                        </td>
-                                    </tr>
-
-                                ))}
-                            </tbody>
-                            {/* } */}
-                        </table>
-                    </div>
 
 
-                    <h2 className='my-10 text-3xl text-blue-950'>All Student</h2>
-                    <div className={`${data.students.length > 3 && 'overflow-auto h-[32rem]'}`}>
-                        <table className='w-full text-left bg-white rounded-lg shadow-md table-auto'>
-                            <thead >
-                                <tr className='bg-gray-50'>
-                                    <th className='px-4 py-8'>S/N</th>
-                                    <th className='px-4 py-8'>Image</th>
-                                    <th className='px-4 py-8'>First Name</th>
-                                    <th className='px-4 py-8'>last Name</th>
-                                    <th className='px-4 py-8'>Email</th>
-                                    <th className='px-4 py-8'>No of courses</th>
-                                    <th className='px-4 py-8'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.students.map((student, index) => (
-                                    <tr className='border-b-2'>
-                                        <td className='px-4 py-8'>{index + 1}</td>
-                                        <td className='flex items-center px-4 py-8'>
-                                            <img className='object-cover w-16 h-16 mr-4 rounded-lg' src={course_img} alt="course_img" />
-                                            {/* {student.firstName} */}
-                                        </td>
-                                        <td className='px-4 py-8'>{student.firstName}</td>
-                                        <td className='px-4 py-8'>{student.lastName}</td>
-                                        <td className='px-4 py-8'>{student.email}</td>
-                                        <td className='px-4 py-8'>{student.courses.length}</td>
-                                        <td className='px-4 py-8' onClick={() => navigate(`/student/${student._id}`)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
 
-                                        </td>
-                                    </tr>
+    const options = {
+        chart: {
+          type: 'bar',
+          height: 50,
+          stacked: true,
+          toolbar: {
+            show: false
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'top',
+              offsetX: 10,
+              offsetY: 0
+            }
+          }
+        }],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            borderRadius: 10,
+            dataLabels: {
+              total: {
+                enabled: false,
+                style: {
+                  // display:'none',
+                //   fontSize: '1px',
+                //   fontWeight: 9,
+                //   color:'green',
+                  // marginBottom: '10px'
+                }
+              }
+            }
+          },
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
+            '01/05/2011 GMT', '01/06/2011 GMT', "01/07/2011 GMT",
+            "01/08/2011 GMT",
+            "01/09/2011 GMT",
+            "01/10/2011 GMT",
+            "01/11/2011 GMT",
+            "01/12/2011 GMT",
+          ],
+        },
+        legend: {
+          position: 'top',
+          offsetY: 10,
+          offsetX: 60,
+          style: {
+            padding:'1px',
+            background:'red'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        colors: [ "#0973CA","#FFC11C"],
+    
+    
+      };
+    
+      const series =  [{
+        name: 'Cases reported',
+        data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43]
+      },
+      {
+        name: 'Cases solved',
+        data: [21, 7, 25, 13, 22, 8, 21, 7, 25, 13, 22, 18]
+      }]
 
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+  return (
+    <>
+         <div className="container w-full pt-20 mx-auto">
+        {/* ... (rest of your content code start) */}
+        <div className="w-full px-4 mb-16 leading-normal text-gray-800 md:px-0 md:mt-8">
 
-                    <h2 className='my-10 text-3xl text-blue-950'>All Instructors</h2>
-                    <div className={`${data.instructors.length > 3 && 'overflow-auto h-[32rem]'}`}>
-                        <table className='w-full text-left bg-white rounded-lg shadow-md table-fixed'>
-                            <thead >
-                                <tr className='bg-gray-50'>
-                                    <th className='px-4 py-8'>S/N</th>
-                                    <th className='px-4 py-8'>Image</th>
-                                    <th className='px-4 py-8'>First Name</th>
-                                    <th className='px-4 py-8'>last Name</th>
-                                    <th className='px-4 py-8'>Email</th>
-                                    <th className='px-4 py-8'>No of courses</th>
-                                    <th className='px-4 py-8'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.instructors.map((instructor, index) => (
-                                    <tr className='border-b-2'>
-                                        <td className='px-4 py-8'>{index + 1}</td>
-                                        <td className='flex items-center px-4 py-8'>
-                                            <img className='object-cover w-16 h-16 mr-4 rounded-lg' src={course_img} alt="course_img" />
-                                            {/* {instructor.firstName} */}
-                                        </td>
-                                        <td className='px-4 py-8'>{instructor.firstName}</td>
-                                        <td className='px-4 py-8'>{instructor.lastName}</td>
-                                        <td className='px-4 py-8'>{instructor.email}</td>
-                                        <td className='px-4 py-8'>{instructor.courses.length}</td>
-                                        <td className='px-4 py-8' onClick={() => navigate(`/instructor/${instructor._id}`)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
+            {/* <!--Console Content--> */}
 
-                                        </td>
-                                    </tr>
-
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                </section>
+            <div className="flex flex-wrap">
+               <MetricCard title="total sign up" value="500" />
+               <MetricCard title="rergistered student" value="50" />
+               <MetricCard title="enrolled courses" value="40" />
+               <MetricCard title="active courses" value="50" />
+               <MetricCard title="no of instructor" value="5" />
+               <MetricCard title="total" value="5" />
             </div>
+
+            {/* <!--Divider--> */}
+            {/* <hr className="mx-4 my-8 border-b-2 border-gray-400"> */}
+            {/* <hr></hr> */}
+
+            <div className="flex flex-row flex-wrap flex-grow mt-2">
+
+                <div className="w-full p-3 md:w-1/2">
+                    {/* <!--Graph Card--> */}
+                    <div className="bg-white border rounded shadow">
+                        <div className="p-3 border-b">
+                            <h5 className="font-bold text-gray-600 uppercase">Graph</h5>
+                        </div>
+                        <div className="p-1">
+                            <Chart options={options} series={series} type="bar" width="100%" height="233" />
+                          
+                        </div>
+                    </div>
+                    {/* <!--/Graph Card--> */}
+                </div>
+
+                <div className="w-full p-3 md:w-1/2">
+                    {/* <!--Graph Card--> */}
+                    <div className="bg-white border rounded shadow">
+                        <div className="p-3 border-b">
+                            <h5 className="font-bold text-gray-600 uppercase">Graph</h5>
+                        </div>
+                        <div className="p-1">
+                            <Chart options={chartData.options} series={chartData.series} type="donut" width="380" />
+                            
+                        </div>
+                    </div>
+                    {/* <!--/Graph Card--> */}
+                </div>
+
+                
+
+                
+              
+
+                <div className="w-full p-3">
+                    {/* <!--Table Card--> */}
+                    <div className="bg-white border rounded shadow">
+                        <div className="p-3 border-b">
+                            <h5 className="font-bold text-gray-600 uppercase">Table</h5>
+                        </div>
+                        <div className="p-5">
+                            <table className="w-full p-5 text-gray-700">
+                                <thead>
+                                    <tr>
+                                        <th className="text-left text-blue-900">Name</th>
+                                        <th className="text-left text-blue-900">Side</th>
+                                        <th className="text-left text-blue-900">Role</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>Obi Wan Kenobi</td>
+                                        <td>Light</td>
+                                        <td>Jedi</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Greedo</td>
+                                        <td>South</td>
+                                        <td>Scumbag</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Darth Vader</td>
+                                        <td>Dark</td>
+                                        <td>Sith</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p className="py-2"><a href="#">See More issues...</a></p>
+
+                        </div>
+                    </div>
+                    {/* <!--/table Card--> */}
+                </div>
+
+
+            </div>
+
+            {/* <!--/ Console Content--> */}
+
         </div>
-    )
+
+
+        {/* ... (rest of your content code end) */}
+      </div>
+    </>
+  )
 }
 
-export default AdminDashboard;
+export default Home

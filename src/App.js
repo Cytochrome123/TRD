@@ -2,7 +2,7 @@ import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import Courses from './pages/courses';
+import Courses from './pages/course/courses';
 // import { loadCourses } from './pages/courses';
 import Navbarr from './component/header/navbar';
 import SignUp from './pages/auth/signUp';
@@ -19,6 +19,12 @@ import AdminDashboard from './pages/dashboard/admin';
 import StudentDetail from './pages/detail/student';
 import CourseDetail from './pages/detail/course';
 import { Test } from './forms/test';
+import ListCourses from './pages/course/ListCourses';
+import InstructorsList from './pages/instructor/InstructorsList';
+import CourseDetails from './pages/course/courseDetails';
+import InstructorsProfile from './pages/instructor/InstructorsProfile';
+import Students from './pages/student/students';
+import StudentProfile from './pages/student/StudentProfile';
 // import Home from './components/home';
 
 
@@ -86,6 +92,15 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           {/* <Route path='/otpForm' element={<OtpForm />} /> */}
           <Route path='/verify' element={<TwoFA />} />
+
+          {/* // ADMIN  */}
+            <Route path='/dashboard/admin/courses' element={<ListCourses />} />
+            <Route path="/dashboard/admin/courses/:id" element={<CourseDetails />} />
+            <Route path='/dashboard/admin/instructors' element={<InstructorsList />} />
+            <Route path='/dashboard/admin/instructors/:id' element={<InstructorsProfile/>} />
+            <Route path='/dashboard/admin/students' element={<Students />} />
+            <Route path='/dashboard/admin/students/:id' element={<StudentProfile/>} />
+
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/dashboard/student' element={<StudentDashboard />} />
             <Route path='/student/:id' element={<StudentDetail />} />
