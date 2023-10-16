@@ -6,19 +6,19 @@ import axios, { AxiosError } from "axios";
 import { BsSearch } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 import { LuCalendarClock } from "react-icons/lu";
-import CourseHTML from "../../images/html.jpg";
-import CourseExcel from "../../images/excel.png";
-import CourseWord from "../../images/word.jpg";
-import CourseDAP from "../../images/dapython.jpg";
-import CoursePHP from "../../images/PHP.jpg";
-import CoursePython from "../../images/python.jpg";
-import CoursePPT from "../../images/powerpoint.jpg";
-import CourseReact from "../../images/react.jpg";
-import CourseDetails from "../../component/CourseDetails";
+import CourseHTML from "../images/html.jpg";
+import CourseExcel from "../images/excel.png";
+import CourseWord from "../images/word.jpg";
+import CourseDAP from "../images/dapython.jpg";
+import CoursePHP from "../images/PHP.jpg";
+import CoursePython from "../images/python.jpg";
+import CoursePPT from "../images/powerpoint.jpg";
+import CourseReact from "../images/react.jpg";
+import CourseDetails from "../component/CourseDetails";
 // import CourseCard from "../component/courseCard
 
 import cookies from "js-cookie";
-import { BASEURL } from "../../App";
+import { BASEURL } from "../App";
 
 const Courses = () => {
   // const courses = useLoaderData();

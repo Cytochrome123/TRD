@@ -2,7 +2,7 @@ import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import Courses from './pages/course/courses';
+import Courses from './pages/courses';
 // import { loadCourses } from './pages/courses';
 import Navbarr from './component/header/navbar';
 import SignUp from './pages/auth/signUp';
@@ -14,17 +14,19 @@ import "./App.css";
 import Contact from './pages/contact';
 import AboutPage from './pages/about';
 import Events from './pages/events';
-import StudentDashboard from './pages/dashboard/student';
-import AdminDashboard from './pages/dashboard/admin';
+import StudentDashboard from './pages/dashboard/Student/student';
+import AdminDashboard from './pages/dashboard/Admin/admin';
 import StudentDetail from './pages/detail/student';
 import CourseDetail from './pages/detail/course';
 import { Test } from './forms/test';
 import ListCourses from './pages/course/ListCourses';
-import InstructorsList from './pages/instructor/InstructorsList';
+import InstructorsList from './pages/dashboard/Admin/instructor/InstructorsList';
 import CourseDetails from './pages/course/courseDetails';
-import InstructorsProfile from './pages/instructor/InstructorsProfile';
-import Students from './pages/student/students';
-import StudentProfile from './pages/student/StudentProfile';
+import InstructorsProfile from './pages/dashboard/Admin/instructor/InstructorsProfile';
+import Students from './pages/dashboard/Admin/student/students';
+import AdminStudentProfile from './pages/dashboard/Admin/student/StudentProfile';
+import InstructorDashboard from './pages/dashboard/Instructor/instructor';
+import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
 // import Home from './components/home';
 
 
@@ -99,8 +101,12 @@ function App() {
             <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
             <Route path='/admin/dashboard/instructors/:id' element={<InstructorsProfile/>} />
             <Route path='/admin/dashboard/students' element={<Students />} />
-            <Route path='/admin/dashboard/students/:id' element={<StudentProfile/>} />
+            <Route path='/admin/dashboard/students/:id' element={<AdminStudentProfile/>} />
 
+          {/* INSTRUCTOR */}
+            <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
+            <Route path='/instructor/dashboard/assigned-courses' element={<InstructorDashboard />} />
+            <Route path='/instructor/dashboard/student/:id' element={<InstructorStudentProfile />} />
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/student/dashboard' element={<StudentDashboard />} />
             <Route path='/student/:id' element={<StudentDetail />} />
