@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AuthContext, BASEURL } from "../../App";
+import { AuthContext, BASEURL } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";

@@ -3,12 +3,12 @@
 // import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext, BASEURL } from "../../App";
+import { AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
-import AddCourseForm from '../../forms/addCourseForm';
-import ModelContainer from '../../component/ModelContainer';
+import AddCourseForm from '../../../../forms/addCourseForm';
+import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
-import imgCallback from "../../images/profile.jpeg";
+import imgCallback from "../../../../images/profile.jpeg";
 
 
 // const img = `${BASEURL}/file/${student.image.file}`
