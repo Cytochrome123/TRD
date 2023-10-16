@@ -63,8 +63,8 @@ function StudentProfile() {
   console.log('student', student);
 
   return (
-    <div>
-      <div className="flex flex-col items-center min-h-screen p-6 bg-gray-100">
+    <div className='h-screen bg-gray-100'>
+      <div className="flex flex-col items-center p-6">
         {student && (<div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
           <div className="flex flex-col items-center md:flex-row">
             <div className="md:mr-6">
@@ -126,25 +126,21 @@ function StudentProfile() {
 
       {/* second card start  */}
 
-      <div className="flex flex-col items-center min-h-screen p-6 bg-gray-100">
+      <div className="flex flex-col items-center p-6">
         {student && (<div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
 
           <div className="mt-6">
-            <h2 className="text-xl font-semibold text-gray-900">Status</h2>
+            <h2 className="text-2xl font-semibold text-gray-900">Status</h2>
             <ul className="mt-2">
               <li className="mb-2">
-                <span className="font-semibold text-indigo-600">Enrolled courses:</span> 3 courses
+                <span className="font-semibold text-indigo-600">Course 1:</span> Completed
               </li>
               <li className="mb-2">
-                <span className="font-semibold text-indigo-600">Completed courses:</span> 1 courses
-              </li>
-              <li className="mb-2">
-                <span className="font-semibold text-indigo-600">Ongoing courses:</span> 2 courses
-              </li>
-              <li className="mb-2">
-                <span className="font-semibold text-indigo-600">Other info:</span> I don't know yet o
+                <span className="font-semibold text-indigo-600">Course 2:</span> Ongoing
               </li>
             </ul>
+            <br />
+            <h2 className="text-2xl font-semibold text-gray-900">Others</h2>
           </div>
 
 

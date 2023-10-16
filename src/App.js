@@ -136,13 +136,13 @@ function App() {
 
 const Root = () => {
   return (
-    <>
+    <div className='h-screen'>
       <Navbarr />
       <div>
         <Outlet />
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
 
