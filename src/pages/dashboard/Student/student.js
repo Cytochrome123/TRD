@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 
-import { BASEURL } from '../../App';
-import course_img from '../../images/trd_img.png'
+import { BASEURL } from '../../../App';
+import course_img from '../../../images/trd_img.png'
 import { useNavigate } from 'react-router-dom';
 
 const StudentDashboard = () => {
