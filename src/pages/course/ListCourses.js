@@ -139,7 +139,7 @@ const ListCourses = () => {
     window.scroll(0, 0)
   }, [])
   return (
-    <div className="justify-center max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-colume justify-self-center ">
+    <div className="justify-center h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-colume justify-self-center">
       {/* button start */}
       <div className="flex justify-end m-2 ">
         <div className="relative group">
