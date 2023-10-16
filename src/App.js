@@ -27,6 +27,8 @@ import Students from './pages/dashboard/Admin/student/students';
 import AdminStudentProfile from './pages/dashboard/Admin/student/StudentProfile';
 import InstructorDashboard from './pages/dashboard/Instructor/instructor';
 import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
+import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
+import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
 // import Home from './components/home';
 
 
@@ -105,8 +107,10 @@ function App() {
 
           {/* INSTRUCTOR */}
             <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
-            <Route path='/instructor/dashboard/assigned-courses' element={<InstructorDashboard />} />
-            <Route path='/instructor/dashboard/student/:id' element={<InstructorStudentProfile />} />
+            <Route path='/instructor/dashboard/assigned-courses' element={<AssignedCourses />} />
+            <Route path='/instructor/dashboard/assigned-course/:id' element={<AssignedCourseDetail />} />
+            <Route path='/instructor/dashboard/assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
+
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/student/dashboard' element={<StudentDashboard />} />
             <Route path='/student/:id' element={<StudentDetail />} />

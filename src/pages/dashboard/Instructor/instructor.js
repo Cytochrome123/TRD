@@ -108,12 +108,10 @@ const InstructorDashboard = () => {
             {/* <!--Console Content--> */}
 
             <div className="flex flex-wrap">
-               <MetricCard title="total sign up" value="500" />
-               <MetricCard title="rergistered student" value="50" />
-               <MetricCard title="enrolled courses" value="40" />
-               <MetricCard title="active courses" value="50" />
-               <MetricCard title="no of instructor" value="5" />
-               <MetricCard title="total" value="5" />
+               <MetricCard title="No of Assigned courses" value="500" />
+               <MetricCard title="Active courses" value="50" />
+               <MetricCard title="Completed courses" value="5" />
+               <MetricCard title="No of students" value="50" />
             </div>
 
             {/* <!--Divider--> */}

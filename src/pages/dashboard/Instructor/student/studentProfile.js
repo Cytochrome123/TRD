@@ -130,7 +130,7 @@ function StudentProfile() {
         {student && (<div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
 
           <div className="mt-6">
-            <h2 className="text-xl font-semibold text-gray-900">Other info</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Status</h2>
             <ul className="mt-2">
               <li className="mb-2">
                 <span className="font-semibold text-indigo-600">Enrolled courses:</span> 3 courses
