@@ -24,7 +24,9 @@ import InstructorsList from './pages/dashboard/Admin/instructor/InstructorsList'
 import CourseDetails from './pages/course/courseDetails';
 import InstructorsProfile from './pages/dashboard/Admin/instructor/InstructorsProfile';
 import Students from './pages/dashboard/Admin/student/students';
-import StudentProfile from './pages/dashboard/Admin/student/StudentProfile';
+import AdminStudentProfile from './pages/dashboard/Admin/student/StudentProfile';
+import InstructorDashboard from './pages/dashboard/Instructor/instructor';
+import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
 // import Home from './components/home';
 
 
@@ -99,8 +101,12 @@ function App() {
             <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
             <Route path='/admin/dashboard/instructors/:id' element={<InstructorsProfile/>} />
             <Route path='/admin/dashboard/students' element={<Students />} />
-            <Route path='/admin/dashboard/students/:id' element={<StudentProfile/>} />
+            <Route path='/admin/dashboard/students/:id' element={<AdminStudentProfile/>} />
 
+          {/* INSTRUCTOR */}
+            <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
+            <Route path='/instructor/dashboard/assigned-courses' element={<InstructorDashboard />} />
+            <Route path='/instructor/dashboard/student/:id' element={<InstructorStudentProfile />} />
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/student/dashboard' element={<StudentDashboard />} />
             <Route path='/student/:id' element={<StudentDetail />} />
