@@ -100,7 +100,7 @@ const TwoFAForm = (props) => {
     <div className="flex flex-col h-screen">
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
-          <div className="mb-8 text-xl font-semibold text-center text-blue-600 dark:text-white lg:justify-center">
+          <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
             Enter OTP
           </div>
 
