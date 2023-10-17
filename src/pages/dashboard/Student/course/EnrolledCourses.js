@@ -1,19 +1,19 @@
 // import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext, BASEURL } from "../../App";
+import { BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
-import AddCourseForm from '../../forms/addCourseForm';
-import ModelContainer from '../../component/ModelContainer';
+import AddCourseForm from '../../../../forms/addCourseForm';
+import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
-import imgCallback from "../../images/profile.jpeg";
+
 
 
 // const img = `${BASEURL}/file/${student.image.file}`
 
-const ListCourses = () => {
+const EnrolledCourses = () => {
   const [showAddPop, setShowAddPop] = useState(false);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const ListCourses = () => {
     setLoading(false);
   }, [])
 
-  const handleAddStudent = (childData, imgChild) => {
+  const handleAddStudent = () => {
 
     // const id = Math.floor(Math.random() * 1000) + 1
 
@@ -221,4 +221,4 @@ const ListCourses = () => {
   )
 }
 
-export default ListCourses
+export default EnrolledCourses

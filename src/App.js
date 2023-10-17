@@ -19,9 +19,9 @@ import AdminDashboard from './pages/dashboard/Admin/admin';
 import StudentDetail from './pages/detail/student';
 import CourseDetail from './pages/detail/course';
 import { Test } from './forms/test';
-import ListCourses from './pages/course/ListCourses';
+import ListCourses from './pages/dashboard/Admin/course/ListCourses';
 import InstructorsList from './pages/dashboard/Admin/instructor/InstructorsList';
-import CourseDetails from './pages/course/courseDetails';
+import CourseDetails from './pages/dashboard/Admin/course/courseDetails';
 import InstructorsProfile from './pages/dashboard/Admin/instructor/InstructorsProfile';
 import Students from './pages/dashboard/Admin/student/students';
 import AdminStudentProfile from './pages/dashboard/Admin/student/StudentProfile';
@@ -29,6 +29,8 @@ import InstructorDashboard from './pages/dashboard/Instructor/instructor';
 import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
 import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
 import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
+import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
+import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 // import Home from './components/home';
 
 
@@ -113,6 +115,8 @@ function App() {
 
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/student/dashboard' element={<StudentDashboard />} />
+            <Route path='/student/dashboard/enrolled-courses' element={<EnrolledCourses/>} />
+            <Route path='/student/dashboard/enrolled-courses/:id' element={<IndividualCourse/>} />
             <Route path='/student/:id' element={<StudentDetail />} />
             <Route path='/course/:id' element={<CourseDetail />} />
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}

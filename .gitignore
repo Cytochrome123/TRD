@@ -25,5 +25,5 @@ yarn-error.log*
 # userr/
 Appp.js
 mic/
-admin/
+# admin/
 pprofile.js

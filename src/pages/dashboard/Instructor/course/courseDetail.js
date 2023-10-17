@@ -188,6 +188,28 @@ const CourseDetail = () => {
                 </div>
             </div>
 
+            <div className="flex flex-col items-center p-6">
+        <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
+
+          <div className="">
+            <h2 className="text-2xl font-semibold text-gray-900">Requirments</h2>
+            <ul className="mt-2">
+              <li className="mb-2">
+                <span className="font-semibold text-indigo-600">*</span>
+              </li>
+              <li className="mb-2">
+              <span className="font-semibold text-indigo-600">*</span>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+
+      </div>
+
+<br />
+<h1 className="m-3 text-2xl">Student List</h1>
             {/* <div className='overflow-x-auto '> */}
             <table className="w-full table-auto min-w-max x-overflow-scroll ">
                 <thead>
