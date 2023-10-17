@@ -25,69 +25,6 @@ const ListCourses = () => {
 
   const handleAddStudent = (childData, imgChild) => {
 
-    // const id = Math.floor(Math.random() * 1000) + 1
-
-    // const newPost = { id, title: childData.title, description : childData.description,  duration: childData.duration,start_date: childData.start_date, end_date: childData.end_date, location: childData.location, capacity: childData.capacity, amount: childData.amount, image: imgChild  }
-    // console.log('new post newPost', newPost);
-    // console.log('new post imgChild', imgChild);
-
-
-
-    // setCourses([...courses, newPost])
-
-    // axios({
-    //   method: "post",
-    //   url: `${BASEURL}/courses`,
-    //   data: newPost,
-    //   headers: {
-    //     // 'Content-Type': 'text/html',
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${token}`
-    //   }
-    //   // withCredentials: true
-    // })
-    // .then((res) => {
-    //   console.log("xxx created-courses",res.data);
-    //   // const allPost = [newPost, ...courses]
-
-    //   setCourses(res.data.courses)
-
-
-
-    // })
-    // .catch((err) => {
-    //       console.log(err);
-    //       if(err && err instanceof Error) {
-    //         alert(`${err.message} making the post`)
-    //         // alert(err.response?.data.msg);
-    //       } else if(err && err instanceof AxiosError) {
-    //         alert(err.message)
-    //       } else {
-    //           alert('Error')
-    //       }
-    //       // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
-    //     });
-
-
-
-
-
-
-
-
-
-
-    // e.preventDefault()
-    // const newItems = items.filter(item => item.id !== id);
-
-
-
-
-    // const id = Math.floor(Math.random() * 1000) + 1
-
-    // console.log("id", id);
-
-
   };
 
   // closing of the pop up
@@ -114,20 +51,16 @@ const ListCourses = () => {
 
         setCourses(res.data.courses);
         
-
-
-
-
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error) {
-          alert(`${err.message} making the request`)
-          // alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
-          alert(err.message)
+        if(Array.isArray(err.response.data.msg)){
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          alert(err.response.data.msg);
         } else {
-          alert('Error')
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });

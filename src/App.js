@@ -122,9 +122,13 @@ function App() {
             <Route path='/student/dashboard' element={<StudentDashboard />} />
             <Route path='/student/dashboard/enrolled-courses' element={<EnrolledCourses/>} />
             <Route path='/student/dashboard/enrolled-courses/:id' element={<IndividualCourse/>} />
-            <Route path='/student/studentData' element={<StudentData />} />
+            
+            
+            {/* <Route path='/student/studentData' element={<StudentData />} />
             <Route path='/student/:id' element={<StudentDetail />} />
-            <Route path='/course/:id' element={<CourseDetail />} />
+            <Route path='/course/:id' element={<CourseDetail />} /> */}
+            
+            
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
           {/* </Route> */}
           <Route>
@@ -148,7 +152,7 @@ const Root = () => {
   return (
     <div className=''>
       <Navbarr />
-      <div className='container h-screen mx-auto'>
+      <div className='container mx-auto'>
         <SideBar />
         <Outlet />
       </div>

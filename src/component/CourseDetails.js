@@ -6,6 +6,8 @@ import cookies from "js-cookie";
 
 import { BASEURL } from "../App";
 
+
+
 function CourseDetails(props) {
   const { id, image, title, description, duration, className, onClose } = props;
 
@@ -51,14 +53,23 @@ function CourseDetails(props) {
       return alert('Registration sucessfull!!!')
     } catch (err) {
       console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                } else {
-                    alert('Error')
-                }
+      // console.log(instanceof err)
+      if(Array.isArray(err.response.data.msg)){
+        alert(err.response.data.msg[0].msg);
+      } else if (err.response) {
+        alert(err.response.data.msg);
+      } else {
+        // err.response?.data ? alert(err.response?.data) : alert(err.message)
+        alert(err.message)
+      }
+                // if (err && err instanceof Error && !AxiosError) {
+                //     alert(err.response?.data.msg);
+                // } else if (err && err instanceof AxiosError) {
+                //     // err.response?.data ? alert(err.response?.data) : alert(err.message)
+                //     alert(err.message)
+                // } else {
+                //     alert('Error')
+                // }
     }
   }
   return (
@@ -105,3 +116,39 @@ function CourseDetails(props) {
 }
 
 export default CourseDetails;
+
+// Add a response interceptor
+// axios.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response) {
+//       // The request was made and the server responded with a status code
+//       console.error('Response Error:', error.response.data);
+//       alert(error.response.data.msg)
+//     } else if (error.request) {
+//       // The request was made but no response was received
+//       console.error('Request Error:', error.request);
+//       // alert(error.request.response, 'Network error')
+//       alert(error.message)
+//     } else {
+//       // Something happened in setting up the request that triggered an Error
+//       console.error('Error:', error.message);
+//       alert(error.message)
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+// Then import in every
+// const instance = axios.create();
+
+// instance.interceptors.response.use(
+//   response => response,
+//   error => {
+//     // Your error handling logic here
+//     console.error('Global Error Handling:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// export default instance;

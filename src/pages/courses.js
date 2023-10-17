@@ -40,7 +40,7 @@ const Courses = () => {
 
   const initialCourses = [
     {
-      id: 1,
+      _id: 1,
       title: "Microsoft Word for Beginners",
       category: "Introduction to I.C.T.",
       image: CourseWord,
@@ -50,7 +50,7 @@ const Courses = () => {
         "Master Microsoft Word basics to create and edit documents with confidence.",
     },
     {
-      id: 2,
+      _id: 2,
       title: "HTML, CSS, and JavaScript Fundamentals",
       category: "Web Development",
       image: CourseHTML,
@@ -60,7 +60,7 @@ const Courses = () => {
         "Build web pages with HTML, style them with CSS, and add interactivity with JavaScript.",
     },
     {
-      id: 3,
+      _id: 3,
       title: "Data Analysis with Python",
       category: "Data Science",
       image: CourseDAP,
@@ -69,7 +69,7 @@ const Courses = () => {
         "Analyze data using Python, from data manipulation to visualization.",
     },
     {
-      id: 4,
+      _id: 4,
       title: "Excel Mastery: Data Management and Analysis",
       category: "Introduction to I.C.T.",
       image: CourseExcel,
@@ -79,7 +79,7 @@ const Courses = () => {
         "Excel skills for data management, formulas, and generating insights.",
     },
     {
-      id: 5,
+      _id: 5,
       title: "PHP and MySQL: Dynamic Web Development",
       category: "Web Development",
       image: CoursePHP,
@@ -88,7 +88,7 @@ const Courses = () => {
         "Create dynamic web apps using PHP and connect to MySQL databases.",
     },
     {
-      id: 6,
+      _id: 6,
       title: "Introduction to Python Programming",
       category: "Data Science",
       image: CoursePython,
@@ -97,7 +97,7 @@ const Courses = () => {
       description: "Learn Python basics for programming and problem-solving.",
     },
     {
-      id: 7,
+      _id: 7,
       title: "Crafting Engaging Presentations with PowerPoint",
       category: "Introduction to I.C.T.",
       image: CoursePPT,
@@ -105,7 +105,7 @@ const Courses = () => {
       description: "Design captivating presentations using PowerPoint.",
     },
     {
-      id: 8,
+      _id: 8,
       title: "Introduction to React: Building Modern Web Apps",
       category: "Web Development",
       image: CourseReact,
@@ -123,6 +123,8 @@ const Courses = () => {
 
   const [selectedCourse, setSelectedCourse] = useState(null);
   const ref = useRef(true);
+
+
 
   useEffect(() => {
     if(ref.current) {
@@ -143,13 +145,21 @@ const Courses = () => {
       })
       .catch(err => {
         console.log(err);
-        if (err && err instanceof Error && !AxiosError) {
-          alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
+        // if (err && err instanceof Error && !AxiosError) {
+        //   alert(err.response?.data.msg);
+        // } else if (err && err instanceof AxiosError) {
+        //   // err.response?.data ? alert(err.response?.data) : alert(err.message)
+        //   alert(err.message)
+        // } else {
+        //   alert('Error')
+        // }
+        if(Array.isArray(err.response.data.msg)){
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          alert(err.response.data.msg);
+        } else {
           // err.response?.data ? alert(err.response?.data) : alert(err.message)
           alert(err.message)
-        } else {
-          alert('Error')
         }
       });
       
@@ -183,12 +193,13 @@ console.log(courses)
     setSelectedCategory(category === "Featured" ? "Featured" : category);
   };
 
-  const filteredCourses = selectedCategory
-    ? selectedCategory === "Featured"
-      ? courses.filter((course) => course.featured === true)
-      : courses.filter((course) => course.category === selectedCategory)
-    : courses;
+  // const filteredCourses = selectedCategory
+  //   ? selectedCategory === "Featured"
+  //     ? courses.filter((course) => course.featured === true)
+  //     : courses.filter((course) => course.category === selectedCategory)
+  //   : courses;
 
+  const filteredCourses = courses
   // if (loading) {
   //   return (
   //     <div>
@@ -338,6 +349,27 @@ console.log(courses)
 };
 
 export default Courses;
+
+  // Add a response interceptor
+// axios.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response) {
+//       // The request was made and the server responded with a status code
+//       console.error('Response Error:', error.response.data);
+//       alert(error.response.data.msg)
+//     } else if (error.request) {
+//       // The request was made but no response was received
+//       console.error('Request Error:', error.request);
+//       alert(error.request.response)
+//     } else {
+//       // Something happened in setting up the request that triggered an Error
+//       console.error('Error:', error.message);
+//       alert(error.message)
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 // export const loadCourses = async () => {
 //   try {

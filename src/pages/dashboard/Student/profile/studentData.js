@@ -48,13 +48,13 @@ const StudentData = () => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error && !AxiosError) {
-          alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message);
+        if(Array.isArray(err.response.data.msg)){
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          alert(err.response.data.msg);
         } else {
-          alert("Error");
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
       });
   }, []);

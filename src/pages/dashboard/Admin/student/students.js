@@ -96,13 +96,13 @@ const Students = () => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error) {
-          alert(`${err.message} making the request`)
-          // alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
-          alert(err.message)
+        if(Array.isArray(err.response.data.msg)){
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          alert(err.response.data.msg);
         } else {
-          alert('Error')
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
