@@ -29,9 +29,10 @@ import InstructorDashboard from './pages/dashboard/Instructor/instructor';
 import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
 import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
 import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
-import SideBar from './component/SideBar';
 // import Home from './components/home';
-
+import SideBar from './component/SideBar';
+import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
+import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 
 export const AuthContext = createContext();
 
@@ -114,6 +115,8 @@ function App() {
 
           {/* <Route element={<StudentRoutes />}> */}
             <Route path='/student/dashboard' element={<StudentDashboard />} />
+            <Route path='/student/dashboard/enrolled-courses' element={<EnrolledCourses/>} />
+            <Route path='/student/dashboard/enrolled-courses/:id' element={<IndividualCourse/>} />
             <Route path='/student/:id' element={<StudentDetail />} />
             <Route path='/course/:id' element={<CourseDetail />} />
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
