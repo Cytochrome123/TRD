@@ -40,7 +40,7 @@ const team = [
   {
     name: "Olawale Ebenezer AYENI",
     role: "Secretary",
-      image: ayeni,
+    image: ayeni,
   },
   {
     name: "Temitope OLUSANYA",
@@ -64,25 +64,24 @@ const AboutPage = () => {
         <div className="flex flex-col-reverse items-center justify-center space-y-5 md:gap-y-0 gap-y-8 md:flex-row md:space-y-0 md:space-x-20">
           <div className="w-full md:w-1/2">
             <div className="mb-3 text-xl font-bold text-gray-900 md:text-3xl md:mb-5">
-              TRD and Tech Empowerment
+              TRAINING RESEARCH & DEVELOPMENT
             </div>
             <p className="mb-3 leading-relaxed text-justify">
-              We are a unit within the University of Ibadan's Directorate of
-              Information Technology and Media Services. Our primary focus is to
-              meet the IT needs of the University community through training and
-              support. We aim to create an enabling environment for technology,
-              while also serving as a convergence academy for IT and Telecoms
-              training.
+              Training, Research and Development (TRD) is a department within
+              the Directorate of Information Technology and Media Services. We
+              support teaching, learning, research and administration by
+              providing access to unique IT research resources such as live
+              operational networks and services, and test-beds for new
+              technologies, tools and services. We are committed to providing
+              the public with future-ready technology skills in line with the
+              University&apos;s vision of being a world-class institution for
+              academic excellence geared towards meeting societal needs. TRD is
+              set to be a convergence academy for world class training of
+              professionals in IT and telecoms.
             </p>
             <p className="leading-relaxed text-justify">
-              Our unit focuses on creating enabling environments for IT systems
-              through training and meeting the IT training and development needs
-              of the University community. We support teaching, learning,
-              research, and administration by providing access to unique IT
-              research resources, including live operational networks, test-beds
-              for new technologies, tools, and services. Our center aims to
-              become a leading convergence academy, offering world-class
-              training for professionals in IT and Telecoms.
+              We are dedicated to equipping you with knowledge and expertise
+              needed to thrive in this dynamic landscape.
             </p>
           </div>
           <div className="w-full md:w-1/2 md:mb-0 md:mt-0">
