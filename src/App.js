@@ -29,6 +29,7 @@ import InstructorDashboard from './pages/dashboard/Instructor/instructor';
 import InstructorStudentProfile from './pages/dashboard/Instructor/student/studentProfile'
 import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
 import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
+import SideBar from './component/SideBar';
 // import Home from './components/home';
 
 
@@ -136,9 +137,10 @@ function App() {
 
 const Root = () => {
   return (
-    <div className='h-screen'>
+    <div className=''>
       <Navbarr />
-      <div>
+      <div className='container h-screen mx-auto'>
+        <SideBar />
         <Outlet />
       </div>
       <Footer />
