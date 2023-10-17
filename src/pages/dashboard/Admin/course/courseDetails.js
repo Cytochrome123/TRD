@@ -73,7 +73,7 @@ const CourseDetails = () => {
       })
       .catch((err) => {
         console.log(err.message);
-        if(Array.isArray(err.response.data.msg)){
+        if(Array.isArray(err.response?.data.msg)){
           alert(err.response.data.msg[0].msg);
         } else if (err.response) {
           alert(err.response.data.msg);
@@ -125,7 +125,7 @@ const CourseDetails = () => {
         })
         .catch((err) => {
             console.log(err);
-            if(Array.isArray(err.response.data.msg)){
+            if(Array.isArray(err.response?.data.msg)){
               alert(err.response.data.msg[0].msg);
             } else if (err.response) {
               alert(err.response.data.msg);

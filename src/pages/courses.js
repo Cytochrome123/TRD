@@ -153,7 +153,7 @@ const Courses = () => {
         // } else {
         //   alert('Error')
         // }
-        if(Array.isArray(err.response.data.msg)){
+        if(Array.isArray(err.response?.data.msg)){
           alert(err.response.data.msg[0].msg);
         } else if (err.response) {
           alert(err.response.data.msg);
@@ -193,13 +193,13 @@ console.log(courses)
     setSelectedCategory(category === "Featured" ? "Featured" : category);
   };
 
-  // const filteredCourses = selectedCategory
-  //   ? selectedCategory === "Featured"
-  //     ? courses.filter((course) => course.featured === true)
-  //     : courses.filter((course) => course.category === selectedCategory)
-  //   : courses;
+  let filteredCourses = selectedCategory
+    ? selectedCategory === "Featured"
+      ? courses.filter((course) => course.featured === true)
+      : courses.filter((course) => course.category === selectedCategory)
+    : courses;
 
-  const filteredCourses = courses
+  filteredCourses = [...filteredCourses, ...courses]
   // if (loading) {
   //   return (
   //     <div>
