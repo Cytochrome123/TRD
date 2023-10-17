@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -60,11 +60,15 @@ function App() {
         firstName: decoded.firstName,
         lastName: decoded.lastName,
         // courses: decoded.courses
-        role: decoded.role,
+        role: decoded.userType,
         token
       }))
     }
   }
+
+  useEffect(() => {
+    handleAuth()
+  }, [])
 
   // const [alert, setAlert] = useState({
   //   show: false,
@@ -132,7 +136,7 @@ function App() {
   )
 
   return (
-    <AuthContext.Provider value={{ authenticatedUser, handleAuth }}>
+    <AuthContext.Provider value={{ authenticatedUser, setAuthenticatedUser, handleAuth }}>
       <RouterProvider router={router} />
     </AuthContext.Provider>
   );

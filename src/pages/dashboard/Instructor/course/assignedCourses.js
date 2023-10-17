@@ -68,7 +68,7 @@ const AssignedCourses = () => {
     const navigate = useNavigate()
 
   useEffect(() => {
-    getCourses()
+    getAssignedCourses()
     // setLoading(false);
   }, [])
 
@@ -78,11 +78,16 @@ const AssignedCourses = () => {
   };
 
 
-  function getCourses() {
+  const ref = useRef(true);
+
+  console.log(assignedCourses)
+
+
+  function getAssignedCourses() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/courses`,
+      url: `${BASEURL}/assigned-courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -94,8 +99,11 @@ const AssignedCourses = () => {
         console.log("xxx created-courses", res.data);
         // const allPost = [newPost, ...courses]
 
-        setAssignedCourses(res.data.courses);
-        
+        // setAssignedCourses(initialCourses.push(res.data.assignedcourses));
+        setAssignedCourses(prev => ([
+          ...res.data.assignedcourses,
+          ...initialCourses
+        ]))
 
 
 
@@ -115,63 +123,10 @@ const AssignedCourses = () => {
       });
   }
 
-  const [courses, setCourses] = useState(initialCourses);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Featured");
-  const [showCourse, setShowCourse] = useState("hidden");
-
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const ref = useRef(true);
-
-//   useEffect(() => {
-//     if(ref.current) {
-//       axios({
-//         method: 'get',
-//         url: `${BASEURL}/courses`,
-//         // url: `http://localhost:5001/api/courses`,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           // Authorization: `Bearer ${token}`
-//         }
-//       }).then(res => {
-//         console.log(res)
-//         setCourses(prev => ([
-//           ...prev,
-//           ...res.data.courses
-//         ]))
-//       })
-//       .catch(err => {
-//         console.log(err);
-//         if (err && err instanceof Error && !AxiosError) {
-//           alert(err.response?.data.msg);
-//         } else if (err && err instanceof AxiosError) {
-//           // err.response?.data ? alert(err.response?.data) : alert(err.message)
-//           alert(err.message)
-//         } else {
-//           alert('Error')
-//         }
-//       });
-      
-//     }
-//     return () => (ref.current = false);
-//   }, [])
-console.log(courses)
-  const handleViewDetails = (course) => {
-    setShowCourse("block");
-    setSelectedCourse(course);
-    document.body.style.overflow = "hidden";
-  };
-
-  const handleCloseDetails = () => {
-    setShowCourse("hidden");
-    setSelectedCourse(null);
-    document.body.style.overflow = "auto";
-  };
-
   return (
-    <div className="px-4 py-4 pb-20 md:px-8 lg:px-16 xl:px-20">
+    <div className="px-4 py-4 pb-20 mt-10 md:px-8 lg:px-16 xl:px-20">
 
-      <h2 className="mt-6 text-xl font-bold text-center md:text-4xl md:mt-10">
+      <h2 className="mt-6 text-xl font-bold md:text-4xl md:mt-10">
         Assigned Courses
       </h2>
 
@@ -182,7 +137,6 @@ console.log(courses)
         {assignedCourses.map((course) => (
           <div
             className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
-            onClick={() => handleViewDetails(course)}
             key={course._id}
           >
             <div className="overflow-hidden h-44">

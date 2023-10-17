@@ -6,17 +6,17 @@ import { BASEURL } from "../App";
 import { AuthContext } from "../App";
 
 const TwoFAForm = (props) => {
-
-    
+  
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
-
+  
   const navigate = useNavigate();
   const location = useLocation();
-
+  
   console.log(otp);
-
+  
   const { authenticatedUser, handleAuth } = useContext(AuthContext);
+  // handleAuth()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,10 +43,13 @@ const TwoFAForm = (props) => {
 
         if (res.data.user.userType === "admin") {
           navigate("/admin/dashboard");
+          handleAuth();
         } else if (res.data.user.userType === "instructor") {
           navigate("/instructor/dashboard");
+          handleAuth();
         } else if (res.data.user.userType === "student") {
           navigate("/student/dashboard");
+          handleAuth();
         } else {
           navigate("/courses");
         }

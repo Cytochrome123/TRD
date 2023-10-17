@@ -74,12 +74,12 @@ const SideBar = () => {
         {/* ... (rest of your navigation code start) */}
         <div className="container flex flex-wrap items-center w-full pt-3 pb-3 mx-auto mt-10 md:pb-0">
 
-            <div className="w-1/2 pl-2 md:pl-0">
+            {/* <div className="w-1/2 pl-2 md:pl-0">
                 <a className={`text-gray-900 text-base xl:text-xl no-underline hover:no-underline font-bold`} href="#">
                     <i className="pr-3 text-pink-600 fas fa-sun"></i> Admin Dashboard
                 </a>
-            </div>
-            <div className="w-1/2 pr-0">
+            </div> */}
+            <div className="w-full pr-0">
                 <div className="relative flex float-right">
 
                     <div className="relative text-sm">

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -5,14 +6,16 @@ import cookies from "js-cookie";
 import { VscClose } from "react-icons/vsc";
 import { CiMenuBurger } from "react-icons/ci";
 import LOGO from "../../images/logo.png";
+import { AuthContext } from "../../App";
 
 const Navbarr = () => {
-  const [authenticatedUser, setAuthenticatedUser] = useState({
-    authenticated: false,
-    firstName: "",
-    lastName: "",
-    role: "",
-  });
+  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+  // const [authenticatedUser, setAuthenticatedUser] = useState({
+  //   authenticated: false,
+  //   firstName: "",
+  //   lastName: "",
+  //   role: "",
+  // });
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ref = useRef(true);
@@ -20,21 +23,21 @@ const Navbarr = () => {
 
   useEffect(() => {
     if (ref.current) {
-      const token = cookies.get("token");
-      console.log(token);
-      let decoded;
-      if (token) {
-        decoded = jwtDecode(token);
-        console.log(decoded);
+      // const token = cookies.get("token");
+      // console.log(token);
+      // let decoded;
+      // if (token) {
+      //   decoded = jwtDecode(token);
+      //   console.log(decoded);
 
         setAuthenticatedUser((prev) => ({
           ...prev,
           authenticated: true,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          role: decoded.userType,
+          firstName: authenticatedUser.firstName,
+          lastName: authenticatedUser.lastName,
+          role: authenticatedUser.userType,
         }));
-      }
+      // }
     }
 
     return () => (ref.current = false);
@@ -57,15 +60,15 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="sticky top-0 bg-white text-gray-900 py-4 shadow-md px-7 md:px-0 z-50">
-      <div className="container mx-auto flex items-center justify-between">
+    <nav className="sticky top-0 z-50 py-4 text-gray-900 bg-white shadow-md px-7 md:px-0">
+      <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center space-x-10">
-          <Link to='/' className="text-gray-900 flex items-center">
-            <img src={LOGO} alt="logo" className="w-14 mr-2" />
+          <Link to='/' className="flex items-center text-gray-900">
+            <img src={LOGO} alt="logo" className="mr-2 w-14" />
           </Link>
 
           {/* Desktop nav */}
-          <div className="space-x-7 font-semibold text-slate-600 hidden md:flex">
+          <div className="hidden font-semibold space-x-7 text-slate-600 md:flex">
             <Link
               to="/"
               className={`${
@@ -117,9 +120,9 @@ const Navbarr = () => {
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? (
-              <CiMenuBurger className="h-6 w-6" />
+              <CiMenuBurger className="w-6 h-6" />
             ) : (
-              <CiMenuBurger className="h-6 w-6" />
+              <CiMenuBurger className="w-6 h-6" />
             )}
           </button>
           <div
@@ -128,13 +131,13 @@ const Navbarr = () => {
             } transition-transform duration-500 ease-in-out`}
           >
             <button
-              className="absolute top-5 right-5 text-white"
+              className="absolute text-white top-5 right-5"
               onClick={toggleMobileMenu}
               aria-label="Close mobile menu"
             >
-              <VscClose className="h-6 w-6" />
+              <VscClose className="w-6 h-6" />
             </button>
-            <div className="h-full flex flex-col justify-start">
+            <div className="flex flex-col justify-start h-full">
               <div className="mt-20 space-y-8">
                 <div className="space-y-4 text-2xl font-semibold">
                   <a
@@ -180,7 +183,7 @@ const Navbarr = () => {
                 </div>
                 <div className="flex flex-col space-y-3">
                   {authenticatedUser.role && (
-                    <a href="#" className="text-white font-bold underline">
+                    <a href="#" className="font-bold text-white underline">
                       Hello {authenticatedUser.firstName}
                     </a>
                   )}
@@ -254,9 +257,9 @@ const Navbarr = () => {
         </div>
 
         {/* Desktop nav authenticated*/}
-        <div className="hidden md:flex items-center justify-end">
+        <div className="items-center justify-end hidden md:flex">
           {authenticatedUser.role && (
-            <a href="#" className="text-slate-900 font-bold mr-10 underline">
+            <a href="#" className="mr-10 font-bold underline text-slate-900">
               Hello {authenticatedUser.firstName}
             </a>
           )}
@@ -264,13 +267,13 @@ const Navbarr = () => {
             <div className="flex items-center space-x-5">
               <a
                 href="/instructors"
-                className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+                className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Instructors
               </a>
               <a
                 href="/students"
-                className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+                className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Students
               </a>
@@ -279,7 +282,7 @@ const Navbarr = () => {
           {authenticatedUser.role === "instructor" && (
             <a
               href="#"
-              className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
             >
               Assigned Courses
             </a>
@@ -287,7 +290,7 @@ const Navbarr = () => {
           {authenticatedUser.role === "student" && (
             <a
               href="#"
-              className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
             >
               My Courses
             </a>
@@ -295,7 +298,7 @@ const Navbarr = () => {
           {authenticatedUser.authenticated ? (
             <div className="flex items-center cursor-pointer">
               <a
-                className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg ml-4 hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
+                className="py-3 ml-4 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
                 onClick={logOutUser}
               >
                 Logout
@@ -305,13 +308,13 @@ const Navbarr = () => {
             <div className="flex items-center space-x-10">
               <a
                 href="/signin"
-                className="text-blue-600 font-semibold hover:text-blue-700 transition duration-300 ease-in-out"
+                className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Login
               </a>
               <a
                 href="/signup"
-                className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:shadow-lg hover:shadow-blue-600 transition duration-300 ease-in-out"
+                className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
               >
                 Sign Up
               </a>

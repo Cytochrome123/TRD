@@ -47,6 +47,7 @@ const CourseDetail = () => {
         axios({
             method: "get",
             url: `${BASEURL}/course/${id}`,
+            // url: `${BASEURL}/course/64a983f6ea07003579ec2682`,
             headers: {
                 // 'Content-Type': 'text/html',
                 'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ const CourseDetail = () => {
                     location: res.data.course.location,
                     capacity: res.data.course.capacity,
                     amount: res.data.course.amount,
-                    image: `https://trd-server.onrender.com/api/file/${res.data.course.image.path}`,
+                    // image: `https://trd-server.onrender.com/api/file/${res.data.course.image.path}`,
                 }))
                 // console.log("url", url)
                 // const studentData = res.data.students
@@ -120,7 +121,8 @@ const CourseDetail = () => {
         const token = Cookies.get('token');
         axios({
             method: "get",
-            url: `${BASEURL}/students`,
+            url: `${BASEURL}/assigned-course/${id}/students`,
+            // url: `${BASEURL}/assigned-course/64a983f6ea07003579ec2682/students`,
             headers: {
                 // 'Content-Type': 'text/html',
                 'Content-Type': 'application/json',
@@ -132,7 +134,7 @@ const CourseDetail = () => {
                 console.log("Students", res.data);
                 // const allPost = [newPost, ...courses]
 
-                setStudents(res.data.students);
+                setStudents(res.data.courseDetails.enrolled);
 
             })
             .catch((err) => {
@@ -151,7 +153,7 @@ const CourseDetail = () => {
 
     return (
         <div>
-            <div>
+            <div className="pt-32">
                 <MetricCard title="No of students" value="5" />
                 <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
                     <div className="flex flex-col items-center md:flex-row">
@@ -238,6 +240,7 @@ const CourseDetail = () => {
                                     <div className='relative flex justify-between h-8 text-blue-500 cursor-pointer hover:underline'>
                                         {/* <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline"> */}
                                         <span onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}/student/${student._id}`)}>View Profile</span>
+                                        {/* <span onClick={() => navigate(`/instructor/dashboard/assigned-course/64a983f6ea07003579ec2682/student/${student._id}`)}>View Profile</span> */}
                                         
                                         {/* </Link> */}
                                         <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
