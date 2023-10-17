@@ -210,10 +210,10 @@ const Navbarr = () => {
                   )}
                   {authenticatedUser.role === "student" && (
                     <a
-                      href="#"
+                      href="/student/dashboard/enrolled-courses"
                       className="text-white"
                     >
-                      My Courses
+                      My Coursesxz
                     </a>
                   )}
                   {authenticatedUser.authenticated ? (

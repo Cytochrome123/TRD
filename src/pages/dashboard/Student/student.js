@@ -25,16 +25,16 @@ const StudentDashboard = () => {
         const token = cookies.get('token');
         axios({
             method: 'get',
-            // url: `${BASEURL}/mycourses`,
+            url: `${BASEURL}/myData`,
             // url: `${BASEURL}/myData`,
-            url: 'http://localhost:5001/api/myData',
+            // url: 'http://localhost:5001/api/myData',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
         })
             .then(res => {
-                console.log(res)
+                console.log(res.data.details)
                 setData(prev => ({
                     ...prev,
                     id: res.data.details._id,

@@ -100,7 +100,7 @@ const EnrolledCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/courses`,
+      url: `${BASEURL}/myData`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ const EnrolledCourses = () => {
         console.log("xxx created-courses", res.data);
         // const allPost = [newPost, ...courses]
 
-        setCourses(res.data.courses);
+        setCourses(() => res.data.details.courses);
         
 
 
@@ -176,7 +176,9 @@ const EnrolledCourses = () => {
             </tr>
           </thead>
           <tbody>
-            {loading ? ('Loading') : courses.length === 0 ? ('No data yet') :
+            {loading ? ('Loading') 
+            : courses.length === 0 
+            ? ('No data yet') :
               courses.map((student, index) => (
                 <tr key={index} className="hover:bg-gray-100 group">
                   <td className="px-4 py-2">
