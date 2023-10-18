@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import SideBar from '../../../../component/SideBar';
 
 function StudentProfile() {
   const [student, setStudent] = useState({
@@ -63,7 +64,8 @@ function StudentProfile() {
 
   return (
     <div>
-      <div className="flex flex-col items-center min-h-screen p-6 bg-gray-100">
+      <SideBar />
+      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-gray-100">
         {student && (<div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
           <div className="flex flex-col items-center md:flex-row">
             <div className="md:mr-6">

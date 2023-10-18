@@ -30,7 +30,6 @@ import InstructorStudentProfile from './pages/dashboard/Instructor/student/stude
 import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
 import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
 // import Home from './components/home';
-import SideBar from './component/SideBar';
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
@@ -153,7 +152,6 @@ const Root = () => {
     <div className=''>
       <Navbarr />
       <div className='container mx-auto'>
-        <SideBar />
         <Outlet />
       </div>
       <Footer />

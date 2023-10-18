@@ -19,6 +19,7 @@ import CourseDetails from "../../../../component/CourseDetails";
 
 import Cookies from "js-cookie";
 import { BASEURL } from "../../../../App";
+import SideBar from "../../../../component/SideBar";
 
 const AssignedCourses = () => {
     
@@ -121,52 +122,55 @@ const AssignedCourses = () => {
   }
 
   return (
-    <div className="px-4 py-4 pb-20 mt-10 md:px-8 lg:px-16 xl:px-20">
+    <div>
+        <SideBar />
+        <div className="px-4 py-4 pb-20 my-32 md:px-8 lg:px-16 xl:px-20">
 
-      <h2 className="mt-6 text-xl font-bold md:text-4xl md:mt-10">
-        Assigned Courses
-      </h2>
+          <h2 className="mt-6 text-xl font-bold md:text-4xl md:mt-10">
+            Assigned Courses
+          </h2>
 
-        
+            
 
-      {/* Display courses */}
-      <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3">
-        {assignedCourses.map((course) => (
-          <div
-            className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
-            key={course._id}
-          >
-            <div className="overflow-hidden h-44">
-              <img
-                className="object-cover w-full h-full"
-                src={course.image}
-                alt=""
-              />
-            </div>
-            <div className="px-4 py-4">
-              <div className="px-3 py-2 mb-3 text-xs rounded-full text-slate-600 bg-slate-300 w-max">
-                {course.category}
-              </div>
-              <h3 className="mb-5 text-lg font-bold text-gray-800">
-                {course.title}
-              </h3>
-              <div className="flex flex-row items-center justify-between space-x-2">
-                <div className="flex items-center space-x-2 text-sm text-slate-700">
-                  {" "}
-                  <LuCalendarClock className="text-xl " />
-                  <span>{course.duration}</span>
+          {/* Display courses */}
+          <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3">
+            {assignedCourses.map((course) => (
+              <div
+                className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
+                key={course._id}
+              >
+                <div className="overflow-hidden h-44">
+                  <img
+                    className="object-cover w-full h-full"
+                    src={course.image}
+                    alt=""
+                  />
                 </div>
-                <span
-                  className="text-sm font-medium text-blue-500 transition duration-300 ease-in-out cursor-pointer hover:text-blue-600"
-                  onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}`)}
-                >
-                  View Details →
-                </span>
+                <div className="px-4 py-4">
+                  <div className="px-3 py-2 mb-3 text-xs rounded-full text-slate-600 bg-slate-300 w-max">
+                    {course.category}
+                  </div>
+                  <h3 className="mb-5 text-lg font-bold text-gray-800">
+                    {course.title}
+                  </h3>
+                  <div className="flex flex-row items-center justify-between space-x-2">
+                    <div className="flex items-center space-x-2 text-sm text-slate-700">
+                      {" "}
+                      <LuCalendarClock className="text-xl " />
+                      <span>{course.duration}</span>
+                    </div>
+                    <span
+                      className="text-sm font-medium text-blue-500 transition duration-300 ease-in-out cursor-pointer hover:text-blue-600"
+                      onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}`)}
+                    >
+                      View Details →
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
     </div>
   );
 };

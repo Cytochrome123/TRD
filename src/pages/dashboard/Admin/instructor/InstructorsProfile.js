@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import SideBar from "../../../../component/SideBar";
 
 function InstructorsProfile() {
   // const { instructor, setinstructor } = useContext(AuthContext);
@@ -83,8 +84,8 @@ function InstructorsProfile() {
 
   return (
     <div>
-
-      <div className="flex flex-col items-center min-h-screen p-6 bg-white">
+      <SideBar />
+      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-white">
         <button>Remove Student</button>
         {instructor && (
           <div className="w-full p-8 bg-gray-100 rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">

@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import MetricCard from "../../../../component/MetricCard";
+import SideBar from "../../../../component/SideBar";
 
 
 
@@ -152,7 +153,8 @@ const CourseDetail = () => {
 
     return (
         <div>
-            <div className="pt-32">
+            <SideBar />
+            <div className="pt-32 my-32">
                 <MetricCard title="No of students" value="5" />
                 <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
                     <div className="flex flex-col items-center md:flex-row">
