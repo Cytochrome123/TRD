@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HEROIMG from "../images/building.jpg";
+import HEROIMG from "../images/building.png";
 import VISION from "../images/vision.svg";
 import { PiChalkboardTeacherBold } from "react-icons/pi";
 import { MdOutlineComputer } from "react-icons/md";
@@ -31,6 +31,10 @@ const courses = [
     name: "Arc GIS",
     description:
       "Gain proficiency in GIS technology for spatial analysis and data visualization.",
+  },
+  {
+    name: "Plagiarism Prevention Clinic",
+    description: "understanding the use of Turnitin.",
   },
 ];
 
@@ -86,14 +90,18 @@ function Landing() {
       <div className="flex flex-col items-center md:flex-row justify-center mt-3 md:mt-16 space-y-8 md:space-y-0 md:space-x-20">
         <div className="flex flex-col items-center md:items-start w-full md:w-1/2 space-y-7">
           <div className="flex flex-col space-y-3">
-            <h1 className="text-2xl md:text-4xl text-slate-800 font-bold md:leading-relaxed text-center md:text-left">
-              Welcome to the ICT Training Center for the University of Ibadan
+            <h1 className="text-2xl md:text-2xl text-slate-800 font-bold md:leading-relaxed text-center md:text-left">
+              Welcome to Training Research and Development (TRD) &ndash; University of
+              Ibadan ICT Training Center
             </h1>
             <p className="text-sm md:text-lg text-slate-800 leading-relaxed text-center md:text-justify">
-              We here at the training research and development unit are experts
-              in ICT training, empowering individuals to become skilled
-              professionals in the field. Join us to unlock your potential and
-              excel in your ICT career.
+              At our state-of-the-art facility, we conduct trainings and
+              development programmes to empower individuals and organisations
+              with the knowledge and skills required to thrive in the dynamic
+              landscape due to advancements in Technology. With our experienced
+              instructors, you will find a supportive and stimulating
+              environment that encourages exploration and creativity.<br/> Join us on
+              this exciting odyssey.
             </p>
           </div>
           <button className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out">
@@ -110,7 +118,7 @@ function Landing() {
           What we have to offer
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {courses.map((course, index) => (
             <div key={index} className="flex flex-col">
               <a href="#" className="flex flex-col items-stretch">
@@ -171,28 +179,26 @@ function Landing() {
                 isVisionVisible ? "" : "hidden"
               }`}
             >
-              Our vision is to be a leading institution for academic excellence,
-              making a positive difference in society. We strive to provide
-              exceptional education, foster innovation, and empower individuals
-              to reach their full potential. Through a commitment to excellence,
-              creativity, and community engagement, we aim to shape future
-              leaders who will contribute meaningfully to their fields and make
-              a lasting impact on society.
+              To be a center of excellence for Information Technology and Media
+              training, research and development in line with the University's
+              Vision and Mission.
             </p>
-            <p
+            {/* <p
               className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
                 isVisionVisible ? "hidden" : ""
               }`}
+            > */}
+              <ul 
+                className={`list-disc text-md text-slate-700 text-justify leading-loose fade-in-faster ${
+                  isVisionVisible ? "hidden" : ""
+                }`}
             >
-              Our mission is to provide transformative education that empowers
-              individuals to succeed and make a positive impact. Through
-              innovative teaching, inclusive learning environments, and
-              practical skills development, we prepare students to thrive in
-              their chosen paths. We foster a culture of curiosity,
-              collaboration, and lifelong learning. With a commitment to
-              excellence and societal engagement, we aim to shape tomorrow's
-              leaders and contribute to a better future.
-            </p>
+                <li>To provide world-class IT and Media literacy to support excellent teaching, learning,  and administration in the University and beyond</li>
+                <li>To conduct research on regular basis on information technology and media issues.</li>
+                <li>To run IT trainings with end-time certification. </li>
+                <li>To offer end-user IT education, support and consultancy.</li>
+              </ul>
+            {/* </p> */}
           </div>
         </div>
       </div>
