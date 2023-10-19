@@ -101,7 +101,7 @@ const AdminDashboard = () => {
 
     return (
         <>
-            <div className="container w-full pt-20 mx-auto">
+            <div className="container w-full pt-2 mx-auto">
                 {/* ... (rest of your content code start) */}
                 <div className="w-full px-4 mb-16 leading-normal text-gray-800 md:px-0 md:mt-8">
 

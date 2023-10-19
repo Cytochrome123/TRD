@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 // import {  } from "react-router-dom";
 
 
@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom'
 
 
 
-const SideBar = () => {
+
+const StudentSideBar = () => {
     const [isActive, setIsActive] = useState('home')
 
 
@@ -34,9 +35,9 @@ const SideBar = () => {
     // const buttonsContent = ["Home","Students","Instructors","Courses", "PlaceHolder"]
   return (
     <>
-        <nav id="header" className="fixed top-0 z-10 w-full mt-10 shadow">
+        <nav id="header" className="fixed top-0 z-10 w-full mt-10  bg-white shadow">
         {/* ... (rest of your navigation code start) */}
-        <div className="container flex flex-wrap items-center w-full pt-1 pb-3 mx-auto mt-10 md:pb-0">
+        <div className="container flex flex-wrap items-center w-full pt-3 pb-3 mx-auto mt-10 md:pb-0">
 
             {/* <div className="w-1/2 pl-2 md:pl-0">
                 <a className={`text-gray-900 text-base xl:text-xl no-underline hover:no-underline font-bold`} href="#">
@@ -55,7 +56,16 @@ const SideBar = () => {
                                 </g>
                             </svg>
                         </button>
-                       
+                        {/* <div id="userMenu" className="absolute top-0 right-0 z-30 invisible min-w-full mt-2 mt-12 overflow-auto bg-white rounded shadow-md">
+                            <ul className="list-reset">
+                                <li><a href="#" className="block px-4 py-2 text-gray-900 no-underline hover:bg-gray-400 hover:no-underline">My account</a></li>
+                                <li><a href="#" className="block px-4 py-2 text-gray-900 no-underline hover:bg-gray-400 hover:no-underline">Notifications</a></li>
+                                <li>
+                                    <hr className="mx-2 border-t border-gray-400"/>
+                                </li>
+                                <li><a href="#" className="block px-4 py-2 text-gray-900 no-underline hover:bg-gray-400 hover:no-underline">Logout</a></li>
+                            </ul>
+                        </div> */}
                     </div>
 
 
@@ -78,26 +88,26 @@ const SideBar = () => {
             {isVisible &&  <div className="z-20 flex-grow w-full mt-2 bg-white lg:hidden lg:items-center lg:w-auto lg:mt-0" id="nav-content">
                 <ul className="items-center flex-1 px-4 list-reset lg:flex md:px-0">
                     <li className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('home')} to="/admin" className={`block py-1 md:py-3 pl-1 align-middle  border-b-2  hover:border-blue-600 ${isActive === 'home' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}  >
+                        <Link onClick={() =>handleButtonClick('home')} to="/student/dashboard" className={`block py-1 md:py-3 pl-1 align-middle  border-b-2  hover:border-blue-600 ${isActive === 'home' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}  >
                             <i className="mr-3 text-pink-600 fas fa-home fa-fw"></i><span className="pb-1 text-sm md:pb-0">Home</span>
                         </Link>
                     </li>
                     <li className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('Student')} to="students" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Student' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
+                        <Link onClick={() =>handleButtonClick('Student')} to="student/studentData" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Student' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fas fa-tasks fa-fw"></i><span className="pb-1 text-sm md:pb-0">Student</span>
                         </Link>
                     </li>
-                    <li className="my-2 mr-6 md:my-0">
+                    {/* <li className="my-2 mr-6 md:my-0">
                         <Link onClick={() =>handleButtonClick('Instructors')} to="instructors" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Instructors' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fa fa-envelope fa-fw"></i><span className="pb-1 text-sm md:pb-0">Instructors</span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li  className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('Courses')} to="courses" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Courses' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
+                        <Link onClick={() =>handleButtonClick('enrolled-courses')} to="courses" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Courses' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fas fa-chart-area fa-fw"></i><span className="pb-1 text-sm md:pb-0">Courses</span>
                         </Link>
                     </li>
-                    <li className="my-2 mr-6 md:my-0">
+                    {/* <li className="my-2 mr-6 md:my-0">
                         <Link onClick={() =>handleButtonClick('Completed course')} to="completed" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Completed course' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                          <i className="mr-3 fa fa-wallet fa-fw"></i><span className="pb-1 text-sm md:pb-0">Completed course</span>
                         </Link>
@@ -106,7 +116,7 @@ const SideBar = () => {
                         <Link onClick={() =>handleButtonClick('placeholder')} to="#" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'placeholder' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`} >                           
                         <i className="mr-3 fa fa-wallet fa-fw"></i><span className="pb-1 text-sm md:pb-0">placeholder</span>
                         </Link>
-                    </li>
+                    </li> */}
               
                 </ul>
 
@@ -128,22 +138,22 @@ const SideBar = () => {
                <div className="z-20 flex-grow hidden w-full mt-2 bg-white lg:flex lg:items-center lg:w-auto lg:mt-0" id="nav-content">
                 <ul className="items-center flex-1 px-4 list-reset lg:flex md:px-0">
                     <li className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('home')} to="/admin" className={`block py-1 md:py-3 pl-1 align-middle  border-b-2  hover:border-blue-600 ${isActive === 'home' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}  >
+                        <Link onClick={() =>handleButtonClick('home')} to="/student/dashboard" className={`block py-1 md:py-3 pl-1 align-middle  border-b-2  hover:border-blue-600 ${isActive === 'home' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}  >
                             <i className="mr-3 text-pink-600 fas fa-home fa-fw"></i><span className="pb-1 text-sm md:pb-0">Home</span>
                         </Link>
                     </li>
                     <li className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('Student')} to="students" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Student' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
+                        <Link onClick={() =>handleButtonClick('Student')} to="student/studentData" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Student' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fas fa-tasks fa-fw"></i><span className="pb-1 text-sm md:pb-0">Student</span>
                         </Link>
                     </li>
-                    <li className="my-2 mr-6 md:my-0">
+                    {/* <li className="my-2 mr-6 md:my-0">
                         <Link onClick={() =>handleButtonClick('Instructors')} to="instructors" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Instructors' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fa fa-envelope fa-fw"></i><span className="pb-1 text-sm md:pb-0">Instructors</span>
                         </Link>
-                    </li>
+                    </li> */}
                     <li  className="my-2 mr-6 md:my-0">
-                        <Link onClick={() =>handleButtonClick('Courses')} to="courses" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Courses' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
+                        <Link onClick={() =>handleButtonClick('Courses')} to="enrolled-courses" className={`block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600 ${isActive === 'Courses' ? 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600 ' : ''}`}>
                             <i className="mr-3 fas fa-chart-area fa-fw"></i><span className="pb-1 text-sm md:pb-0">Courses</span>
                         </Link>
                     </li>
@@ -203,4 +213,4 @@ const SideBar = () => {
   )
 }
 
-export default SideBar;
+export default StudentSideBar;
