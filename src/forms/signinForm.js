@@ -81,12 +81,13 @@ const Signin = (props) => {
 
           <form className="" onSubmit={handleSubmit}>
             <div className="mb-6 form-control">
-              <label className="text-xs font-semibold text-slate-800 dark:text-white">
+              <label className="text-xs font-semibold text-slate-800 dark:text-white" htmlFor="email">
                 Email
               </label>
               <input
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
+                id="email"
                 type="text"
                 name="email"
                 onChange={handleChange}

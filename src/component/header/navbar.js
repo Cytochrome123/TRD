@@ -22,7 +22,7 @@ const Navbarr = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (ref.current) {
+    // if (ref.current) {
       // const token = cookies.get("token");
       // console.log(token);
       // let decoded;
@@ -32,15 +32,15 @@ const Navbarr = () => {
 
         setAuthenticatedUser((prev) => ({
           ...prev,
-          authenticated: true,
+          authenticated: authenticatedUser.authenticated,
           firstName: authenticatedUser.firstName,
           lastName: authenticatedUser.lastName,
           role: authenticatedUser.userType,
         }));
       // }
-    }
+    // }
 
-    return () => (ref.current = false);
+    // return () => (ref.current = false);
   }, [authenticatedUser.authenticated]);
 
   const toggleMobileMenu = () => {

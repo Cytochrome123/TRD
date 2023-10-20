@@ -19,6 +19,7 @@ const StudentDashboard = () => {
         userType: '',
         courses: [],
     });
+    const [loading, setLoading] = useState(true)
 
 
     const navigate = useNavigate()
@@ -45,7 +46,8 @@ const StudentDashboard = () => {
                     phoneNumber: res.data.details.phoneNumber,
                     userType: res.data.details.userType,
                     courses: res.data.details.courses
-                }))
+                }));
+                setLoading(false)
             })
             .catch(err => {
                 console.log(err);
@@ -69,10 +71,11 @@ const StudentDashboard = () => {
 
                     {/* <!--Console Content--> */}
 
-                    <div className="flex flex-wrap-reverse justify-center">
-                        <MetricCard title="Enrolled courses" value={data.courses.length} />
-                        <MetricCard title="Active courses" value={data.courses.filter(course => course.progress == 'In-progress').length} />
-                        <MetricCard title="Completed courses" value={data.courses.filter(course => course.progress == 'Completed').length} />
+                    <div className="flex flex-wrap justify-center">
+                        <MetricCard title="Enrolled courses" value={loading ? '....' : data.courses.length} />
+                        <MetricCard title="Active courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'In-progress').length} />
+                        <MetricCard title="Upcoming courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'Not-started').length} />
+                        <MetricCard title="Completed courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'Completed').length} />
                         {/* <MetricCard title="active courses" value="50" />
                             <MetricCard title="no of instructor" value="5" />
                             <MetricCard title="total" value="5" /> */}
@@ -96,23 +99,23 @@ const StudentDashboard = () => {
                                             <thead>
                                                 <tr className="text-white bg-blue-500">
                                                     <th className="px-4 py-2">Course</th>
-                                                    <th className="px-4 py-2">Co-Instructor</th>
+                                                    <th className="px-4 py-2">Instructor</th>
                                                     <th className="px-4 py-2">Duration </th>
                                                     <th className="px-4 py-2">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
-                                                {courses.map(course => (
+                                                {data.courses.map(course => (
                                                     <tr key={course.id} className="hover:bg-gray-100 group">
-                                                        <td className="px-4 py-2">{course.course}</td>
-                                                        <td className="px-4 py-2">{course.coInstructor}</td>
-                                                        <td className="px-4 py-2">{course.duration}</td>
+                                                        <td className="px-4 py-2">{course.courseID.title}</td>
+                                                        <td className="px-4 py-2">{`${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}`}</td>
+                                                        <td className="px-4 py-2">{course.courseID.duration}</td>
                                                         <td className="px-4 py-2 ">
                                                             <div className='relative flex justify-between'>
-                                                                <Link to={`${course.id}`} className="h-8 text-blue-500 hover:underline">
+                                                                <span onClick={() => navigate(`/student/dashboard/enrolled-courses/${course.courseID._id}`)} className="h-8 text-blue-500 cursor-pointer hover:underline">
                                                                     View Profile
-                                                                </Link>
+                                                                </span>
                                                                 {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
                     <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
                     <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>

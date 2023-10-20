@@ -31,7 +31,7 @@ function DropdownMenuToggle({ children, menuId, buttonId }) {
             </button>
             <div
                 id={menuId}
-                className={`bg-white rounded shadow-md mt-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto ${isVisible ? '' : 'invisible'
+                className={`bg-white rounded shadow-md absolute mt-4 top-0 right-0 min-w-full overflow-auto ${isVisible ? '' : 'invisible'
                     }`}
             >
                 {isVisible && <ul className="list-reset">{children}</ul>}
