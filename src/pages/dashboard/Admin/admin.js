@@ -13,9 +13,9 @@ const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true)
-    
+
     const token = Cookies.get('token');
-    
+
     useEffect(() => {
         axios({
             method: 'get',
@@ -25,21 +25,26 @@ const AdminDashboard = () => {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then(res => {
-            console.log(res, 'users');
-            setUsers(res.data.users);
-        })
-        .catch(err => {
-            console.log(err);
+            .then(res => {
+                console.log(res, 'users');
+                setUsers(res.data.users);
+            })
+            .catch(err => {
+                console.log(err);
                 if (Array.isArray(err.response?.data.msg)) {
                     alert(err.response.data.msg[0].msg);
                 } else if (err.response) {
-                    alert(err.response.data.msg);
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                        alert(err.response.data.msg);
+                    } else {
+                        alert(err.response.data)
+                    }
                 } else {
                     // err.response?.data ? alert(err.response?.data) : alert(err.message)
                     alert(err.message)
                 }
-        })
+            })
     }, [])
 
     useEffect(() => {
@@ -50,24 +55,29 @@ const AdminDashboard = () => {
                 'Content-Type': 'application/json',
             }
         })
-        .then(res => {
-            console.log(res, 'courses');
-            setCourses(res.data.courses);
-            setLoading(false);
-        })
-        .catch(err => {
-            console.log(err);
+            .then(res => {
+                console.log(res, 'courses');
+                setCourses(res.data.courses);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
                 if (Array.isArray(err.response?.data.msg)) {
                     alert(err.response.data.msg[0].msg);
                 } else if (err.response) {
-                    alert(err.response.data.msg);
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                        alert(err.response.data.msg);
+                    } else {
+                        alert(err.response.data)
+                    }
                 } else {
                     // err.response?.data ? alert(err.response?.data) : alert(err.message)
                     alert(err.message)
                 }
-        })
+            })
     }, []);
-    
+
     // The donot chart data
     const [chartData, setChartData] = useState({
         options: {},
@@ -82,8 +92,8 @@ const AdminDashboard = () => {
         window.scroll(0, 0)
     }, [])
 
-const curs = courses.filter(item => item.enrolled.length > 0)
-console.log(curs, 'curs');
+    const curs = courses.filter(item => item.enrolled.length > 0)
+    console.log(curs, 'curs');
 
 
     const options = {
@@ -162,9 +172,9 @@ console.log(curs, 'curs');
         name: 'enrolled courses',
         data: [21, 7, 25, 13, 22, 8, 21, 7, 25, 13, 22, 18]
     }]
-// let total = users.reduce((acc, user) => user.count + acc, 0);
-    
-//     console.log(total);
+    // let total = users.reduce((acc, user) => user.count + acc, 0);
+
+    //     console.log(total);
 
     return (
         <>
@@ -176,54 +186,54 @@ console.log(curs, 'curs');
                     {/* <!--Console Content--> */}
 
                     <div className="flex flex-wrap">
-                        <MetricCard 
-                            title="total sign up"  
+                        <MetricCard
+                            title="total sign up"
                             value={
                                 loading ? '....' : users.reduce((acc, user) => user.count + acc, 0)
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="rergistered student" 
+                        <MetricCard
+                            title="rergistered student"
                             value={
                                 loading ? '....' : (users.find(item => item._id === 'student') || {}).count
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="no of instructor" 
+                        <MetricCard
+                            title="no of instructor"
                             value={
                                 loading ? '....' : (users.find(item => item._id === 'instructor') || {}).count
-                            } 
+                            }
                         />
                         <MetricCard title="No of courses" value={loading ? '....' : courses.length} />
-                        <MetricCard 
-                            title="enrolled courses" 
+                        <MetricCard
+                            title="enrolled courses"
                             value={
                                 loading ? '...' : (courses.filter(item => item.enrolled.length > 0)).length
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="Ongoing courses" 
+                        <MetricCard
+                            title="Ongoing courses"
                             value={
                                 loading ? '...' : (courses.filter(item => item.status === 'In progress')).length
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="Upcoming courses" 
+                        <MetricCard
+                            title="Upcoming courses"
                             value={
                                 loading ? '...' : (courses.filter(item => item.status === 'Upcoming')).length
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="Completed courses" 
+                        <MetricCard
+                            title="Completed courses"
                             value={
                                 loading ? '...' : (courses.filter(item => item.status === 'Completed')).length
-                            } 
+                            }
                         />
-                        <MetricCard 
-                            title="No of Admin" 
+                        <MetricCard
+                            title="No of Admin"
                             value={
                                 loading ? '....' : (users.find(item => item._id === 'admin') || {}).count
-                            } 
+                            }
                         />
                     </div>
 

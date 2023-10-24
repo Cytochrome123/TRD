@@ -46,14 +46,19 @@ function StudentProfile() {
       })
       .catch((err) => {
         console.log(err.message);
-        if(Array.isArray(err.response?.data.msg)){
-            alert(err.response.data.msg[0].msg);
-          } else if (err.response) {
+        if (Array.isArray(err.response?.data.msg)) {
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
             alert(err.response.data.msg);
           } else {
-            // err.response?.data ? alert(err.response?.data) : alert(err.message)
-            alert(err.message)
+            alert(err.response.data)
           }
+        } else {
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
+        }
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
 

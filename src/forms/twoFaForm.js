@@ -39,27 +39,32 @@ const TwoFAForm = (props) => {
         alert(res.data.msg);
 
         cookies.remove("temp");
-        cookies.set("token", res.data.newAccessToken);
+        const token = cookies.set("token", res.data.newAccessToken);
 
         if (res.data.user.userType === "admin") {
           navigate("/admin/dashboard");
-          handleAuth();
+          handleAuth(token);
         } else if (res.data.user.userType === "instructor") {
           navigate("/instructor/dashboard");
-          handleAuth();
+          handleAuth(token);
         } else if (res.data.user.userType === "student") {
           navigate("/student/dashboard");
-          handleAuth();
+          handleAuth(token);
         } else {
           navigate("/courses");
         }
       })
       .catch((err) => {
         console.log(err);
-        if(Array.isArray(err.response?.data.msg)){
+        if (Array.isArray(err.response?.data.msg)) {
           alert(err.response.data.msg[0].msg);
         } else if (err.response) {
-          alert(err.response.data.msg);
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            alert(err.response.data.msg);
+          } else {
+            alert(err.response.data)
+          }
         } else {
           // err.response?.data ? alert(err.response?.data) : alert(err.message)
           alert(err.message)

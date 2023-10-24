@@ -85,11 +85,11 @@ const Contact = () => {
         url: 'http://localhost:5001/api/message',
         data: formData,
         headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${'token'}`
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${'token'}`
         }
       })
-      if(!res) return alert('Error submitting form')
+      if (!res) return alert('Error submitting form')
       alert(res.data.msg)
       // Reset form fields
       setFormData({
@@ -100,10 +100,15 @@ const Contact = () => {
       });
     } catch (err) {
       console.log(err);
-      if(Array.isArray(err.response?.data.msg)){
+      if (Array.isArray(err.response?.data.msg)) {
         alert(err.response.data.msg[0].msg);
       } else if (err.response) {
-        alert(err.response.data.msg);
+        // This can happen when the required headers or options to access the endpoint r not provided
+        if (err.response.data.msg) {
+          alert(err.response.data.msg);
+        } else {
+          alert(err.response.data)
+        }
       } else {
         // err.response?.data ? alert(err.response?.data) : alert(err.message)
         alert(err.message)
@@ -221,20 +226,18 @@ const Contact = () => {
             >
               <div className="flex items-center justify-between w-full">
                 <h4
-                  className={`w-2/3 text-xs md:text-base font-medium ${
-                    expandedQuestion === index
+                  className={`w-2/3 text-xs md:text-base font-medium ${expandedQuestion === index
                       ? "text-blue-600"
                       : "text-slate-800"
-                  }`}
+                    }`}
                 >
                   {faq.question}
                 </h4>
                 <span
-                  className={`transition duration-300 transform ${
-                    expandedQuestion === index
+                  className={`transition duration-300 transform ${expandedQuestion === index
                       ? "rotate-0 text-blue-600"
                       : "rotate-180 text-slate-400"
-                  }`}
+                    }`}
                 >
                   <PiCaretCircleUpLight className="md:text-3xl" />
                 </span>

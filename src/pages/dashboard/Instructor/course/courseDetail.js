@@ -68,7 +68,7 @@ const CourseDetail = () => {
                     location: res.data.course.location,
                     capacity: res.data.course.capacity,
                     amount: res.data.course.amount,
-                    // image: `https://trd-server.onrender.com/api/file/${res.data.course.image.path}`,
+                    // image: `https://trd-server.onrender.com/api/file/${res.data.course.image?.path}`,
                 }))
                 // console.log("url", url)
                 // const studentData = res.data.students
@@ -79,12 +79,17 @@ const CourseDetail = () => {
                 console.log(err.message);
                 if (Array.isArray(err.response?.data.msg)) {
                     alert(err.response.data.msg[0].msg);
-                } else if (err.response) {
-                    alert(err.response.data.msg);
-                } else {
+                  } else if (err.response) {
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                      alert(err.response.data.msg);
+                    } else {
+                      alert(err.response.data)
+                    }
+                  } else {
                     // err.response?.data ? alert(err.response?.data) : alert(err.message)
                     alert(err.message)
-                }
+                  }
                 // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
             });
 
@@ -141,12 +146,17 @@ const CourseDetail = () => {
                 console.log(err);
                 if (Array.isArray(err.response?.data.msg)) {
                     alert(err.response.data.msg[0].msg);
-                } else if (err.response) {
-                    alert(err.response.data.msg);
-                } else {
+                  } else if (err.response) {
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                      alert(err.response.data.msg);
+                    } else {
+                      alert(err.response.data)
+                    }
+                  } else {
                     // err.response?.data ? alert(err.response?.data) : alert(err.message)
                     alert(err.message)
-                }
+                  }
                 // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
             });
     }

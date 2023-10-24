@@ -35,7 +35,7 @@ function CourseDetails(props) {
   const handleRegister = async (id) => {
     try {
       const token = cookies.get('token');
-      if(!token) {
+      if (!token) {
         alert('You need to login to register for this course');
         return navigate(`/signin`);
       }
@@ -49,27 +49,32 @@ function CourseDetails(props) {
           Authorization: `Bearer ${token}`
         },
       })
-      if(!register) return alert('Registrtion failed')
+      if (!register) return alert('Registrtion failed')
       return alert('Registration sucessfull!!!')
     } catch (err) {
       console.log(err);
       // console.log(instanceof err)
-      if(Array.isArray(err.response?.data.msg)){
+      if (Array.isArray(err.response?.data.msg)) {
         alert(err.response.data.msg[0].msg);
       } else if (err.response) {
-        alert(err.response.data.msg);
+        // This can happen when the required headers or options to access the endpoint r not provided
+        if (err.response.data.msg) {
+          alert(err.response.data.msg);
+        } else {
+          alert(err.response.data)
+        }
       } else {
         // err.response?.data ? alert(err.response?.data) : alert(err.message)
         alert(err.message)
       }
-                // if (err && err instanceof Error && !AxiosError) {
-                //     alert(err.response?.data.msg);
-                // } else if (err && err instanceof AxiosError) {
-                //     // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                //     alert(err.message)
-                // } else {
-                //     alert('Error')
-                // }
+      // if (err && err instanceof Error && !AxiosError) {
+      //     alert(err.response?.data.msg);
+      // } else if (err && err instanceof AxiosError) {
+      //     // err.response?.data ? alert(err.response?.data) : alert(err.message)
+      //     alert(err.message)
+      // } else {
+      //     alert('Error')
+      // }
     }
   }
   return (

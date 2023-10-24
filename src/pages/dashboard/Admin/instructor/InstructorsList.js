@@ -197,10 +197,15 @@ const InstructorsList = () => {
       })
       .catch((err) => {
         console.log(err);
-        if(Array.isArray(err.response?.data.msg)){
+        if (Array.isArray(err.response?.data.msg)) {
           alert(err.response.data.msg[0].msg);
         } else if (err.response) {
-          alert(err.response.data.msg);
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            alert(err.response.data.msg);
+          } else {
+            alert(err.response.data)
+          }
         } else {
           // err.response?.data ? alert(err.response?.data) : alert(err.message)
           alert(err.message)
@@ -252,7 +257,7 @@ const InstructorsList = () => {
                 instructors.map((instructor, index) => (
                   <tr key={index} className="hover:bg-gray-100 group">
                     <td className="px-4 py-2">
-                      {/* <img src={`https://trd-server.onrender.com/api/file/${instructor.image.path}`} alt={instructor.name} className="w-10 h-10 rounded-full" /> */}
+                      {/* <img src={`https://trd-server.onrender.com/api/file/${instructor.image?.path}`} alt={instructor.name} className="w-10 h-10 rounded-full" /> */}
                       <img src={`${instructor.imageUrl}${instructor.id}`} alt={instructor.name} className="w-10 h-10 rounded-full" />
                     </td>
                     <td className="px-4 py-2">{instructor.firstName} {instructor.lastName}</td>
