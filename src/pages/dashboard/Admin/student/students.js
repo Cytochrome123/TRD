@@ -176,7 +176,7 @@ const Students = () => {
               students.map((student, index) => (
                 <tr key={index} className="hover:bg-gray-100 group">
                   <td className="px-4 py-2">
-                    <img src={`https://trd-server.onrender.com/api/file/${student.image.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
+                    <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
                   </td>
                   <td className="px-4 py-2">{student.firstName} {student.lastName}</td>

@@ -11,6 +11,7 @@ function StudentProfile() {
     lastName: '',
     email: '',
     phoneNumber: '',
+    image: null,
   })
 
   const { id } = useParams()
@@ -37,6 +38,7 @@ function StudentProfile() {
           lastName: res.data.student.lastName,
           email: res.data.student.email,
           phoneNumber: res.data.student.phoneNumber,
+          image: `https://trd-server.onrender.com/api/file/${res.data.student.image.path}`,
         }))
         // console.log("url", url)
         // const studentData = res.data.students
@@ -69,7 +71,7 @@ function StudentProfile() {
           <div className="flex flex-col items-center md:flex-row">
             <div className="md:mr-6">
               <img
-                src="https://via.placeholder.com/150"
+                src={student.image}
                 alt="Profile"
                 className="w-32 h-32 mx-auto rounded-full"
               />
