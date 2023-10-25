@@ -33,16 +33,13 @@ import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDeta
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
-<<<<<<< HEAD
 import StudentSideBar from './component/header/student/StudentSideBar';
 import Dashboard from './pages/dashboard/Student/dashboard';
 import DashboardCont from './pages/dashboard/Instructor/dashboardCont';
 import ContDashboard from './pages/dashboard/Admin/contDashboard';
-=======
 import RequireAuth from './component/RequireAuth';
 import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
->>>>>>> origin
 
 export const AuthContext = createContext();
 
@@ -120,7 +117,6 @@ console.log(authenticatedUser, 'auth');
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
-<<<<<<< HEAD
             <Route path='/admin/dashboard' element={<ContDashboard />} >
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
@@ -150,7 +146,6 @@ console.log(authenticatedUser, 'auth');
               <Route path='course/:id' element={<CourseDetail />} />
             </Route>
             {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
-=======
           <Route element={<RequireAuth allowedRoles={[ 'admin']} />}>
             <Route path='/admin/dashboard' element={<AdminDashboard />} />
             <Route path='/admin/dashboard/courses' element={<ListCourses />} />
@@ -182,7 +177,6 @@ console.log(authenticatedUser, 'auth');
             
             
             {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
->>>>>>> origin
           {/* </Route> */}
           <Route>
             {/* <Route path='/dashboard/admin' element={<AdminDashboard />} /> */}
@@ -207,12 +201,7 @@ const Root = () => {
   return (
     <div className=''>
       <Navbarr />
-<<<<<<< HEAD
-      <div className='container h-screen mx-auto'>
-        {/* <SideBar /> */}
-=======
       <div className='container mx-auto'>
->>>>>>> origin
         <Outlet />
       </div>
       <Footer />
