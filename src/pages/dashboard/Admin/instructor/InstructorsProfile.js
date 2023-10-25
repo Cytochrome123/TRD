@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import SideBar from "../../../../component/SideBar";
 
 function InstructorsProfile() {
   // const { instructor, setinstructor } = useContext(AuthContext);
@@ -63,14 +64,18 @@ function InstructorsProfile() {
       })
       .catch((err) => {
         console.log(err.message);
-        if (err && err instanceof Error) {
-          // alert(err.response?.err.message);
-          alert(`${err.message} `)
-          console.log("www", err.response);
-        } else if (err && err instanceof AxiosError) {
-          alert(err.message)
+        if (Array.isArray(err.response?.data.msg)) {
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            alert(err.response.data.msg);
+          } else {
+            alert(err.response.data)
+          }
         } else {
-          alert('Error')
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
@@ -84,8 +89,8 @@ function InstructorsProfile() {
 
   return (
     <div>
-
-      <div className="flex flex-col items-center min-h-screen p-6 bg-white">
+      <SideBar />
+      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-white">
         <button>Remove Student</button>
         {instructor && (
           <div className="w-full p-8 bg-gray-100 rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">

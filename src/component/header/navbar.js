@@ -9,7 +9,7 @@ import LOGO from "../../images/logo.png";
 import { AuthContext } from "../../App";
 
 const Navbarr = () => {
-  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
+  const { authenticatedUser, setAuthenticatedUser, handleAuth } = useContext(AuthContext);
   // const [authenticatedUser, setAuthenticatedUser] = useState({
   //   authenticated: false,
   //   firstName: "",
@@ -20,28 +20,7 @@ const Navbarr = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ref = useRef(true);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (ref.current) {
-      // const token = cookies.get("token");
-      // console.log(token);
-      // let decoded;
-      // if (token) {
-      //   decoded = jwtDecode(token);
-      //   console.log(decoded);
-
-        setAuthenticatedUser((prev) => ({
-          ...prev,
-          authenticated: true,
-          firstName: authenticatedUser.firstName,
-          lastName: authenticatedUser.lastName,
-          role: authenticatedUser.userType,
-        }));
-      // }
-    }
-
-    return () => (ref.current = false);
-  }, [authenticatedUser.authenticated]);
+console.log(authenticatedUser, 'navbar');
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);

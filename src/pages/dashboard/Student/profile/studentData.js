@@ -6,6 +6,7 @@ import cookies from "js-cookie";
 import { BASEURL } from "../../../../App";
 // import course_img from "../../../images/trd_img.png";
 import { useNavigate } from "react-router-dom";
+import SideBar from "../../../../component/SideBar";
 // import MetricCard from "../../../component/MetricCard";
 
 const StudentData = () => {
@@ -48,20 +49,26 @@ const StudentData = () => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error && !AxiosError) {
-          alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message);
+        if (Array.isArray(err.response?.data.msg)) {
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            alert(err.response.data.msg);
+          } else {
+            alert(err.response.data)
+          }
         } else {
-          alert("Error");
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
       });
   }, []);
 
   return (
     <div>
-      <div className="flex flex-col items-center min-h-screen p-6 bg-gray-100">
+      <SideBar />
+      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-gray-100">
         {data && (
           <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
             <div className="flex flex-col items-center md:flex-row">

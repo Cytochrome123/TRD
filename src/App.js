@@ -30,14 +30,19 @@ import InstructorStudentProfile from './pages/dashboard/Instructor/student/stude
 import AssignedCourses from './pages/dashboard/Instructor/course/assignedCourses';
 import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDetail';
 // import Home from './components/home';
-import SideBar from './component/SideBar';
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
+<<<<<<< HEAD
 import StudentSideBar from './component/header/student/StudentSideBar';
 import Dashboard from './pages/dashboard/Student/dashboard';
 import DashboardCont from './pages/dashboard/Instructor/dashboardCont';
 import ContDashboard from './pages/dashboard/Admin/contDashboard';
+=======
+import RequireAuth from './component/RequireAuth';
+import Unauthorized from './pages/unauthorized';
+import PageNotFound from './pages/pagenotfound';
+>>>>>>> origin
 
 export const AuthContext = createContext();
 
@@ -45,22 +50,27 @@ export const AuthContext = createContext();
 export const BASEURL = 'https://trd-server.onrender.com/api'
 
 function App() {
+  
+  const token = cookies.get('token');
+  let decoded;
+  if (token) decoded = jwtDecode(token);
+  console.log(decoded)
+
 
   const [authenticatedUser, setAuthenticatedUser] = useState({
-    authenticated: false,
-    firstName: '',
-    lastName: '',
-    courses: [],
-    role: '',
-    token: ''
+    authenticated: decoded ? true : false,
+    firstName: decoded ? decoded.firstName : '' ,
+    lastName: decoded ? decoded.lastName : '' ,
+    courses: decoded ? decoded.courses : [],
+    role: decoded ? decoded.userType : '',
+    token: decoded ? decoded.token : ''
   })
-
-  const handleAuth = () => {
-    const token = cookies.get('token')
+console.log(authenticatedUser, 'auth');
+  const handleAuth = (token) => {
     if (token) {
-      const decoded = jwtDecode(token);
-      console.log(decoded)
+      decoded = jwtDecode(token);
       setAuthenticatedUser(prev => ({
+        ...prev,
         authenticated: true,
         firstName: decoded.firstName,
         lastName: decoded.lastName,
@@ -68,12 +78,14 @@ function App() {
         role: decoded.userType,
         token
       }))
+    } else {
+      console.log('Not logged in');
     }
   }
 
-  useEffect(() => {
-    handleAuth()
-  }, [])
+  // useEffect(() => {
+  //   handleAuth()
+  // })
 
   // const [alert, setAlert] = useState({
   //   show: false,
@@ -108,6 +120,7 @@ function App() {
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
+<<<<<<< HEAD
             <Route path='/admin/dashboard' element={<ContDashboard />} >
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
@@ -137,12 +150,47 @@ function App() {
               <Route path='course/:id' element={<CourseDetail />} />
             </Route>
             {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+=======
+          <Route element={<RequireAuth allowedRoles={[ 'admin']} />}>
+            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route path='/admin/dashboard/courses' element={<ListCourses />} />
+            <Route path="/admin/dashboard/courses/:id" element={<CourseDetails />} />
+            <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
+            <Route path='/admin/dashboard/instructors/:id' element={<InstructorsProfile/>} />
+            <Route path='/admin/dashboard/students' element={<Students />} />
+            <Route path='/admin/dashboard/students/:id' element={<AdminStudentProfile/>} />
+          </Route>
+
+          {/* INSTRUCTOR */}
+          <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}>
+            <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
+            <Route path='/instructor/dashboard/assigned-courses' element={<AssignedCourses />} />
+            <Route path='/instructor/dashboard/assigned-course/:id' element={<AssignedCourseDetail />} />
+            <Route path='/instructor/dashboard/assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
+          </Route>
+          
+          {/* <Route element={<StudentRoutes />}> */}
+          <Route element={<RequireAuth allowedRoles={[ 'student']} />}>
+            <Route path='/student/dashboard' element={<StudentDashboard />} />
+            <Route path='/student/dashboard/enrolled-courses' element={<EnrolledCourses/>} />
+            <Route path='/student/dashboard/enrolled-courses/:id' element={<IndividualCourse/>} />
+          </Route>
+            
+            {/* <Route path='/student/studentData' element={<StudentData />} />
+            <Route path='/student/:id' element={<StudentDetail />} />
+            <Route path='/course/:id' element={<CourseDetail />} /> */}
+            
+            
+            {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+>>>>>>> origin
           {/* </Route> */}
           <Route>
             {/* <Route path='/dashboard/admin' element={<AdminDashboard />} /> */}
             {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
             <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
           </Route>
+          <Route path='/unauthorized' element={<Unauthorized />} />
+          <Route path='*' element={<PageNotFound />} />
         </Route>
       </Route>
     )
@@ -159,8 +207,12 @@ const Root = () => {
   return (
     <div className=''>
       <Navbarr />
+<<<<<<< HEAD
       <div className='container h-screen mx-auto'>
         {/* <SideBar /> */}
+=======
+      <div className='container mx-auto'>
+>>>>>>> origin
         <Outlet />
       </div>
       <Footer />

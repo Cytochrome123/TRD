@@ -3,6 +3,42 @@ import { Link } from 'react-router-dom'
 // import {  } from "react-router-dom";
 
 
+function DropdownMenuToggle({ children, menuId, buttonId }) {
+    const [isVisible, setIsVisible] = useState(true);
+
+    const handleToggle = () => {
+        setIsVisible(!isVisible);
+    };
+
+    const handleClickOutside = (e) => {
+        if (!document.getElementById(menuId).contains(e.target) && !document.getElementById(buttonId).contains(e.target)) {
+            setIsVisible(false);
+        }
+    };
+
+    React.useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    return (
+        <div className="relative inline-block float-right">
+            <button id={buttonId} className="flex items-center mr-3 focus:outline-none" onClick={handleToggle}>
+                {children}
+                <h2>hello</h2>
+            </button>
+            <div
+                id={menuId}
+                className={`bg-white rounded shadow-md absolute mt-4 top-0 right-0 min-w-full overflow-auto ${isVisible ? '' : 'invisible'
+                    }`}
+            >
+                {isVisible && <ul className="list-reset">{children}</ul>}
+            </div>
+        </div>
+    );
+}
 
 
 

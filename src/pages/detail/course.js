@@ -38,14 +38,14 @@ const CourseDetail = () => {
                 // }))
             } catch (err) {
                 console.log(err);
-                if (err && err instanceof Error && !AxiosError) {
-                    alert(err.response?.data.msg);
-                } else if (err && err instanceof AxiosError) {
+                if(Array.isArray(err.response?.data.msg)){
+                    alert(err.response.data.msg[0].msg);
+                  } else if (err.response) {
+                    alert(err.response.data.msg);
+                  } else {
                     // err.response?.data ? alert(err.response?.data) : alert(err.message)
                     alert(err.message)
-                } else {
-                    alert('Error')
-                }
+                  }
                 return err;
             }
 

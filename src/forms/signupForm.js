@@ -14,7 +14,7 @@ const Signup = (props) => {
     password: "",
     confirmPassword: "",
     phoneNumber: "",
-    image: null, 
+    image: null,
   });
   const [error, setError] = useState("");
 
@@ -88,12 +88,18 @@ const Signup = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err && err instanceof Error && !AxiosError) {
-          alert(err.response?.data.msg);
-        } else if (err && err instanceof AxiosError) {
-          alert(err.message);
+        if (Array.isArray(err.response?.data.msg)) {
+          alert(err.response.data.msg[0].msg);
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            alert(err.response.data.msg);
+          } else {
+            alert(err.response.data)
+          }
         } else {
-          alert("Error");
+          // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          alert(err.message)
         }
         // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
@@ -103,7 +109,7 @@ const Signup = (props) => {
     <div className="flex flex-col h-screen my-10">
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
-          <div className="mb-8 text-xl font-semibold text-center text-blue-600  lg:justify-center">
+          <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
             Sign up to our platform
           </div>
 
@@ -173,7 +179,7 @@ const Signup = (props) => {
                 onChange={handleChange}
                 // setConfirmPassword(value)
                 value={formData.confirmPassword}
-                // value={}
+              // value={}
               />
             </div>
 
@@ -192,24 +198,24 @@ const Signup = (props) => {
             </div>
 
             <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
-            File
-          </label>
-          <input
-          
-            className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
-            type="file"
-            id="image"
-            name="image"
-            // value={Course.image}
-            accept='image/*'
-            onChange={onFileChange}
-            placeholder="Upload img"
-            required
+              <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
+                File
+              </label>
+              <input
 
-          />
-          
-        </div>
+                className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+                type="file"
+                id="image"
+                name="image"
+                // value={Course.image}
+                accept='image/*'
+                onChange={onFileChange}
+                placeholder="Upload img"
+                // required
+
+              />
+
+            </div>
             {/* <br/> */}
             <button
               type="submit"

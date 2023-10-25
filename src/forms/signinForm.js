@@ -57,12 +57,18 @@ const Signin = (props) => {
     })
     .catch((err) => {
       console.log(err);
-      if(err && err instanceof Error) {
-        alert(err.response?.data.msg);
-      } else if(err && err instanceof AxiosError) {
-        alert(err.message)
+      if (Array.isArray(err.response?.data.msg)) {
+        alert(err.response.data.msg[0].msg);
+      } else if (err.response) {
+        // This can happen when the required headers or options to access the endpoint r not provided
+        if (err.response.data.msg) {
+          alert(err.response.data.msg);
+        } else {
+          alert(err.response.data)
+        }
       } else {
-          alert('Error')
+        // err.response?.data ? alert(err.response?.data) : alert(err.message)
+        alert(err.message)
       }
       // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
     });
@@ -80,12 +86,13 @@ const Signin = (props) => {
 
           <form className="" onSubmit={handleSubmit}>
             <div className="mb-6 form-control">
-              <label className="text-xs font-semibold text-slate-800 dark:text-white">
+              <label className="text-xs font-semibold text-slate-800 dark:text-white" htmlFor="email">
                 Email
               </label>
               <input
                 className="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg w-full p-2.5 focus:outline-blue-500"
                 required
+                id="email"
                 type="text"
                 name="email"
                 onChange={handleChange}
