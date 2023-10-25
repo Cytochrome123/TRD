@@ -6,11 +6,15 @@ import { AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import ModelContainer from "../../../../component/ModelContainer";
+import AssignInstructors from "../../../../forms/AssignInstructors";
 
 
 
 const CourseDetails = () => {
   // const { courses, setCourses } = useContext(AuthContext);
+  const [showAddPop, setShowAddPop] = useState(false);
+
   const [course, setCourse] = useState({
     title: '',
     description: '',
@@ -33,11 +37,15 @@ const CourseDetails = () => {
   console.log("params", params);
 
 
+
+
   // const clickedCourse = courses.find(
   //   (eachCourse) => eachCourse._id === (id)
   //   // (eachCourse) => eachCourse.id == (id)
   //   );
-
+  const handleOnClose = () => {
+    setShowAddPop(false);
+  };
 
 
   // test data fetch start
@@ -152,15 +160,31 @@ const CourseDetails = () => {
           </div>
           <div className="md:w-2/3">
             <div className="flex items-center m-2 md:justify-between">
+
+              {/* back button start */}
               <button
                 onClick={() => navigate(-1)}
-                className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
-              >
+                className="px-4 py-2 me-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                >
                 Back
               </button>
-              <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
-                Go back to the previous page
-              </div>
+              {/* back button end */}
+
+                {/* assign button start */}
+                <div className="relative group">
+
+          <button
+            onClick={() => setShowAddPop(true)}
+            className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+          >
+            Assign Instructor
+          </button>
+          <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
+            You can  Assign Instructor
+          </div>
+
+        </div>
+                {/* assign button end */}
             </div>
             <h2 className="mb-2 text-2xl font-semibold text-blue-600">
               {course.title}
@@ -227,6 +251,12 @@ const CourseDetails = () => {
                 </tbody>
             </table>
             {/* </div> */}
+            <ModelContainer onClose={handleOnClose} visible={showAddPop}>
+        <AssignInstructors
+        //  onData={handleAddStudent}
+         onClose={handleOnClose}
+          />
+      </ModelContainer>
     </div>
   )
 }
