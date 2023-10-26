@@ -216,7 +216,7 @@ const InstructorsList = () => {
 
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className='justify-center max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow flex-colume justify-self-center' >
 
 

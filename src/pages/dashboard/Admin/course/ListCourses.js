@@ -79,7 +79,7 @@ const ListCourses = () => {
   }, [])
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="flex-col justify-center h-screen max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow justify-self-center">
         {/* button start */}
         <div className="flex justify-end m-2 ">

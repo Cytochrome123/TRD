@@ -1,11 +1,11 @@
 import React from 'react'
-import SideBar from '../../../component/header/admin/navbar'
+import Navbar from '../../../component/header/admin/navbar'
 import { Outlet } from 'react-router-dom'
 
 const ContDashboard = () => {
   return (
     <div>
-        < SideBar/>
+        < Navbar/>
 
         <div className='mt-16'>
             < Outlet/>

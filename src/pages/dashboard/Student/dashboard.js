@@ -1,11 +1,11 @@
 import React from 'react'
-import SideBar from '../../../component/header/student/StudentSideBar'
+import Navbar from '../../../component/header/student/StudentNavbar'
 import { Outlet } from 'react-router-dom'
 
 const Dashboard = () => {
   return (
     <div>
-        < SideBar/>
+        < Navbar/>
         <div>< Outlet/></div>
         {/* <Outlet/> */}
     </div>

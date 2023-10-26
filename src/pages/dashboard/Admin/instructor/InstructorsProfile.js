@@ -89,7 +89,7 @@ function InstructorsProfile() {
 
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-white">
         <button>Remove Student</button>
         {instructor && (

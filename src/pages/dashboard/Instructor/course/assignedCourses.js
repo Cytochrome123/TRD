@@ -19,7 +19,7 @@ import CourseDetails from "../../../../component/CourseDetails";
 
 import Cookies from "js-cookie";
 import { BASEURL } from "../../../../App";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
 
 const AssignedCourses = () => {
     
@@ -128,7 +128,7 @@ const AssignedCourses = () => {
 
   return (
     <div>
-        <SideBar />
+        {/* <SideBar /> */}
         <div className="px-4 py-4 pb-20 my-32 md:px-8 lg:px-16 xl:px-20">
 
           <h2 className="mt-6 text-xl font-bold md:text-4xl md:mt-10">

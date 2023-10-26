@@ -6,7 +6,7 @@ import cookies from "js-cookie";
 import { BASEURL } from "../../../../App";
 // import course_img from "../../../images/trd_img.png";
 import { useNavigate } from "react-router-dom";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
 // import MetricCard from "../../../component/MetricCard";
 
 const StudentData = () => {
@@ -67,7 +67,7 @@ const StudentData = () => {
 
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-gray-100">
         {data && (
           <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">

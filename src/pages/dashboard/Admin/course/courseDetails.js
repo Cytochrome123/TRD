@@ -6,7 +6,7 @@ import { AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
 
@@ -158,7 +158,7 @@ const CourseDetails = () => {
 
   return (
     <div className="h-screen">
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="p-4 my-32 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-center md:flex-row">
           <div className="md:w-1/3 md:pr-4">

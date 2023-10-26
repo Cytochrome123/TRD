@@ -8,7 +8,7 @@ import axios, { AxiosError } from "axios";
 import AddCourseForm from '../../../../forms/addCourseForm';
 import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
-import SideBar from '../../../../component/SideBar';
+// import SideBar from '../../../../component/SideBar';
 
 
 
@@ -86,7 +86,7 @@ const EnrolledCourses = () => {
   }, [])
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="justify-center h-screen max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow flex-colume justify-self-center">
         {/* button start */}
         <div className="flex justify-end m-2 ">

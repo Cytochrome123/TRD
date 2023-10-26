@@ -9,7 +9,7 @@ import { Link, Outlet } from 'react-router-dom'
 
 
 
-const StudentSideBar = () => {
+const StudentNavbar = () => {
     const [isActive, setIsActive] = useState('home')
 
 
@@ -213,4 +213,4 @@ const StudentSideBar = () => {
   )
 }
 
-export default StudentSideBar;
+export default StudentNavbar;

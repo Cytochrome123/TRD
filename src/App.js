@@ -33,7 +33,7 @@ import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDeta
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
-import StudentSideBar from './component/header/student/StudentSideBar';
+import StudentSideBar from './component/header/student/StudentNavbar';
 import Dashboard from './pages/dashboard/Student/dashboard';
 import DashboardCont from './pages/dashboard/Instructor/dashboardCont';
 import ContDashboard from './pages/dashboard/Admin/contDashboard';
@@ -117,7 +117,39 @@ console.log(authenticatedUser, 'auth');
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
-            <Route path='/admin/dashboard' element={<ContDashboard />} >
+            {/* <Route path='/admin/dashboard' element={<ContDashboard />} >
+              <Route path='' element={<AdminDashboard />} />
+              <Route path='courses' element={<ListCourses />} />
+              <Route path="courses/:id" element={<CourseDetails />} />
+              <Route path='instructors' element={<InstructorsList />} />
+              <Route path='instructors/:id' element={<InstructorsProfile/>} />
+              <Route path='students' element={<Students />} />
+              <Route path='students/:id' element={<AdminStudentProfile/>} />
+            </Route> */}
+
+          {/* INSTRUCTOR */}
+            {/* <Route path='/instructor/dashboard/*' element={<DashboardCont />} >
+              <Route path='' element={<InstructorDashboard />} />
+              <Route path='assigned-courses' element={<AssignedCourses />} />
+              <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
+              <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
+            </Route> */}
+
+          {/* <Route element={<StudentRoutes />}> */}
+            {/* <Route path='/student/dashboard/*' element= {<Dashboard/>}>
+              <Route path='' element={<StudentDashboard/>} />
+              <Route path='enrolled-courses' element={<EnrolledCourses/>} />
+              <Route path='enrolled-courses/:id' element={<IndividualCourse/>} />
+              <Route path='student/studentData' element={<StudentData />} />
+              <Route path='student/:id' element={<StudentDetail />} />
+              <Route path='course/:id' element={<CourseDetail />} />
+            </Route> */}
+            {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+
+
+            
+          <Route element={<RequireAuth allowedRoles={[ 'admin']} />}>
+          <Route path='/admin/dashboard' element={<ContDashboard />} >
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
               <Route path="courses/:id" element={<CourseDetails />} />
@@ -126,18 +158,21 @@ console.log(authenticatedUser, 'auth');
               <Route path='students' element={<Students />} />
               <Route path='students/:id' element={<AdminStudentProfile/>} />
             </Route>
+          </Route>
 
           {/* INSTRUCTOR */}
+          <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}>
             <Route path='/instructor/dashboard/*' element={<DashboardCont />} >
               <Route path='' element={<InstructorDashboard />} />
               <Route path='assigned-courses' element={<AssignedCourses />} />
               <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
               <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
             </Route>
-
+          </Route>
+          
           {/* <Route element={<StudentRoutes />}> */}
+          <Route element={<RequireAuth allowedRoles={[ 'student']} />}>
             <Route path='/student/dashboard/*' element= {<Dashboard/>}>
-              {/* <Route path='' element={<StudentDashboard />} /> */}
               <Route path='' element={<StudentDashboard/>} />
               <Route path='enrolled-courses' element={<EnrolledCourses/>} />
               <Route path='enrolled-courses/:id' element={<IndividualCourse/>} />
@@ -145,30 +180,6 @@ console.log(authenticatedUser, 'auth');
               <Route path='student/:id' element={<StudentDetail />} />
               <Route path='course/:id' element={<CourseDetail />} />
             </Route>
-            {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
-          <Route element={<RequireAuth allowedRoles={[ 'admin']} />}>
-            <Route path='/admin/dashboard' element={<AdminDashboard />} />
-            <Route path='/admin/dashboard/courses' element={<ListCourses />} />
-            <Route path="/admin/dashboard/courses/:id" element={<CourseDetails />} />
-            <Route path='/admin/dashboard/instructors' element={<InstructorsList />} />
-            <Route path='/admin/dashboard/instructors/:id' element={<InstructorsProfile/>} />
-            <Route path='/admin/dashboard/students' element={<Students />} />
-            <Route path='/admin/dashboard/students/:id' element={<AdminStudentProfile/>} />
-          </Route>
-
-          {/* INSTRUCTOR */}
-          <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}>
-            <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
-            <Route path='/instructor/dashboard/assigned-courses' element={<AssignedCourses />} />
-            <Route path='/instructor/dashboard/assigned-course/:id' element={<AssignedCourseDetail />} />
-            <Route path='/instructor/dashboard/assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
-          </Route>
-          
-          {/* <Route element={<StudentRoutes />}> */}
-          <Route element={<RequireAuth allowedRoles={[ 'student']} />}>
-            <Route path='/student/dashboard' element={<StudentDashboard />} />
-            <Route path='/student/dashboard/enrolled-courses' element={<EnrolledCourses/>} />
-            <Route path='/student/dashboard/enrolled-courses/:id' element={<IndividualCourse/>} />
           </Route>
             
             {/* <Route path='/student/studentData' element={<StudentData />} />
