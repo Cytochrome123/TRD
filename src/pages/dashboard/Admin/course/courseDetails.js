@@ -6,12 +6,16 @@ import { AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
+import ModelContainer from "../../../../component/ModelContainer";
+import AssignInstructors from "../../../../forms/AssignInstructors";
 
 
 
 const CourseDetails = () => {
   // const { courses, setCourses } = useContext(AuthContext);
+  const [showAddPop, setShowAddPop] = useState(false);
+
   const [course, setCourse] = useState({
     title: '',
     description: '',
@@ -34,11 +38,15 @@ const CourseDetails = () => {
   console.log("params", params);
 
 
+
+
   // const clickedCourse = courses.find(
   //   (eachCourse) => eachCourse._id === (id)
   //   // (eachCourse) => eachCourse.id == (id)
   //   );
-
+  const handleOnClose = () => {
+    setShowAddPop(false);
+  };
 
 
   useEffect(() => {
@@ -150,7 +158,7 @@ const CourseDetails = () => {
 
   return (
     <div className="h-screen">
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="p-4 my-32 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-center md:flex-row">
           <div className="md:w-1/3 md:pr-4">
@@ -160,15 +168,31 @@ const CourseDetails = () => {
               className="object-cover w-full mb-4 h-60"
             />
             <div className="flex items-center m-2 md:justify-between">
+
+              {/* back button start */}
               <button
                 onClick={() => navigate(-1)}
-                className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
-              >
+                className="px-4 py-2 me-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                >
                 Back
               </button>
-              <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
-                Go back to the previous page
-              </div>
+              {/* back button end */}
+
+                {/* assign button start */}
+                <div className="relative group">
+
+          <button
+            onClick={() => setShowAddPop(true)}
+            className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+          >
+            Assign Instructor
+          </button>
+          <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
+            You can  Assign Instructor
+          </div>
+
+        </div>
+                {/* assign button end */}
             </div>
           </div>
           <div className="md:w-2/3">
@@ -238,6 +262,12 @@ const CourseDetails = () => {
         </tbody>
       </table>
       {/* </div> */}
+       <ModelContainer onClose={handleOnClose} visible={showAddPop}>
+        <AssignInstructors
+        //  onData={handleAddStudent}
+         onClose={handleOnClose}
+          />
+      </ModelContainer>
     </div>
   )
 }

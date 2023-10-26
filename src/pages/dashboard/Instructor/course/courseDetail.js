@@ -7,7 +7,7 @@ import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import MetricCard from "../../../../component/MetricCard";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
 
 
 
@@ -163,7 +163,7 @@ const CourseDetail = () => {
 
     return (
         <div>
-            <SideBar />
+            {/* <SideBar /> */}
             <div className="pt-32 my-32">
                 <MetricCard title="No of students" value="5" />
                 <div className="p-4 mb-4 bg-white rounded-lg shadow-md">

@@ -4,7 +4,7 @@ import { BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import SideBar from "../../../../component/SideBar";
+// import SideBar from "../../../../component/SideBar";
 
 
 
@@ -100,7 +100,7 @@ const IndividualCourse = () => {
 
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="h-screen my-32">
         <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
           <div className="flex flex-col items-center md:flex-row">

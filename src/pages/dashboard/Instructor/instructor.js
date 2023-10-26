@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MetricCard from '../../../component/MetricCard';
 // import ApexCharts from 'apexcharts'
 import Chart from "react-apexcharts";
-import SideBar from '../../../component/SideBar';
+// import SideBar from '../../../component/SideBar';
 import { BASEURL } from '../../../App';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -146,7 +146,7 @@ const InstructorDashboard = () => {
 
   return (
     <>
-      <SideBar />
+      {/* <SideBar /> */}
       <div className="container w-full pt-20 mx-auto my-32">
         {/* ... (rest of your content code start) */}
         <div className="w-full px-4 mb-16 leading-normal text-gray-800 md:px-0 md:mt-8">

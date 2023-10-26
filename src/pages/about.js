@@ -9,7 +9,7 @@ import makanju from "../images/staff/makanju.jpeg";
 import olanrewaju from "../images/staff/olanrewaju.jpeg";
 import olubodun from "../images/staff/olubodun.jpeg";
 import olusanya from "../images/staff/olusanya.jpg";
-import ayeni from "../images/staff/ayeni.jpeg";
+import afolabi from "../images/staff/afolabi.jpg";
 
 const team = [
   {
@@ -38,14 +38,14 @@ const team = [
     image: olubodun,
   },
   {
-    name: "Olawale Ebenezer AYENI",
-    role: "Secretary",
-    image: ayeni,
-  },
-  {
     name: "Temitope OLUSANYA",
     role: "Secretary",
     image: olusanya,
+  },
+  {
+    name: "Dolapo AFOLABI",
+    role: "Secretary",
+    image: afolabi,
   },
 ];
 
