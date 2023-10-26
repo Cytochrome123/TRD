@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import cookies from "js-cookie";
 import { VscClose } from "react-icons/vsc";
@@ -20,7 +20,9 @@ const Navbarr = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ref = useRef(true);
   const navigate = useNavigate();
-console.log(authenticatedUser, 'navbar');
+  const location = useLocation();
+
+  console.log(authenticatedUser, 'navbar');
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -50,41 +52,36 @@ console.log(authenticatedUser, 'navbar');
           <div className="hidden font-semibold space-x-7 text-slate-600 md:flex">
             <Link
               to="/"
-              className={`${
-                mobileMenuOpen ? "fade-in" : ""
-              } hover:text-slate-900 transition duration-300 ease-in-out`}
+              className={`${mobileMenuOpen ? "fade-in" : ""
+                } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className={`${
-                mobileMenuOpen ? "fade-in" : ""
-              } hover:text-slate-900 transition duration-300 ease-in-out`}
+              className={`${mobileMenuOpen ? "fade-in" : ""
+                } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               About
             </Link>
             <Link
               to="/events"
-              className={`${
-                mobileMenuOpen ? "fade-in" : ""
-              } hover:text-slate-900 transition duration-300 ease-in-out`}
+              className={`${mobileMenuOpen ? "fade-in" : ""
+                } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Events
             </Link>
             <Link
               to="/courses"
-              className={`${
-                mobileMenuOpen ? "fade-in" : ""
-              } hover:text-slate-900 transition duration-300 ease-in-out`}
+              className={`${mobileMenuOpen ? "fade-in" : ""
+                } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Courses
             </Link>
             <Link
               to="/contact"
-              className={`${
-                mobileMenuOpen ? "fade-in" : ""
-              } hover:text-slate-900 transition duration-300 ease-in-out`}
+              className={`${mobileMenuOpen ? "fade-in" : ""
+                } hover:text-slate-900 transition duration-300 ease-in-out`}
             >
               Contact Us
             </Link>
@@ -105,9 +102,8 @@ console.log(authenticatedUser, 'navbar');
             )}
           </button>
           <div
-            className={`fixed top-0 left-0 w-full h-screen bg-blue-600 text-white z-50 flex flex-col px-10 text-xl justify-start transform ${
-              mobileMenuOpen ? "" : "-translate-y-full"
-            } transition-transform duration-500 ease-in-out`}
+            className={`fixed top-0 left-0 w-full h-screen bg-blue-600 text-white z-50 flex flex-col px-10 text-xl justify-start transform ${mobileMenuOpen ? "" : "-translate-y-full"
+              } transition-transform duration-500 ease-in-out`}
           >
             <button
               className="absolute text-white top-5 right-5"
@@ -119,114 +115,106 @@ console.log(authenticatedUser, 'navbar');
             <div className="flex flex-col justify-start h-full">
               <div className="mt-20 space-y-8">
                 <div className="space-y-4 text-2xl font-semibold">
-                  <a
-                    href="/"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  <Link
+                    to="/"
+                    className={`${mobileMenuOpen ? "fade-in" : ""
+                      } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     Home
-                  </a>
-                  <a
-                    href="/about"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  </Link>
+                  <Link
+                    to="/about"
+                    className={`${mobileMenuOpen ? "fade-in" : ""
+                      } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     About
-                  </a>
-                  <a
-                    href="/events"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  </Link>
+                  <Link
+                    to="/events"
+                    className={`${mobileMenuOpen ? "fade-in" : ""
+                      } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     Events
-                  </a>
-                  <a
-                    href="/courses"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  </Link>
+                  <Link
+                    to="/courses"
+                    className={`${mobileMenuOpen ? "fade-in" : ""
+                      } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     Courses
-                  </a>
-                  <a
-                    href="/contact"
-                    className={`${
-                      mobileMenuOpen ? "fade-in" : ""
-                    } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className={`${mobileMenuOpen ? "fade-in" : ""
+                      } block hover:text-gray-200 transition duration-300 ease-in-out`}
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </div>
                 <div className="flex flex-col space-y-3">
                   {authenticatedUser.role && (
-                    <a href="#" className="font-bold text-white underline">
+                    <Link className="font-bold text-white underline">
                       Hello {authenticatedUser.firstName}
-                    </a>
+                    </Link>
                   )}
                   {authenticatedUser.role === "admin" && (
                     <div className="flex flex-col space-y-3">
-                      <a
-                        href="/instructors"
+                      <Link
+                        to="/admin/dashboard/instructors"
                         className="text-white"
                       >
                         Instructors
-                      </a>
-                      <a
-                        href="/students"
+                      </Link>
+                      <Link
+                        to="/admin/dashboard/students"
                         className="text-white"
                       >
                         Students
-                      </a>
+                      </Link>
                     </div>
                   )}
                   {authenticatedUser.role === "instructor" && (
-                    <a
-                      href="#"
+                    <Link
+                      to={`/instructor/dashboard/assigned-courses`}
                       className="text-white"
                     >
                       Assigned Courses
-                    </a>
+                    </Link>
                   )}
                   {authenticatedUser.role === "student" && (
-                    <a
-                      href="/student/dashboard/enrolled-courses"
+                    <Link
+                      to="/student/dashboard/enrolled-courses"
                       className="text-white"
                     >
-                      My Coursesxz
-                    </a>
+                      My Courses
+                    </Link>
                   )}
                   {authenticatedUser.authenticated ? (
                     <div className="flex flex-col space-y-3">
-                      <a
-                        className={`${
-                          mobileMenuOpen ? "fade-in" : ""
-                        } text-white`}
+                      <Link
+                        className={`${mobileMenuOpen ? "fade-in" : ""
+                          } text-white`}
                         onClick={logOutUser}
                       >
                         Logout
-                      </a>
+                      </Link>
                     </div>
                   ) : (
                     <>
-                      <a
-                        href="/signin"
-                        className={`${
-                          mobileMenuOpen ? "fade-in" : ""
-                        } text-white`}
+                      <Link
+                        to="/signin"
+                        className={`${mobileMenuOpen ? "fade-in" : ""
+                          } text-white`}
                       >
                         Login
-                      </a>
-                      <a
-                        href="/signup"
-                        className={`${
-                          mobileMenuOpen ? "fade-in" : ""
-                        } text-white`}
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className={`${mobileMenuOpen ? "fade-in" : ""
+                          } text-white`}
                       >
                         Sign Up
-                      </a>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -238,65 +226,70 @@ console.log(authenticatedUser, 'navbar');
         {/* Desktop nav authenticated*/}
         <div className="items-center justify-end hidden md:flex">
           {authenticatedUser.role && (
-            <a href="#" className="mr-10 font-bold underline text-slate-900">
+            <Link className="mr-10 font-bold underline text-slate-900">
               Hello {authenticatedUser.firstName}
-            </a>
+            </Link>
           )}
           {authenticatedUser.role === "admin" && (
             <div className="flex items-center space-x-5">
-              <a
-                href="/instructors"
+              <Link 
+                to={`/admin/dashboard/instructors`}
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Instructors
-              </a>
-              <a
-                href="/students"
+              </Link>
+              <Link 
+                to={`/admin/dashboard/students`}
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Students
-              </a>
+              </Link>
             </div>
           )}
           {authenticatedUser.role === "instructor" && (
-            <a
-              href="#"
-              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
-            >
-              Assigned Courses
-            </a>
+            <Link 
+            to={`/instructor/dashboard/instructors`}
+            className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
+          >
+            Assigned Courses
+          </Link>
           )}
           {authenticatedUser.role === "student" && (
-            <a
-              href="#"
-              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
-            >
-              My Courses
-            </a>
+            <Link 
+            to={`/student/dashboard/instructors`}
+            className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
+          >
+            My Courses
+          </Link>
           )}
+          {/* {(authenticatedUser.authenticated && (location.pathname == '/' || location.pathname == '/about')) && (
+            <a href="#" className="mr-10 font-bold underline text-slate-900">
+              Back to dashboard
+            </a>
+          )} */}
           {authenticatedUser.authenticated ? (
             <div className="flex items-center cursor-pointer">
-              <a
+              <Link
                 className="py-3 ml-4 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
                 onClick={logOutUser}
               >
                 Logout
-              </a>
+              </Link>
             </div>
           ) : (
             <div className="flex items-center space-x-10">
-              <a
+              <Link
                 href="/signin"
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Login
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/signup"
                 className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
               >
                 Sign Up
-              </a>
+              </Link>
             </div>
           )}
         </div>
