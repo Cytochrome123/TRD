@@ -279,13 +279,13 @@ const Navbarr = () => {
           ) : (
             <div className="flex items-center space-x-10">
               <Link
-                href="/signin"
+                to="/signin"
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Login
               </Link>
               <Link
-                href="/signup"
+                to="/signup"
                 className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
               >
                 Sign Up

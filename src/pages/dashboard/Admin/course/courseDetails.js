@@ -17,6 +17,7 @@ const CourseDetails = () => {
   const [showAddPop, setShowAddPop] = useState(false);
 
   const [course, setCourse] = useState({
+    _id: '',
     title: '',
     description: '',
     duration: '',
@@ -65,6 +66,7 @@ const CourseDetails = () => {
         console.log("abc", res.data);
         setCourse(prev => ({
           ...prev,
+          _id: res.data.course._id,
           title: res.data.course.title,
           description: res.data.course.description,
           duration: res.data.course.duration,
@@ -172,7 +174,7 @@ const CourseDetails = () => {
               {/* back button start */}
               <button
                 onClick={() => navigate(-1)}
-                className="px-4 py-2 me-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                className="px-4 py-2 text-xs text-white bg-blue-500 rounded me-2 hover:bg-blue-600 md:text-base"
                 >
                 Back
               </button>
@@ -265,8 +267,9 @@ const CourseDetails = () => {
        <ModelContainer onClose={handleOnClose} visible={showAddPop}>
         <AssignInstructors
         //  onData={handleAddStudent}
-         onClose={handleOnClose}
-          />
+          onClose={handleOnClose}
+          id={course._id}
+        />
       </ModelContainer>
     </div>
   )

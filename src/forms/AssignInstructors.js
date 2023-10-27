@@ -5,27 +5,27 @@ import { BASEURL } from '../App';
 
 import Icon_x from "../assets/Icons/x-close.png";
 
-const AssignInstructors = ({ onClose, onData }) => {
+const AssignInstructors = ({ onClose, id, onData }) => {
 
   // This is the list of available instructor that will be coming from backend 
   const [instructorsList, setInstructorsList] = useState([
-    {
-      _id: 1,
-      name: "Mrs Ade",
-    },
-    {
-      _id: 2,
-      name: "Mr Ola",
-    },
-    {
-      _id: 3,
-      name: "Mrs Wole",
-    },
+    // {
+    //   _id: 1,
+    //   name: "Mrs Ade",
+    // },
+    // {
+    //   _id: 2,
+    //   name: "Mr Ola",
+    // },
+    // {
+    //   _id: 3,
+    //   name: "Mrs Wole",
+    // },
 
   ]);
 
   // this is the form to be submited, that will contain all the instructor to be added
-  const [selectedInstructors, setSelectedInstructors] = useState([])
+  const [selectedInstructors, setSelectedInstructors] = useState({ instructors: [] });
 
   const [isSelect, setIsSelect] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -65,52 +65,72 @@ const AssignInstructors = ({ onClose, onData }) => {
           alert(err.message)
         }
       });
-  }
-
-  // const [student, setStudent] = useState({
-  //   name: "",
-  //   studentId: "",
-  // });
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setStudent({ ...student, [name]: value });
-  //   console.log("student", student);
-  // };
+  };
 
   const handleSelect = (e) => {
     setIsSelect(true)
     // const _id = Math.floor(Math.random() * 10000) + 1
     const { name, value } = e.target;
-    const newIns = { [name]: value }
+    const format = value.split('-');
+    const newIns = { firstName: format[1], [name]: format[0] };
     console.log("jesus", newIns);
-    setSelectedInstructors([...selectedInstructors, newIns])
-
-
-
-
-    // setInsList([...student, {name:value} ])
-    // console.log("000",student);
-    // setStudent({...student, [name]:value})
-
-    console.log("xyz", name);
-
-    // console.log("xyz", e);
+    if(selectedInstructors.instructors.some(select => select.instructor === format[0])) {
+      alert('The instructor have been selected before');
+    } else {
+      setSelectedInstructors({
+        instructors: [...selectedInstructors.instructors, newIns]
+      });
+    }
   }
 
+  console.log(selectedInstructors, 'Toassigned');
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const token = Cookies.get('token');
+    axios({
+      method: "patch",
+      url: `${BASEURL}/course/${id}/assign`,
+      // url: `http://localhost:5001/api/course/${id}/assign`,
+      data: selectedInstructors,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+      // withCredentials: true
+    })
+    .then((res) => {
+      console.log(res.data);
+      alert(res.data.msg);
+      
+    })
+    .catch((err) => {
+      console.log(err);
+      if (Array.isArray(err.response?.data.msg)) {
+        alert(err.response.data.msg[0].msg);
+      } else if (err.response) {
+        // This can happen when the required headers or options to access the endpoint r not provided
+        if (err.response.data.msg) {
+          alert(err.response.data.msg);
+        } else {
+          alert(err.response.data)
+        }
+      } else {
+        alert(err.message)
+      }    });
   };
+  
   const handleCancel = (e) => {
     // e.preventDefault();
     onClose();
     // You can add your logic here to handle the form submission, e.g., sending data to a server or updating state.
   };
+  
   const HandleDelete = (id) => {
     console.log("id", id);
-    const isDele = selectedInstructors.filter(ins => ins._id !== id)
-    setSelectedInstructors(isDele);
+    const isDele = selectedInstructors.instructors.filter(ins => ins.instructor !== id)
+    setSelectedInstructors({
+      instructors: [...isDele]
+    });
 
   };
 
@@ -134,9 +154,9 @@ const AssignInstructors = ({ onClose, onData }) => {
           <div
             className="flex flex-wrap w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200"
           >
-            {isSelect ? selectedInstructors.map((instructor, index) =>
+            {isSelect && selectedInstructors.instructors.length > 0 ? selectedInstructors.instructors.map((instructor, index) =>
               <div key={index} className="flex p-1 m-1 bg-gray-300 rounded-lg w-fit">
-                {instructor.firstName} <img onClick={() => HandleDelete(instructor._id)} src={Icon_x} className="px-1 cursor-pointer" alt="Icon x close" />
+                {instructor.firstName} <img onClick={() => HandleDelete(instructor.instructor)} src={Icon_x} className="px-1 cursor-pointer" alt="Icon x close" />
               </div>
             )
               :
@@ -166,11 +186,11 @@ const AssignInstructors = ({ onClose, onData }) => {
             onChange={handleSelect}
           >
             {/* <option value="civil engineering">Mr Areemu</option> */}
-            <option value={''}></option>
-            {instructorsList.map((instructor, index) => (
-              <option key={index} value={instructor._id}>{instructor.firstName}</option>
-            ))}
-
+            {loading ? <option>loading</option> : 
+              instructorsList.map((instructor, index) => (
+                <option key={index} value={`${instructor._id}-${instructor.firstName}`}>{instructor.firstName}</option>
+              ))
+            }
           </select>
         </div>
 

@@ -195,13 +195,13 @@ const AdminDashboard = () => {
                         <MetricCard
                             title="rergistered student"
                             value={
-                                loading ? '....' : (users.find(item => item._id === 'student') || {}).count
+                                loading ? '....' : ((users.find(item => item._id === 'student') || {}).count || 0)
                             }
                         />
                         <MetricCard
                             title="no of instructor"
                             value={
-                                loading ? '....' : (users.find(item => item._id === 'instructor') || {}).count
+                                loading ? '....' : ((users.find(item => item._id === 'instructor') || {}).count || 0)
                             }
                         />
                         <MetricCard title="No of courses" value={loading ? '....' : courses.length} />
@@ -220,7 +220,7 @@ const AdminDashboard = () => {
                         <MetricCard
                             title="Upcoming courses"
                             value={
-                                loading ? '...' : (courses.filter(item => item.status === 'Upcoming')).length
+                                loading ? '...' : (courses.filter(item => item.status === 'Upcomin')).length
                             }
                         />
                         <MetricCard
@@ -232,7 +232,7 @@ const AdminDashboard = () => {
                         <MetricCard
                             title="No of Admin"
                             value={
-                                loading ? '....' : (users.find(item => item._id === 'admin') || {}).count
+                                loading ? '....' : ((users.find(item => item._id === 'admin') || {}).count || 0)
                             }
                         />
                     </div>
