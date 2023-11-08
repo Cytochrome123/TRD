@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-import { BASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 import { hard } from "../App";
-import { Alert } from "react-bootstrap";
 
 const Signin = (props) => {
   const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ const Signin = (props) => {
   });
 
   const navigate = useNavigate();
-  const {notify} = useContext(Alert)
+  const {notify} = useContext(AlertContext)
 
 
   function handleChange(event) {
