@@ -44,7 +44,7 @@ import RequireAuth from './component/RequireAuth';
 import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
 import Remita from './service/remita';
-import Side from './side';
+// import Side from './side';
 
 export const AuthContext = createContext();
 export const AlertContext = createContext();
@@ -118,7 +118,7 @@ function App() {
       <Route >
         <Route path='/' element={<Root />}>
           <Route path='/' element={<Landing />} />
-          <Route path='/side' element={<Side />} />
+          {/* <Route path='/side' element={<Side />} /> */}
           <Route path='/test' element={<Test />} />
           <Route path='/payyyy' element={<Remita />} />
           <Route path='/about' element={<AboutPage />} />
