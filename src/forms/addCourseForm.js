@@ -1,6 +1,6 @@
 // CourseForm.js
-import React, { useContext, useState } from 'react';
-import { AuthContext, BASEURL } from "../App";
+import { useContext, useState } from 'react';
+import { AlertContext, AuthContext, BASEURL } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
@@ -25,6 +25,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
     image: null, //should I change this to empty string ni? 
   });
 
+  const {notify} = useContext(AlertContext)
 
 
 
@@ -91,19 +92,17 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
     // // Axios request end
 

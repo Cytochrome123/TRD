@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import cookies from "js-cookie";
 
 // import { BASEURL } from "../../../App";
-import { BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 // import course_img from "../../../images/trd_img.png";
 import { useNavigate } from "react-router-dom";
-// import SideBar from "../../../../component/SideBar";
-// import MetricCard from "../../../component/MetricCard";
+import { useOutletContext } from 'react-router-dom';
+
 
 const StudentData = () => {
   // const [courses, setCourses] = useState([]);
@@ -20,6 +20,10 @@ const StudentData = () => {
     userType: "",
     courses: [],
   });
+
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -50,17 +54,16 @@ const StudentData = () => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
       });
   }, []);
@@ -68,9 +71,10 @@ const StudentData = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-gray-100">
+      <div className={`flex flex-col items-center min-h-screen p-6 md:ml-96 my-20`}>
         {data && (
-          <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
+          // <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
+          <div className="w-full p-8 bg-white rounded-lg shadow-lg">
             <div className="flex flex-col items-center md:flex-row">
               <div className="md:mr-6">
                 <img

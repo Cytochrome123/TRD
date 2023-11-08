@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import MetricCard from '../../../component/MetricCard';
 // import ApexCharts from 'apexcharts'
 import Chart from "react-apexcharts";
 // import SideBar from '../../../component/SideBar';
-import { BASEURL } from '../../../App';
+import { AlertContext, BASEURL } from '../../../App';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { useOutletContext } from 'react-router-dom';
 
 
 const InstructorDashboard = () => {
 
   const [assignedCourses, setAssignedCourses] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
 
   const token = Cookies.get('token');
 
@@ -33,22 +38,21 @@ const InstructorDashboard = () => {
       .catch(err => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg);
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg);
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data);
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message);
         }
       })
   }, [token]);
 
-  const decoded = jwtDecode(token);
+  // const decoded = jwtDecode(token);
   // console.log(decoded)
 
   // The donot chart data
@@ -147,7 +151,7 @@ const InstructorDashboard = () => {
   return (
     <>
       {/* <SideBar /> */}
-      <div className="container w-full pt-20 mx-auto my-32">
+      <div className={`p-4 w-full md:ml-64 my-20 min-h-screen`}>
         {/* ... (rest of your content code start) */}
         <div className="w-full px-4 mb-16 leading-normal text-gray-800 md:px-0 md:mt-8">
 

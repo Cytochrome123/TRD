@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
 import Cookies from 'js-cookie';
-import { BASEURL } from '../App';
+import { AlertContext, BASEURL } from '../App';
 
 import Icon_x from "../assets/Icons/x-close.png";
 
@@ -23,6 +23,8 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     // },
 
   ]);
+  const {notify} = useContext(AlertContext)
+
 
   // this is the form to be submited, that will contain all the instructor to be added
   const [selectedInstructors, setSelectedInstructors] = useState({ instructors: [] });
@@ -53,16 +55,16 @@ const AssignInstructors = ({ onClose, id, onData }) => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          alert(err.message)
+          notify('error', err.message)
         }
       });
   };
@@ -74,8 +76,8 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     const format = value.split('-');
     const newIns = { firstName: format[1], [name]: format[0] };
     console.log("jesus", newIns);
-    if(selectedInstructors.instructors.some(select => select.instructor === format[0])) {
-      alert('The instructor have been selected before');
+    if (selectedInstructors.instructors.some(select => select.instructor === format[0])) {
+      notify('error', 'The instructor have been selected before');
     } else {
       setSelectedInstructors({
         instructors: [...selectedInstructors.instructors, newIns]
@@ -98,33 +100,34 @@ const AssignInstructors = ({ onClose, id, onData }) => {
       }
       // withCredentials: true
     })
-    .then((res) => {
-      console.log(res.data);
-      alert(res.data.msg);
-      
-    })
-    .catch((err) => {
-      console.log(err);
-      if (Array.isArray(err.response?.data.msg)) {
-        alert(err.response.data.msg[0].msg);
-      } else if (err.response) {
-        // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          alert(err.response.data.msg);
+      .then((res) => {
+        console.log(res.data);
+        notify('success', res.data.msg);
+
+      })
+      .catch((err) => {
+        console.log(err);
+        if (Array.isArray(err.response?.data.msg)) {
+          notify('error', err.response.data.msg[0].msg)
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            notify('error', err.response.data.msg)
+          } else {
+            notify('error', err.response.data)
+          }
         } else {
-          alert(err.response.data)
+          notify('error', err.message)
         }
-      } else {
-        alert(err.message)
-      }    });
+      });
   };
-  
+
   const handleCancel = (e) => {
     // e.preventDefault();
     onClose();
     // You can add your logic here to handle the form submission, e.g., sending data to a server or updating state.
   };
-  
+
   const HandleDelete = (id) => {
     console.log("id", id);
     const isDele = selectedInstructors.instructors.filter(ins => ins.instructor !== id)
@@ -171,7 +174,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
           </div>
 
         </div>
-        
+
         <div className="mb-4">
           <label
             className="block mb-2 font-semibold text-gray-600"
@@ -186,7 +189,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
             onChange={handleSelect}
           >
             {/* <option value="civil engineering">Mr Areemu</option> */}
-            {loading ? <option>loading</option> : 
+            {loading ? <option>loading</option> :
               instructorsList.map((instructor, index) => (
                 <option key={index} value={`${instructor._id}-${instructor.firstName}`}>{instructor.firstName}</option>
               ))

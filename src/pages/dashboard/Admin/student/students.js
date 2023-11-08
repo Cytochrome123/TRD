@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { BsSearch } from "react-icons/bs";
 import { Link, useMatch } from 'react-router-dom';
 import axios, { AxiosError } from "axios";
 import Cookies from 'js-cookie';
+import { useOutletContext } from 'react-router-dom';
+
 
 // import studentData from '../../Data/User'
 
@@ -12,9 +14,7 @@ import AddStudent from "../../../../forms/AddStudent";
 // import axios from 'axios';
 // import cookies from "js-cookie";
 // import axios, { AxiosError } from "axios";
-import { BASEURL } from "../../../../App";
-import { useEffect } from 'react';
-import SideBar from '../../../../component/SideBar';
+import { AlertContext, BASEURL } from "../../../../App";
 // import { useEffect } from 'react';
 
 const Students = () => {
@@ -25,6 +25,10 @@ const Students = () => {
   // const [studentData, setStudentData] = useState({});
   // const [items, setItems] = useState([]);
   const [showAddPop, setShowAddPop] = useState(false);
+  const [isSidebarOpen] = useOutletContext();
+  const { notify, call2Action } = useContext(AlertContext)
+
+
 
   useEffect(() => {
     getStudents();
@@ -54,7 +58,8 @@ const Students = () => {
 
 
   const handleRemoveStudent = (id) => {
-    alert("Are you sure you want to delete this user?")
+    // notify('warning', 'Are you sure you wanna delete this user?')
+    call2Action('warning', 'Are you sure you want to remove the specified student?', 'The student bhas been removed');
     const newStudents = students.filter(item => item.id !== id);
     setStudents(() => newStudents);
     // console.log("Students",Students);
@@ -98,26 +103,24 @@ const Students = () => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
 
   return (
-    <div>
+    <div className={`p-4 w-full md:ml-72 min-h-screen my-20`}>
       {/* <SideBar /> */}
-      <div className="justify-center max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow flex-colume justify-self-center">
+      <div className="flex-col justify-center max-w-screen-xl min-h-screen p-6 mx-auto align-middle bg-white rounded shadow justify-self-center">
 
         <div className="flex justify-end ">
           <div className="relative group">
@@ -180,7 +183,7 @@ const Students = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? ('Loading') : students.length === 0 ? ('No data yet') :
+              {loading ? ('Loading') : students.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                 students.map((student, index) => (
                   <tr key={index} className="hover:bg-gray-100 group">
                     <td className="px-4 py-2">

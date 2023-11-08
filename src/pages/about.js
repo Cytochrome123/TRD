@@ -51,7 +51,7 @@ const team = [
 
 const AboutPage = () => {
   return (
-    <div className="px-8 py-8 pb-20 lg:px-16 xl:px-20">
+    <div className="px-8 py-8 pb-20 my-10 lg:px-16 xl:px-20">
       <div className="flex flex-col justify-center mx-auto mt-10 mb-10 text-3xl font-bold text-center md:text-5xl text-slate-900 md:mt-16 md:mb-32 md:w-2/3">
         Training Research & Development
         <span className="mx-auto mt-3 text-sm font-medium text-center md:w-4/5 text-slate-700 md:mt-5">

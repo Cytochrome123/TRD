@@ -1,8 +1,9 @@
 import axios, { AxiosError } from "axios";
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import { BsTelephone } from "react-icons/bs";
 import { IoMailOutline, IoLocationOutline } from "react-icons/io5";
 import { PiCaretCircleUpLight } from "react-icons/pi";
+import { AlertContext } from "../App";
 
 const Contact = () => {
   const handleCall = () => {
@@ -66,6 +67,8 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const { notify } = useContext(AlertContext)
+
 
   const handleFormChange = (e) => {
     setFormData((prevFormData) => ({
@@ -89,8 +92,8 @@ const Contact = () => {
           // Authorization: `Bearer ${'token'}`
         }
       })
-      if (!res) return alert('Error submitting form')
-      alert(res.data.msg)
+      if (!res) return notify('error', 'Error submitting form')
+      notify('success', res.data.msg)
       // Reset form fields
       setFormData({
         name: "",
@@ -101,23 +104,22 @@ const Contact = () => {
     } catch (err) {
       console.log(err);
       if (Array.isArray(err.response?.data.msg)) {
-        alert(err.response.data.msg[0].msg);
+        notify('error', err.response.data.msg[0].msg)
       } else if (err.response) {
         // This can happen when the required headers or options to access the endpoint r not provided
         if (err.response.data.msg) {
-          alert(err.response.data.msg);
+          notify('error', err.response.data.msg)
         } else {
-          alert(err.response.data)
+          notify('error', err.response.data)
         }
       } else {
-        // err.response?.data ? alert(err.response?.data) : alert(err.message)
-        alert(err.message)
+        notify('error', err.message)
       }
     }
   };
 
   return (
-    <div className="px-8 py-8 pb-20 lg:px-16 xl:px-20">
+    <div className="px-8 py-8 pb-20 my-10 lg:px-16 xl:px-20">
       <h2 className="flex justify-center w-full mt-10 text-2xl font-bold md:text-4xl text-slate-900 md:mt-16">
         Get in touch
       </h2>
@@ -227,16 +229,16 @@ const Contact = () => {
               <div className="flex items-center justify-between w-full">
                 <h4
                   className={`w-2/3 text-xs md:text-base font-medium ${expandedQuestion === index
-                      ? "text-blue-600"
-                      : "text-slate-800"
+                    ? "text-blue-600"
+                    : "text-slate-800"
                     }`}
                 >
                   {faq.question}
                 </h4>
                 <span
                   className={`transition duration-300 transform ${expandedQuestion === index
-                      ? "rotate-0 text-blue-600"
-                      : "rotate-180 text-slate-400"
+                    ? "rotate-0 text-blue-600"
+                    : "rotate-180 text-slate-400"
                     }`}
                 >
                   <PiCaretCircleUpLight className="md:text-3xl" />

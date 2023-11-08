@@ -41,7 +41,7 @@ const Navbarr = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 py-4 text-gray-900 bg-white shadow-md px-7 md:px-0">
+    <nav className="fixed top-0 z-50 w-screen py-4 text-gray-900 bg-white shadow-md px-7 md:px-0">
       <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center space-x-10">
           <Link to='/' className="flex items-center text-gray-900">
@@ -119,6 +119,7 @@ const Navbarr = () => {
                     to="/"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                    onClick={toggleMobileMenu}
                   >
                     Home
                   </Link>
@@ -126,6 +127,8 @@ const Navbarr = () => {
                     to="/about"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                    onClick={toggleMobileMenu}
+                    
                   >
                     About
                   </Link>
@@ -133,6 +136,7 @@ const Navbarr = () => {
                     to="/events"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                    onClick={toggleMobileMenu}
                   >
                     Events
                   </Link>
@@ -140,6 +144,7 @@ const Navbarr = () => {
                     to="/courses"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                    onClick={toggleMobileMenu}
                   >
                     Courses
                   </Link>
@@ -147,13 +152,14 @@ const Navbarr = () => {
                     to="/contact"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
+                      onClick={toggleMobileMenu}
                   >
                     Contact Us
                   </Link>
                 </div>
                 <div className="flex flex-col space-y-3">
                   {authenticatedUser.role && (
-                    <Link className="font-bold text-white underline">
+                    <Link className="font-bold text-white underline" onClick={toggleMobileMenu}>
                       Hello {authenticatedUser.firstName}
                     </Link>
                   )}
@@ -162,12 +168,14 @@ const Navbarr = () => {
                       <Link
                         to="/admin/dashboard/instructors"
                         className="text-white"
+                        onClick={toggleMobileMenu}
                       >
                         Instructors
                       </Link>
                       <Link
                         to="/admin/dashboard/students"
                         className="text-white"
+                        onClick={toggleMobileMenu}
                       >
                         Students
                       </Link>
@@ -177,6 +185,7 @@ const Navbarr = () => {
                     <Link
                       to={`/instructor/dashboard/assigned-courses`}
                       className="text-white"
+                      onClick={toggleMobileMenu}
                     >
                       Assigned Courses
                     </Link>
@@ -185,6 +194,7 @@ const Navbarr = () => {
                     <Link
                       to="/student/dashboard/enrolled-courses"
                       className="text-white"
+                      onClick={toggleMobileMenu}
                     >
                       My Courses
                     </Link>
@@ -205,6 +215,7 @@ const Navbarr = () => {
                         to="/signin"
                         className={`${mobileMenuOpen ? "fade-in" : ""
                           } text-white`}
+                        onClick={toggleMobileMenu}
                       >
                         Login
                       </Link>
@@ -212,6 +223,7 @@ const Navbarr = () => {
                         to="/signup"
                         className={`${mobileMenuOpen ? "fade-in" : ""
                           } text-white`}
+                        onClick={toggleMobileMenu}
                       >
                         Sign Up
                       </Link>

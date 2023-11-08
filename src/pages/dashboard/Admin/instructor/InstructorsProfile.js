@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import SideBar from "../../../../component/SideBar";
+import { useOutletContext } from 'react-router-dom';
 
 function InstructorsProfile() {
   // const { instructor, setinstructor } = useContext(AuthContext);
@@ -19,6 +19,10 @@ function InstructorsProfile() {
 
   const { id } = useParams();
   console.log("params", id);
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
+
 
   // const handleRemoveStudent = () => {
   //   const newItems = items.filter(item => item.id !== 2000);
@@ -65,19 +69,17 @@ function InstructorsProfile() {
       .catch((err) => {
         console.log(err.message);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
 
   }, []);
@@ -88,10 +90,9 @@ function InstructorsProfile() {
   // console.log("student",student);
 
   return (
-    <div>
+    <div className={`p-4 w-full md:ml-72 my-20 min-h-screen`}>
       {/* <SideBar /> */}
-      <div className="flex flex-col items-center min-h-screen p-6 my-32 bg-white">
-        <button>Remove Student</button>
+      <div className="flex flex-col items-center min-h-screen p-6 bg-white">
         {instructor && (
           <div className="w-full p-8 bg-gray-100 rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
             <div className="flex flex-col items-center md:flex-row">
@@ -178,9 +179,9 @@ function InstructorsProfile() {
 
       {/* second card start */}
 
-      <div className="flex flex-col items-center min-h-screen p-6 bg-white">
+      <div className="flex flex-col items-center p-6 bg-white">
         {instructor && (<div className="w-full p-8 bg-gray-100 rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
-          <div className="mt-6">
+          <div className="">
             <h2 className="text-xl font-semibold text-gray-900">More info</h2>
             <ul className="mt-2">
               <li className="mb-2">

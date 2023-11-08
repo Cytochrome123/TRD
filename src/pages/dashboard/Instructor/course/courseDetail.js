@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext, BASEURL } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import MetricCard from "../../../../component/MetricCard";
-// import SideBar from "../../../../component/SideBar";
+import { useOutletContext } from 'react-router-dom';
 
 
 
@@ -25,7 +25,10 @@ const CourseDetail = () => {
         image: null,
     })
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [isSidebarOpen] = useOutletContext();
+    const { notify, call2Action } = useContext(AlertContext)
+
 
     const { id } = useParams();
     // const {id}  = useParams();
@@ -78,19 +81,17 @@ const CourseDetail = () => {
             .catch((err) => {
                 console.log(err.message);
                 if (Array.isArray(err.response?.data.msg)) {
-                    alert(err.response.data.msg[0].msg);
-                  } else if (err.response) {
+                    notify('error', err.response.data.msg[0].msg)
+                } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
                     if (err.response.data.msg) {
-                      alert(err.response.data.msg);
+                        notify('error', err.response.data.msg)
                     } else {
-                      alert(err.response.data)
+                        notify('error', err.response.data)
                     }
-                  } else {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                  }
-                // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
+                } else {
+                    notify('error', err.message)
+                }
             });
 
     }, []);
@@ -114,7 +115,8 @@ const CourseDetail = () => {
     }, []);
 
     const handleRemoveStudent = (id) => {
-        alert("Are you sure you want to delete this user?")
+        // notify('warning', 'Are you sure you want to remove the specified student');
+        call2Action('warning', 'Are you sure you want to remove the specified student?', 'The student bhas been removed');
         const newStudents = students.filter(item => item.id !== id);
         setStudents(() => newStudents);
         // console.log("Students",Students);
@@ -145,26 +147,24 @@ const CourseDetail = () => {
             .catch((err) => {
                 console.log(err);
                 if (Array.isArray(err.response?.data.msg)) {
-                    alert(err.response.data.msg[0].msg);
-                  } else if (err.response) {
+                    notify('error', err.response.data.msg[0].msg)
+                } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
                     if (err.response.data.msg) {
-                      alert(err.response.data.msg);
+                        notify('error', err.response.data.msg)
                     } else {
-                      alert(err.response.data)
+                        notify('error', err.response.data)
                     }
-                  } else {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
-                  }
-                // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
+                } else {
+                    notify('error', err.message)
+                }
             });
     }
 
     return (
-        <div>
+        <div className={`w-full p-4 md:ml-64 my-20 min-h-screen`}>
             {/* <SideBar /> */}
-            <div className="pt-32 my-32">
+            <div>
                 <MetricCard title="No of students" value="5" />
                 <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
                     <div className="flex flex-col items-center md:flex-row">
@@ -241,7 +241,7 @@ const CourseDetail = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {loading ? ('Loading') : students.length === 0 ? ('No data yet') :
+                    {loading ? ('Loading') : students.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                         students.map((student, index) => (
                             <tr key={index} className="hover:bg-gray-100 group">
                                 <td className="px-4 py-2">

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
 import axios, { AxiosError } from "axios";
-import { BASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 const Signup = (props) => {
   // const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,6 +19,8 @@ const Signup = (props) => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const {notify} = useContext(AlertContext)
+
 
   function handleChange(event) {
     setFormData((prevData) => {
@@ -79,7 +81,7 @@ const Signup = (props) => {
     })
       .then((res) => {
         console.log(res);
-        alert(res.data.msg);
+        notify('success', res.data.msg);
         // console.log(res.data.token)
         // cookies.set('token', res.data.token );
         // props.handleAlervscode-file://vscode-app/Applications/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlt(true, 'successfully Loged In!!!', 'success');
@@ -89,24 +91,22 @@ const Signup = (props) => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   };
 
   return (
-    <div className="flex flex-col h-screen my-10">
+    <div className="flex flex-col h-screen">
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
@@ -211,7 +211,7 @@ const Signup = (props) => {
                 accept='image/*'
                 onChange={onFileChange}
                 placeholder="Upload img"
-                // required
+              // required
 
               />
 

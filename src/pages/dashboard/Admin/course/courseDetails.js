@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext, BASEURL } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
@@ -9,6 +9,8 @@ import { useState } from "react";
 // import SideBar from "../../../../component/SideBar";
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
+import { useOutletContext } from 'react-router-dom';
+
 
 
 
@@ -32,6 +34,10 @@ const CourseDetails = () => {
   const navigate = useNavigate()
 
   const { id } = useParams();
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
+
   // const {id}  = useParams();
 
   console.log("id object", id);
@@ -85,19 +91,17 @@ const CourseDetails = () => {
       .catch((err) => {
         console.log(err.message);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
 
   }, []);
@@ -142,26 +146,24 @@ const CourseDetails = () => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
 
   return (
-    <div className="h-screen">
+    <div className={`p-4 w-full min-h-screen md:ml-72 my-20`} >
       {/* <SideBar /> */}
-      <div className="p-4 my-32 bg-white rounded-lg shadow-md">
+      <div className="p-4 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-center md:flex-row">
           <div className="md:w-1/3 md:pr-4">
             <img
@@ -175,26 +177,26 @@ const CourseDetails = () => {
               <button
                 onClick={() => navigate(-1)}
                 className="px-4 py-2 text-xs text-white bg-blue-500 rounded me-2 hover:bg-blue-600 md:text-base"
-                >
+              >
                 Back
               </button>
               {/* back button end */}
 
-                {/* assign button start */}
-                <div className="relative group">
+              {/* assign button start */}
+              <div className="relative group">
 
-          <button
-            onClick={() => setShowAddPop(true)}
-            className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
-          >
-            Assign Instructor
-          </button>
-          <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
-            You can  Assign Instructor
-          </div>
+                <button
+                  onClick={() => setShowAddPop(true)}
+                  className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                >
+                  Assign Instructor
+                </button>
+                <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
+                  You can  Assign Instructor
+                </div>
 
-        </div>
-                {/* assign button end */}
+              </div>
+              {/* assign button end */}
             </div>
           </div>
           <div className="md:w-2/3">
@@ -234,7 +236,7 @@ const CourseDetails = () => {
           </tr>
         </thead>
         <tbody>
-          {loading ? ('Loading') : students.length === 0 ? ('No data yet') :
+          {loading ? ('Loading') : students.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
             students.map((student, index) => (
               <tr key={index} className="hover:bg-gray-100 group">
                 <td className="px-4 py-2">
@@ -244,7 +246,7 @@ const CourseDetails = () => {
                 <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
                 <td className="px-4 py-2">{student._id}</td>
                 <td className="px-4 py-2">{student.phoneNumber}</td>
-                <td className="px-4 py-2">{ (new Date(Date(student.createdDate))).toLocaleDateString() }</td>
+                <td className="px-4 py-2">{(new Date(Date(student.createdDate))).toLocaleDateString()}</td>
                 {/* <td className="px-4 py-2">{  (new Date(student.createdDate)).getFullYear() }</td> */}
                 <td className="px-4 py-2 ">
                   <div className='relative flex justify-between h-8 text-blue-500 cursor-pointer hover:underline'>
@@ -264,9 +266,9 @@ const CourseDetails = () => {
         </tbody>
       </table>
       {/* </div> */}
-       <ModelContainer onClose={handleOnClose} visible={showAddPop}>
+      <ModelContainer onClose={handleOnClose} visible={showAddPop}>
         <AssignInstructors
-        //  onData={handleAddStudent}
+          //  onData={handleAddStudent}
           onClose={handleOnClose}
           id={course._id}
         />

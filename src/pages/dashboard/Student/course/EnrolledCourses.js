@@ -1,14 +1,14 @@
 // import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import AddCourseForm from '../../../../forms/addCourseForm';
 import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
-// import SideBar from '../../../../component/SideBar';
+import { useOutletContext } from 'react-router-dom';
 
 
 
@@ -19,6 +19,11 @@ const EnrolledCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
+
+
   useEffect(() => {
     getCourses()
     setLoading(false);
@@ -26,7 +31,7 @@ const EnrolledCourses = () => {
 
   const handleAddStudent = () => {
 
-    
+
 
 
   };
@@ -54,7 +59,7 @@ const EnrolledCourses = () => {
         // const allPost = [newPost, ...courses]
 
         setCourses(() => res.data.details.courses);
-        
+
 
 
 
@@ -63,19 +68,17 @@ const EnrolledCourses = () => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
 
@@ -87,7 +90,7 @@ const EnrolledCourses = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className="justify-center h-screen max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow flex-colume justify-self-center">
+      <div className={`flex justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-col justify-self-center md:ml-72 my-20`}>
         {/* button start */}
         <div className="flex justify-end m-2 ">
           <div className="relative group">
@@ -124,37 +127,37 @@ const EnrolledCourses = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? ('Loading') 
-              : courses.length === 0 
-              ? ('No data yet') :
-                courses.map((student, index) => (
-                  <tr key={index} className="hover:bg-gray-100 group">
-                    <td className="px-4 py-2">
-                      {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
-                      <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
-                      {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
+              {loading ? ('Loading')
+                : courses.length === 0
+                  ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
+                  courses.map((student, index) => (
+                    <tr key={index} className="hover:bg-gray-100 group">
+                      <td className="px-4 py-2">
+                        {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
+                        <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
+                        {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
 
-                    </td>
-                    <td className="px-4 py-2">{student.title} </td>
-                    <td className="px-4 py-2">{student.description}</td>
-                    <td className="px-4 py-2">{student.duration}</td>
-                    <td className="px-4 py-2">{student.capacity}</td>
-                    <td className="px-4 py-2">{student.amount}</td>
-                    <td className="px-4 py-2">{student.status ? student.status : "Upcoming"}</td>
-                    <td className="px-4 py-2 ">
-                      <div className='relative flex justify-between'>
-                        <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
-                          View Profile
-                        </Link>
-                        {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
+                      </td>
+                      <td className="px-4 py-2">{student.title} </td>
+                      <td className="px-4 py-2">{student.description}</td>
+                      <td className="px-4 py-2">{student.duration}</td>
+                      <td className="px-4 py-2">{student.capacity}</td>
+                      <td className="px-4 py-2">{student.amount}</td>
+                      <td className="px-4 py-2">{student.status ? student.status : "Upcoming"}</td>
+                      <td className="px-4 py-2 ">
+                        <div className='relative flex justify-between'>
+                          <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
+                            View Profile
+                          </Link>
+                          {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
                   <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
                     <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
                   </svg>
                   </div> */}
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                        </div>
+                      </td>
+                    </tr>
+                  ))
               }
             </tbody>
           </table>

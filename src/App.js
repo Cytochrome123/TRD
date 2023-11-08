@@ -2,6 +2,9 @@ import { createContext, useState, useEffect } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
+import Swal from  'sweetalert2';
+
 import Courses from './pages/courses';
 // import { loadCourses } from './pages/courses';
 import Navbarr from './component/header/navbar';
@@ -33,21 +36,24 @@ import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDeta
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
-import StudentSideBar from './component/header/student/StudentNavbar';
-import Dashboard from './pages/dashboard/Student/dashboard';
-import DashboardCont from './pages/dashboard/Instructor/dashboardCont';
-import ContDashboard from './pages/dashboard/Admin/contDashboard';
+import StudentSideBar from './component/header/student/SideBar';
+import MainS from './pages/dashboard/Student/main';
+import MainI from './pages/dashboard/Instructor/main';
+import Main from './pages/dashboard/Admin/main';
 import RequireAuth from './component/RequireAuth';
 import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
+import Remita from './service/remita';
+import Side from './side';
 
 export const AuthContext = createContext();
+export const AlertContext = createContext();
 
 // export const BASEURL = 'http://localhost:5001/api';
 export const BASEURL = 'https://trd-server.onrender.com/api'
 
 function App() {
-  
+
   const token = cookies.get('token');
   let decoded;
   if (token) decoded = jwtDecode(token);
@@ -56,13 +62,15 @@ function App() {
 
   const [authenticatedUser, setAuthenticatedUser] = useState({
     authenticated: decoded ? true : false,
-    firstName: decoded ? decoded.firstName : '' ,
-    lastName: decoded ? decoded.lastName : '' ,
+    firstName: decoded ? decoded.firstName : '',
+    lastName: decoded ? decoded.lastName : '',
     courses: decoded ? decoded.courses : [],
     role: decoded ? decoded.userType : '',
     token: decoded ? decoded.token : ''
   })
-console.log(authenticatedUser, 'auth');
+
+  console.log(authenticatedUser, 'auth');
+
   const handleAuth = (token) => {
     if (token) {
       decoded = jwtDecode(token);
@@ -80,34 +88,43 @@ console.log(authenticatedUser, 'auth');
     }
   }
 
-  // useEffect(() => {
-  //   handleAuth()
-  // })
+  const notify = (type, msg) => toast[type](`🦄 ${msg}`, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
 
-  // const [alert, setAlert] = useState({
-  //   show: false,
-  //   msg: '',
-  //   type: ''
-  // }) 
-
-  // const handleAlert = (show, msg, type) => {
-  //   setAlert({
-  //       show,
-  //       msg,
-  //       type
-  //   })
-  // }
+  const call2Action = (type, msg, res) => Swal.fire({
+    icon: type,
+    title: "Confirmation",
+    text: msg,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Deleted!",
+        text: res,
+        icon: "success"
+      });
+    }
+  });
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route >
         <Route path='/' element={<Root />}>
           <Route path='/' element={<Landing />} />
+          <Route path='/side' element={<Side />} />
           <Route path='/test' element={<Test />} />
+          <Route path='/payyyy' element={<Remita />} />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/events' element={<Events />} />
-          <Route path='/courses' element={<Courses />} 
+          <Route path='/courses' element={<Courses />}
           // loader={loadCourses} 
           />
           {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
@@ -117,7 +134,7 @@ console.log(authenticatedUser, 'auth');
           <Route path='/verify' element={<TwoFA />} />
 
           {/* // ADMIN  */}
-            {/* <Route path='/admin/dashboard' element={<ContDashboard />} >
+          {/* <Route path='/admin/dashboard' element={<Main />} >
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
               <Route path="courses/:id" element={<CourseDetails />} />
@@ -128,7 +145,7 @@ console.log(authenticatedUser, 'auth');
             </Route> */}
 
           {/* INSTRUCTOR */}
-            {/* <Route path='/instructor/dashboard/*' element={<DashboardCont />} >
+          {/* <Route path='/instructor/dashboard/*' element={<MainI />} >
               <Route path='' element={<InstructorDashboard />} />
               <Route path='assigned-courses' element={<AssignedCourses />} />
               <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
@@ -136,7 +153,7 @@ console.log(authenticatedUser, 'auth');
             </Route> */}
 
           {/* <Route element={<StudentRoutes />}> */}
-            {/* <Route path='/student/dashboard/*' element= {<Dashboard/>}>
+          {/* <Route path='/student/dashboard/*' element= {<MainS/>}>
               <Route path='' element={<StudentDashboard/>} />
               <Route path='enrolled-courses' element={<EnrolledCourses/>} />
               <Route path='enrolled-courses/:id' element={<IndividualCourse/>} />
@@ -144,50 +161,50 @@ console.log(authenticatedUser, 'auth');
               <Route path='student/:id' element={<StudentDetail />} />
               <Route path='course/:id' element={<CourseDetail />} />
             </Route> */}
-            {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+          {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
 
 
-            
-          <Route element={<RequireAuth allowedRoles={[ 'admin']} />}>
-          <Route path='/admin/dashboard' element={<ContDashboard />} >
-              <Route path='' element={<AdminDashboard />} />
-              <Route path='courses' element={<ListCourses />} />
-              <Route path="courses/:id" element={<CourseDetails />} />
-              <Route path='instructors' element={<InstructorsList />} />
-              <Route path='instructors/:id' element={<InstructorsProfile/>} />
-              <Route path='students' element={<Students />} />
-              <Route path='students/:id' element={<AdminStudentProfile/>} />
-            </Route>
+
+          {/* <Route element={<RequireAuth allowedRoles={[ 'admin']} />}> */}
+          <Route path='/admin/dashboard' element={<Main />} >
+            <Route path='' element={<AdminDashboard />} />
+            <Route path='courses' element={<ListCourses />} />
+            <Route path="courses/:id" element={<CourseDetails />} />
+            <Route path='instructors' element={<InstructorsList />} />
+            <Route path='instructors/:id' element={<InstructorsProfile />} />
+            <Route path='students' element={<Students />} />
+            <Route path='students/:id' element={<AdminStudentProfile />} />
           </Route>
+          {/* </Route> */}
 
           {/* INSTRUCTOR */}
-          <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}>
-            <Route path='/instructor/dashboard/*' element={<DashboardCont />} >
-              <Route path='' element={<InstructorDashboard />} />
-              <Route path='assigned-courses' element={<AssignedCourses />} />
-              <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
-              <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
-            </Route>
+          {/* <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}> */}
+          <Route path='/instructor/dashboard/*' element={<MainI />} >
+            <Route path='' element={<InstructorDashboard />} />
+            <Route path='assigned-courses' element={<AssignedCourses />} />
+            <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
+            <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
           </Route>
-          
+          {/* </Route> */}
+
           {/* <Route element={<StudentRoutes />}> */}
-          <Route element={<RequireAuth allowedRoles={[ 'student']} />}>
-            <Route path='/student/dashboard/*' element= {<Dashboard/>}>
-              <Route path='' element={<StudentDashboard/>} />
-              <Route path='enrolled-courses' element={<EnrolledCourses/>} />
-              <Route path='enrolled-courses/:id' element={<IndividualCourse/>} />
-              <Route path='student/studentData' element={<StudentData />} />
-              <Route path='student/:id' element={<StudentDetail />} />
-              <Route path='course/:id' element={<CourseDetail />} />
-            </Route>
+          {/* <Route element={<RequireAuth allowedRoles={[ 'student']} />}> */}
+          <Route path='/student/dashboard/*' element={<MainS />}>
+            <Route path='' element={<StudentDashboard />} />
+            <Route path='enrolled-courses' element={<EnrolledCourses />} />
+            <Route path='enrolled-courses/:id' element={<IndividualCourse />} />
+            <Route path='student/studentData' element={<StudentData />} />
+            <Route path='student/:id' element={<StudentDetail />} />
+            <Route path='course/:id' element={<CourseDetail />} />
           </Route>
-            
-            {/* <Route path='/student/studentData' element={<StudentData />} />
+          {/* </Route> */}
+
+          {/* <Route path='/student/studentData' element={<StudentData />} />
             <Route path='/student/:id' element={<StudentDetail />} />
             <Route path='/course/:id' element={<CourseDetail />} /> */}
-            
-            
-            {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
+
+
+          {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
           {/* </Route> */}
           <Route>
             {/* <Route path='/dashboard/admin' element={<AdminDashboard />} /> */}
@@ -203,7 +220,9 @@ console.log(authenticatedUser, 'auth');
 
   return (
     <AuthContext.Provider value={{ authenticatedUser, setAuthenticatedUser, handleAuth }}>
-      <RouterProvider router={router} />
+      <AlertContext.Provider value={{notify, call2Action}}>
+        <RouterProvider router={router} />
+      </AlertContext.Provider>
     </AuthContext.Provider>
   );
 }
@@ -212,7 +231,7 @@ const Root = () => {
   return (
     <div className=''>
       <Navbarr />
-      <div className='container mx-auto'>
+      <div className=''>
         <Outlet />
       </div>
       <Footer />

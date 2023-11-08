@@ -1,15 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 // import Instructo from '../../Data/Instructor'
-import { AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from 'js-cookie';
-import SideBar from '../../../../component/SideBar';
+import { useOutletContext } from 'react-router-dom';
 
 const InstructorsList = () => {
   // const { instructors } = useContext(AuthContext);
   const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true);
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
+
   //   const {pathname} = useLocation()
   //  console.log('location', pathname);
 
@@ -198,26 +202,24 @@ const InstructorsList = () => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
 
   return (
-    <div>
+    <div className={`p-4 w-full md:ml-72 min-h-screen my-20`}>
       {/* <SideBar /> */}
-      <div className='justify-center max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow flex-colume justify-self-center' >
+      <div className='flex-col justify-center max-w-screen-xl min-h-screen p-6 mx-auto align-middle bg-white rounded shadow justify-self-center' >
 
 
         <div className='flex justify-end '>
@@ -253,7 +255,7 @@ const InstructorsList = () => {
               </tr>
             </thead>
             <tbody >
-              {loading ? ('Loading') : instructors.length === 0 ? ('No data yet') :
+              {loading ? ('Loading') : instructors.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                 instructors.map((instructor, index) => (
                   <tr key={index} className="hover:bg-gray-100 group">
                     <td className="px-4 py-2">

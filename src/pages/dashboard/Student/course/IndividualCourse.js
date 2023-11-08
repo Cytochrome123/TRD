@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-// import SideBar from "../../../../component/SideBar";
+import { useOutletContext } from 'react-router-dom';
 
 
 
@@ -24,6 +24,8 @@ const IndividualCourse = () => {
   const navigate = useNavigate()
 
   const { id } = useParams();
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
 
 
 
@@ -69,19 +71,17 @@ const IndividualCourse = () => {
       .catch((err) => {
         console.log(err.message);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
 
   }, []);
@@ -101,7 +101,7 @@ const IndividualCourse = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className="h-screen my-32">
+      <div className={`min-h-screen md:ml-72 my-20`}>
         <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
           <div className="flex flex-col items-center md:flex-row">
             <div className="md:w-1/3 md:pr-4">
@@ -146,7 +146,7 @@ const IndividualCourse = () => {
           </div>
         </div>
 
-        
+
         <div className="flex flex-col items-center p-6">
           <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
 

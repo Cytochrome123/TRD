@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { IoMdClose } from "react-icons/io";
 import cookies from "js-cookie";
 
-import { BASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 
 
@@ -12,6 +12,8 @@ function CourseDetails(props) {
   const { id, image, title, description, duration, className, onClose } = props;
 
   const navigate = useNavigate()
+  const {notify} = useContext(AlertContext)
+
   useEffect(() => {
     // Disable scrolling on the background when the modal is open
     document.body.style.overflow = "hidden";
@@ -36,7 +38,7 @@ function CourseDetails(props) {
     try {
       const token = cookies.get('token');
       if (!token) {
-        alert('You need to login to register for this course');
+        notify('error', 'You need to login to register for this course');
         return navigate(`/signin`);
       }
       const register = await axios({
@@ -49,32 +51,23 @@ function CourseDetails(props) {
           Authorization: `Bearer ${token}`
         },
       })
-      if (!register) return alert('Registrtion failed')
-      return alert('Registration sucessfull!!!')
+      if (!register) return notify('error', 'Registrtion failed')
+      return notify('success', 'Registration sucessfull!!!')
     } catch (err) {
       console.log(err);
       // console.log(instanceof err)
       if (Array.isArray(err.response?.data.msg)) {
-        alert(err.response.data.msg[0].msg);
+        notify('error', err.response.data.msg[0].msg)
       } else if (err.response) {
         // This can happen when the required headers or options to access the endpoint r not provided
         if (err.response.data.msg) {
-          alert(err.response.data.msg);
+          notify('error', err.response.data.msg)
         } else {
-          alert(err.response.data)
+          notify('error', err.response.data)
         }
       } else {
-        // err.response?.data ? alert(err.response?.data) : alert(err.message)
-        alert(err.message)
+        notify('error', err.message)
       }
-      // if (err && err instanceof Error && !AxiosError) {
-      //     alert(err.response?.data.msg);
-      // } else if (err && err instanceof AxiosError) {
-      //     // err.response?.data ? alert(err.response?.data) : alert(err.message)
-      //     alert(err.message)
-      // } else {
-      //     alert('Error')
-      // }
     }
   }
   return (

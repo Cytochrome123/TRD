@@ -3,13 +3,13 @@
 // import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import AddCourseForm from '../../../../forms/addCourseForm';
 import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
 import imgCallback from "../../../../images/profile.jpeg";
-import SideBar from '../../../../component/SideBar';
+import { useOutletContext } from 'react-router-dom';
 
 
 // const img = `${BASEURL}/file/${student.image.file}`
@@ -18,6 +18,10 @@ const ListCourses = () => {
   const [showAddPop, setShowAddPop] = useState(false);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSidebarOpen] = useOutletContext();
+  const {notify} = useContext(AlertContext)
+
+
 
   useEffect(() => {
     getCourses()
@@ -51,24 +55,22 @@ const ListCourses = () => {
         // const allPost = [newPost, ...courses]
 
         setCourses(res.data.courses);
-        
+
       })
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
-        // props.handleAlert(false, e.response.data ? e.response.data : e.message, 'danger');
       });
   }
 
@@ -78,15 +80,17 @@ const ListCourses = () => {
     window.scroll(0, 0)
   }, [])
   return (
-    <div>
+    <div className={`p-4 w-full md:ml-72 my-20 min-h-screen`}>
       {/* <SideBar /> */}
-      <div className="flex-col justify-center h-screen max-w-screen-xl p-6 mx-auto my-32 align-middle bg-white rounded shadow justify-self-center">
+      <div className={`flex-col flex-wrap justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow justify-self-center`}>
         {/* button start */}
+        <h2 className="text-2xl font-semibold">All Courses</h2>
+
         <div className="flex justify-end m-2 ">
           <div className="relative group">
             <button
               onClick={() => setShowAddPop(true)}
-              className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+              className="px-4 py-2 mb-4 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
             >
               Add Course
             </button>
@@ -98,7 +102,6 @@ const ListCourses = () => {
         </div>
         {/* button end */}
 
-        <h2 className="my-8 text-2xl font-semibold">All Courses</h2>
 
 
         <div className='overflow-x-auto '>
@@ -117,7 +120,7 @@ const ListCourses = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? ('Loading') : courses.length === 0 ? ('No data yet') :
+              {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                 courses.map((student, index) => (
                   <tr key={index} className="hover:bg-gray-100 group">
                     <td className="px-4 py-2">

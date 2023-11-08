@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
 import { Form, Button } from "react-bootstrap";
@@ -18,7 +18,7 @@ import CourseDetails from "../component/CourseDetails";
 // import CourseCard from "../component/courseCard
 
 import cookies from "js-cookie";
-import { BASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 const Courses = () => {
   // const courses = useLoaderData();
@@ -123,6 +123,7 @@ const Courses = () => {
 
   const [selectedCourse, setSelectedCourse] = useState(null);
   const ref = useRef(true);
+  const { notify } = useContext(AlertContext)
 
 
 
@@ -154,17 +155,16 @@ const Courses = () => {
         //   alert('Error')
         // }
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
       });
       
@@ -234,7 +234,7 @@ console.log(courses)
   // }
 
   return (
-    <div className="px-4 py-4 pb-20 md:px-8 lg:px-16 xl:px-20">
+    <div className="px-4 py-4 pb-20 my-16 md:px-8 lg:px-16 xl:px-20">
       {selectedCourse && (
         <CourseDetails
           id={selectedCourse._id}

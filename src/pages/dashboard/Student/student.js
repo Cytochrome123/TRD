@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import cookies from "js-cookie";
 
-import { BASEURL } from '../../../App';
+import { AlertContext, BASEURL } from '../../../App';
 import course_img from '../../../images/trd_img.png'
 import { Link, useNavigate } from 'react-router-dom';
 import MetricCard from '../../../component/MetricCard';
-// import SideBar from '../../../component/SideBar';
+import { useOutletContext } from 'react-router-dom';
 
 const StudentDashboard = () => {
     const [courses, setCourses] = useState([])
@@ -20,6 +20,9 @@ const StudentDashboard = () => {
         courses: [],
     });
     const [loading, setLoading] = useState(true)
+
+    const [isSidebarOpen] = useOutletContext();
+    const {notify} = useContext(AlertContext)
 
 
     const navigate = useNavigate()
@@ -52,25 +55,26 @@ const StudentDashboard = () => {
             .catch(err => {
                 console.log(err);
                 if (Array.isArray(err.response?.data.msg)) {
-                    alert(err.response.data.msg[0].msg);
+                    notify('error', err.response.data.msg[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
                     if (err.response.data.msg) {
-                        alert(err.response.data.msg);
+                        notify('error', err.response.data.msg)
                     } else {
-                        alert(err.response.data)
+                        notify('error', err.response.data)
                     }
                 } else {
-                    // err.response?.data ? alert(err.response?.data) : alert(err.message)
-                    alert(err.message)
+                    notify('error', err.message)
                 }
             })
+        setLoading(false)
     }, []);
 
     return (
         <div>
             {/* <SideBar /> */}
-            <div className="container w-full pt-20 mx-auto my-32">
+            {/* <div className={`p-4 w-full ${isSidebarOpen ? 'ml-72' : ''} md:ml-72 my-20 h-screen`}> */}
+            <div className={`p-4 w-full ${isSidebarOpen ? '' : ''} md:ml-64 my-20 min-h-screen mx-auto`}>
                 {/* ... (rest of your content code start) */}
                 <div className="w-full px-4 mb-16 leading-normal text-gray-800 md:px-0 md:mt-8">
 
@@ -111,25 +115,26 @@ const StudentDashboard = () => {
                                             </thead>
                                             <tbody>
 
-                                                {data.courses.map(course => (
-                                                    <tr key={course.id} className="hover:bg-gray-100 group">
-                                                        <td className="px-4 py-2">{course.courseID.title}</td>
-                                                        <td className="px-4 py-2">{`${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}`}</td>
-                                                        <td className="px-4 py-2">{course.courseID.duration}</td>
-                                                        <td className="px-4 py-2 ">
-                                                            <div className='relative flex justify-between'>
-                                                                <span onClick={() => navigate(`/student/dashboard/enrolled-courses/${course.courseID._id}`)} className="h-8 text-blue-500 cursor-pointer hover:underline">
-                                                                    View Profile
-                                                                </span>
-                                                                {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
+                                                {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
+                                                    data.courses.map(course => (
+                                                        <tr key={course.id} className="hover:bg-gray-100 group">
+                                                            <td className="px-4 py-2">{course.courseID.title}</td>
+                                                            <td className="px-4 py-2">{`${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}`}</td>
+                                                            <td className="px-4 py-2">{course.courseID.duration}</td>
+                                                            <td className="px-4 py-2 ">
+                                                                <div className='relative flex justify-between'>
+                                                                    <span onClick={() => navigate(`/student/dashboard/enrolled-courses/${course.courseID._id}`)} className="h-8 text-blue-500 cursor-pointer hover:underline">
+                                                                        View Profile
+                                                                    </span>
+                                                                    {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
                     <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
                     <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
                     </svg>
                     </div> */}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                             </tbody>
                                         </table>
                                     </div>
@@ -163,7 +168,8 @@ const StudentDashboard = () => {
                                             </thead>
                                             <tbody>
 
-                                                {courses.map(course => (
+                                                {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
+                                                courses.map(course => (
                                                     <tr key={course.id} className="hover:bg-gray-100 group">
                                                         <td className="px-4 py-2">{course.course}</td>
                                                         <td className="px-4 py-2">{course.coInstructor}</td>
@@ -186,7 +192,7 @@ const StudentDashboard = () => {
                                         </table>
                                     </div>
 
-                                    <p class="py-2"><a href="#">See More Courses...</a></p>
+                                    {courses.length > 0 && <p class="py-2"><a href="#">See More Courses...</a></p>}
 
                                 </div>
                             </div>

@@ -1,8 +1,8 @@
-import React, { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-import { BASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 import { AuthContext } from "../App";
 
 const TwoFAForm = (props) => {
@@ -16,6 +16,8 @@ const TwoFAForm = (props) => {
   console.log(otp);
   
   const { authenticatedUser, handleAuth } = useContext(AuthContext);
+  const {notify} = useContext(AlertContext)
+
   // handleAuth()
 
   const handleSubmit = (event) => {
@@ -36,7 +38,7 @@ const TwoFAForm = (props) => {
     })
       .then((res) => {
         console.log(res.data);
-        alert(res.data.msg);
+        notify('success', res.data.msg);
 
         cookies.remove("temp");
         const token = cookies.set("token", res.data.newAccessToken);
@@ -57,17 +59,16 @@ const TwoFAForm = (props) => {
       .catch((err) => {
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
-          alert(err.response.data.msg[0].msg);
+          notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
           if (err.response.data.msg) {
-            alert(err.response.data.msg);
+            notify('error', err.response.data.msg)
           } else {
-            alert(err.response.data)
+            notify('error', err.response.data)
           }
         } else {
-          // err.response?.data ? alert(err.response?.data) : alert(err.message)
-          alert(err.message)
+          notify('error', err.message)
         }
       });
   };

@@ -27,3 +27,7 @@ Appp.js
 mic/
 # admin/
 pprofile.js
+*.zip
+service
+side.js
+Alert.js

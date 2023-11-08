@@ -86,161 +86,163 @@ function Landing() {
   };
 
   return (
-    <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <div className="flex flex-col items-center md:flex-row justify-center mt-3 md:mt-16 space-y-8 md:space-y-0 md:space-x-20">
-        <div className="flex flex-col items-center md:items-start w-full md:w-1/2 space-y-7">
-          <div className="flex flex-col space-y-3">
-            <h1 className="text-2xl md:text-2xl text-slate-800 font-bold md:leading-relaxed text-center md:text-left">
-              Welcome to Training Research and Development (TRD) &ndash; University of
-              Ibadan ICT Training Center
-            </h1>
-            <p className="text-sm md:text-lg text-slate-800 leading-relaxed text-center md:text-justify">
-              At our state-of-the-art facility, we conduct trainings and
-              development programmes to empower individuals and organisations
-              with the knowledge and skills required to thrive in the dynamic
-              landscape due to advancements in Technology. With our experienced
-              instructors, you will find a supportive and stimulating
-              environment that encourages exploration and creativity.<br/> Join us on
-              this exciting odyssey.
-            </p>
+    <div>
+      <div className="px-8 py-8 pb-20 my-24 lg:px-16 xl:px-20 lg:my-12">
+        <div className="flex flex-col items-center justify-center mt-3 space-y-8 md:flex-row md:mt-16 md:space-y-0 md:space-x-20">
+          <div className="flex flex-col items-center w-full md:items-start md:w-1/2 space-y-7">
+            <div className="flex flex-col space-y-3">
+              <h1 className="text-2xl font-bold text-center md:text-2xl text-slate-800 md:leading-relaxed md:text-left">
+                Welcome to Training Research and Development (TRD) &ndash; University of
+                Ibadan ICT Training Center
+              </h1>
+              <p className="text-sm leading-relaxed text-center md:text-lg text-slate-800 md:text-justify">
+                At our state-of-the-art facility, we conduct trainings and
+                development programmes to empower individuals and organisations
+                with the knowledge and skills required to thrive in the dynamic
+                landscape due to advancements in Technology. With our experienced
+                instructors, you will find a supportive and stimulating
+                environment that encourages exploration and creativity.<br/> Join us on
+                this exciting odyssey.
+              </p>
+            </div>
+            <button className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:bg-blue-400">
+              <a href="/signup">Sign Up</a>
+            </button>
           </div>
-          <button className="text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out">
-            <a href="/signup">Sign Up</a>
-          </button>
+          <div className="flex flex-col w-full md:w-1/2">
+            <img className="mx-auto rounded-lg" src={HEROIMG} alt="hero" />
+          </div>
         </div>
-        <div className="flex flex-col w-full md:w-1/2">
-          <img className="rounded-lg mx-auto" src={HEROIMG} alt="hero" />
-        </div>
-      </div>
 
-      <div className="flex flex-col items-center mt-20 md:mt-32">
-        <h2 className="text-2xl text-slate-800 font-bold leading-relaxed mb-10">
-          What we have to offer
-        </h2>
+        <div className="flex flex-col items-center mt-20 md:mt-28">
+          <h2 className="mb-10 text-2xl font-bold leading-relaxed text-slate-800">
+            What we have to offer
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
-          {courses.map((course, index) => (
-            <div key={index} className="flex flex-col">
-              <a href="#" className="flex flex-col items-stretch">
-                <div className="flex flex-col justify-start items-start border-2 border-slate-200 rounded-2xl p-5 space-y-3 text-slate-600 hover:bg-slate-100 transition duration-300 ease-in-out cursor-pointer h-40 hover:transform hover:scale-105">
-                  <h3 className="text-lg font-bold">{course.name}</h3>
-                  <p className="leading-relaxed text-justify">
-                    {course.description}
-                  </p>
-                </div>
-              </a>
-            </div>
-          ))}
-          <a
-            href="/courses"
-            className="col-span-1 justify-center align-middle flex text-white font-bold bg-blue-600 px-7 py-3 rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out"
-          >
-            <button>View all our courses</button>
-          </a>
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center mt-20 md:mt-32">
-        <h2 className="text-2xl text-slate-800 font-bold leading-relaxed mb-10">
-          {isVisionVisible ? "Our Vision" : "Our Mission"}
-        </h2>
-
-        <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-16">
-          <img
-            src={VISION}
-            className="w-full md:w-2/5 rounded-lg"
-            alt="vision"
-          />
-          <div className="flex flex-col w-full items-center md:items-start p-4 md:p-10 space-y-5">
-            <div className="flex flex-row space-x-6 items-center">
-              <span
-                className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
-                  isVisionVisible
-                    ? "text-slate-800 bg-gray-200"
-                    : "text-slate-400"
-                }`}
-                onClick={handleVisionClick}
-              >
-                Vision
-              </span>
-              <span
-                className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
-                  !isVisionVisible
-                    ? "text-slate-800 bg-gray-200"
-                    : "text-slate-400"
-                }`}
-                onClick={handleMissionClick}
-              >
-                Mission
-              </span>
-            </div>
-            <p
-              className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
-                isVisionVisible ? "" : "hidden"
-              }`}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 ">
+            {courses.map((course, index) => (
+              <div key={index} className="flex flex-col">
+                <a href="#" className="flex flex-col items-stretch">
+                  <div className="flex flex-col items-start justify-start h-40 p-5 space-y-3 transition duration-300 ease-in-out border-2 cursor-pointer border-slate-200 rounded-2xl text-slate-600 hover:bg-slate-100 hover:transform hover:scale-105">
+                    <h3 className="text-lg font-bold">{course.name}</h3>
+                    <p className="leading-relaxed text-justify">
+                      {course.description}
+                    </p>
+                  </div>
+                </a>
+              </div>
+            ))}
+            <a
+              href="/courses"
+              className="flex justify-center col-span-1 py-3 font-bold text-white align-middle transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:bg-blue-400"
             >
-              To be a center of excellence for Information Technology and Media
-              training, research and development in line with the University's
-              Vision and Mission.
-            </p>
-            {/* <p
-              className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
-                isVisionVisible ? "hidden" : ""
-              }`}
-            > */}
-              <ul 
-                className={`list-disc text-md text-slate-700 text-justify leading-loose fade-in-faster ${
+              <button>View all our courses</button>
+            </a>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center mt-20 md:mt-24">
+          <h2 className="mb-10 text-2xl font-bold leading-relaxed text-slate-800">
+            {isVisionVisible ? "Our Vision" : "Our Mission"}
+          </h2>
+
+          <div className="flex flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-16">
+            <img
+              src={VISION}
+              className="w-full rounded-lg md:w-2/5"
+              alt="vision"
+            />
+            <div className="flex flex-col items-center w-full p-4 space-y-5 md:items-start md:p-10">
+              <div className="flex flex-row space-x-6">
+                <span
+                  className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
+                    isVisionVisible
+                      ? "text-slate-800 bg-gray-200"
+                      : "text-slate-400"
+                  }`}
+                  onClick={handleVisionClick}
+                >
+                  Vision
+                </span>
+                <span
+                  className={`text-lg font-bold text-center px-5 py-2 cursor-pointer rounded-xl transition duration-500 ease-in-out ${
+                    !isVisionVisible
+                      ? "text-slate-800 bg-gray-200"
+                      : "text-slate-400"
+                  }`}
+                  onClick={handleMissionClick}
+                >
+                  Mission
+                </span>
+              </div>
+              <p
+                className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
+                  isVisionVisible ? "" : "hidden"
+                }`}
+              >
+                To be a center of excellence for Information Technology and Media
+                training, research and development in line with the University's
+                Vision and Mission.
+              </p>
+              {/* <p
+                className={`text-md text-slate-700 text-justify leading-loose fade-in-faster ${
                   isVisionVisible ? "hidden" : ""
                 }`}
-            >
-                <li>To provide world-class IT and Media literacy to support excellent teaching, learning,  and administration in the University and beyond</li>
-                <li>To conduct research on regular basis on information technology and media issues.</li>
-                <li>To run IT trainings with end-time certification. </li>
-                <li>To offer end-user IT education, support and consultancy.</li>
-              </ul>
-            {/* </p> */}
+              > */}
+                <ul 
+                  className={`list-disc text-md text-slate-700 text-justify leading-loose fade-in-faster ${
+                    isVisionVisible ? "hidden" : ""
+                  }`}
+              >
+                  <li>To provide world-class IT and Media literacy to support excellent teaching, learning,  and administration in the University and beyond</li>
+                  <li>To conduct research on regular basis on information technology and media issues.</li>
+                  <li>To run IT trainings with end-time certification. </li>
+                  <li>To offer end-user IT education, support and consultancy.</li>
+                </ul>
+              {/* </p> */}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex flex-col items-center mt-20 md:mt-32">
-        <h2 className="text-2xl text-slate-800 font-bold leading-relaxed mb-10">
-          Services we offer
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <div key={index} className="flex flex-col">
-              <div
-                className={`flex flex-col justify-center items-center space-y-3 text-slate-600 h-40 cursor-pointer bg-slate-100 rounded-2xl p-5 hover:bg-slate-200 transition duration-300 ease-in-out`}
-              >
-                <span className={`text-6xl ${service.color}`}>
-                  {service.icon}
-                </span>
-                <span className="text-sm font-medium">{service.title}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-col items-center mt-20 md:mt-44">
-        <h2 className="text-2xl text-white w-full justify-center flex rounded-lg bg-slate-800 font-bold leading-relaxed mb-10">
-          Announcements
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-x-32">
-          {announcements.map((announcement, index) => (
-            <div key={index}>
-              <div className="flex flex-col space-y-5">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold">{announcement.title}</h3>
-                  <hr className="border-2 border-slate-100 rounded-lg" />
+        <div className="flex flex-col items-center mt-20 md:mt-22">
+          <h2 className="mb-10 text-2xl font-bold leading-relaxed text-slate-800">
+            Services we offer
+          </h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((service, index) => (
+              <div key={index} className="flex flex-col">
+                <div
+                  className={`flex flex-col justify-center items-center space-y-3 text-slate-600 h-40 cursor-pointer bg-slate-100 rounded-2xl p-5 hover:bg-slate-200 transition duration-300 ease-in-out`}
+                >
+                  <span className={`text-6xl ${service.color}`}>
+                    {service.icon}
+                  </span>
+                  <span className="text-sm font-medium">{service.title}</span>
                 </div>
-                <p className="leading-relaxed text-justify">
-                  {announcement.description}
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center mt-20 md:mt-24">
+          <h2 className="flex justify-center w-full mb-10 text-2xl font-bold leading-relaxed text-white rounded-lg bg-slate-800">
+            Announcements
+          </h2>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 md:gap-x-32">
+            {announcements.map((announcement, index) => (
+              <div key={index}>
+                <div className="flex flex-col space-y-5">
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold">{announcement.title}</h3>
+                    <hr className="border-2 rounded-lg border-slate-100" />
+                  </div>
+                  <p className="leading-relaxed text-justify">
+                    {announcement.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

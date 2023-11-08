@@ -51,13 +51,13 @@ const Events = () => {
   ];
 
   return (
-    <div className="px-8 py-8 lg:px-16 xl:px-20 pb-20">
-      <h2 className="text-2xl md:text-5xl w-full text-slate-900 flex justify-center font-bold mt-10 md:mt-16">
+    <div className="px-8 py-8 pb-20 my-10 lg:px-16 xl:px-20">
+      <h2 className="flex justify-center w-full mt-10 text-2xl font-bold md:text-5xl text-slate-900 md:mt-16">
         Events & Campaigns
       </h2>
       <div className="mt-10">
-        <div className="flex flex-col space-y-3 mt-10">
-          <span className="text-2xl text-slate-800 font-bold">Tech Odyssey</span>
+        <div className="flex flex-col mt-10 space-y-3">
+          <span className="text-2xl font-bold text-slate-800">Tech Odyssey</span>
           <span className="text-md text-slate-600">
             Tech Odyssey is an annual technology conference that brings together
             experts and enthusiasts from various tech industries. It offers
@@ -71,21 +71,21 @@ const Events = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10">
           {techOdyssey.map((event, index) => (
             <div key={index} className="mt-14">
-              <div className="col-span-1 w-full h-72">
+              <div className="w-full col-span-1 h-72">
                 <img
                   src={event.img}
                   alt="event"
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
-                <div className="text-sm mt-2">{event.description}</div>
+                <div className="mt-2 text-sm">{event.description}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
       <div className="mt-24">
-        <div className="flex flex-col space-y-3 mt-10">
-          <span className="text-2xl text-slate-800 font-bold">
+        <div className="flex flex-col mt-10 space-y-3">
+          <span className="text-2xl font-bold text-slate-800">
             Digital Productivity Training
           </span>
           <span className="text-md text-slate-600">
@@ -99,13 +99,13 @@ const Events = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-10">
           {digitalProductivity.map((event, index) => (
             <div key={index} className="mt-14">
-              <div className="col-span-1 w-full h-72">
+              <div className="w-full col-span-1 h-72">
                 <img
                   src={event.img}
                   alt="event"
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
-                <div className="text-sm mt-2">{event.description}</div>
+                <div className="mt-2 text-sm">{event.description}</div>
               </div>
             </div>
           ))}
