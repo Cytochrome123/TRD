@@ -43,7 +43,7 @@ import Main from './pages/dashboard/Admin/main';
 import RequireAuth from './component/RequireAuth';
 import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
-import Remita from './service/remita';
+// import Remita from './service/remita';
 // import Side from './side';
 
 export const AuthContext = createContext();
@@ -120,7 +120,7 @@ function App() {
           <Route path='/' element={<Landing />} />
           {/* <Route path='/side' element={<Side />} /> */}
           <Route path='/test' element={<Test />} />
-          <Route path='/payyyy' element={<Remita />} />
+          {/* <Route path='/payyyy' element={<Remita />} /> */}
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/events' element={<Events />} />
