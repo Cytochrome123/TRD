@@ -13,7 +13,7 @@ import afolabi from "../images/staff/afolabi.jpg";
 
 const team = [
   {
-    name: "Alao ABIODUN",
+    name: "Mrs ABIODUN Alao",
     role: "Director ITeMS",
     image: alao,
   },
@@ -38,14 +38,14 @@ const team = [
     image: olubodun,
   },
   {
-    name: "Temitope OLUSANYA",
-    role: "Secretary",
-    image: olusanya,
+    name: "Dolapo AFOLABI",
+    role: "Registry",
+    image: afolabi,
   },
   {
-    name: "Dolapo AFOLABI",
-    role: "Secretary",
-    image: afolabi,
+    name: "Temitope OLUSANYA",
+    role: "Registry",
+    image: olusanya,
   },
 ];
 
