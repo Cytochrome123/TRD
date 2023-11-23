@@ -41,7 +41,7 @@ const Contact = () => {
       question:
         "Does the TRD unit provide funding support for research projects?",
       answer:
-        "Yes, the TRD unit offers funding support for research projects through various grants and schemes. They encourage faculty members and researchers to submit research proposals aligned with the university's strategic research priorities. The TRD unit evaluates the proposals and provides financial assistance to selected projects to promote research excellence and innovation.",
+        " TRD unit does not povide funding.",
     },
     {
       question:

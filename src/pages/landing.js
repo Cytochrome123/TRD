@@ -6,6 +6,31 @@ import { MdOutlineComputer } from "react-icons/md";
 import { AiOutlineDatabase } from "react-icons/ai";
 import { SiMicrosoftacademic } from "react-icons/si";
 
+
+const getStatusColor = (status) => {
+
+  switch (status) {
+    case 0:
+      return 'yellow';
+    case 1:
+      return '#f5a0a0';
+    case 2:
+      return '#f5f4a0';
+    case 3:
+      return '#a0f5b5';
+    case 4:
+      return '#a299f3';
+    case 5:
+      return '#eec1eae8';
+    default:
+      return 'gray';
+  }
+ 
+};
+
+
+
+
 const courses = [
   {
     name: "Digital Productivity Training",
@@ -63,14 +88,14 @@ const services = [
 
 const announcements = [
   {
-    title: "New Course Available",
+    title: " ArcGIS",
     description:
-      "We are pleased to announce that we have a new course available for registration. The course is titled 'Introduction to ArcGIS'. It is a 3-week course that will run from the 1st of August to the 21st of August. The course will be taught by Prof. A. O. Oluwade.",
+      "'Details to be released soon...",
   },
   {
-    title: "New Course Available",
+    title: " DPT School",
     description:
-      "We are pleased to announce that we have a new course available for registration. The course is titled 'Introduction to ArcGIS'. It is a 3-week course that will run from the 1st of August to the 21st of August. The course will be taught by Prof. A. O. Oluwade.",
+      "Details to be released soon...",
   },
 ];
 
@@ -116,12 +141,12 @@ function Landing() {
 
         <div className="flex flex-col items-center mt-20 md:mt-28">
           <h2 className="mb-10 text-2xl font-bold leading-relaxed text-slate-800">
-            What we have to offer
+            We Offer
           </h2>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 ">
             {courses.map((course, index) => (
-              <div key={index} className="flex flex-col">
+              <div key={index} className="flex flex-col" style={{background:`${getStatusColor(index)}`}} >
                 <a href="#" className="flex flex-col items-stretch">
                   <div className="flex flex-col items-start justify-start h-40 p-5 space-y-3 transition duration-300 ease-in-out border-2 cursor-pointer border-slate-200 rounded-2xl text-slate-600 hover:bg-slate-100 hover:transform hover:scale-105">
                     <h3 className="text-lg font-bold">{course.name}</h3>
@@ -228,15 +253,19 @@ function Landing() {
           <h2 className="flex justify-center w-full mb-10 text-2xl font-bold leading-relaxed text-white rounded-lg bg-slate-800">
             Announcements
           </h2>
+
+          <marquee className=" w-[50%] mb-4 -mt-5 font-semibold text-lg italic" behavior="alternate" direction="right">Up Coming</marquee>
+          
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 md:gap-x-32">
             {announcements.map((announcement, index) => (
               <div key={index}>
                 <div className="flex flex-col space-y-5">
+                  {/* <h2>Up coming</h2> */}
                   <div className="space-y-2">
                     <h3 className="text-lg font-bold">{announcement.title}</h3>
                     <hr className="border-2 rounded-lg border-slate-100" />
                   </div>
-                  <p className="leading-relaxed text-justify">
+                  <p className="leading-relaxed text-justify italic">
                     {announcement.description}
                   </p>
                 </div>
