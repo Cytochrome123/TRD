@@ -4,6 +4,7 @@ import { AlertContext, AuthContext, BASEURL } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
+import Loader from '../component/Loader';
 
 const token = Cookies.get('token')
 
@@ -24,6 +25,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
     amount: '',
     image: null, //should I change this to empty string ni? 
   });
+  const [loading, setLoading] = useState(false)
 
   const {notify} = useContext(AlertContext)
 
@@ -65,7 +67,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
   //   HandleAddCourse
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setLoading(true)
     // const id = Math.floor(Math.random() * 1000) + 1
 
     // const newPost = { id, title: Course.title, description : Course.description,  duration: Course.duration,start_date: Course.start_date, end_date: Course.end_date, location: Course.location, capacity: Course.capacity, amount: Course.amount, image: selectedImage  }
@@ -88,9 +90,22 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
       .then((res) => {
         console.log("xxx created-courses", res.data.msg);
         getCourses();
+        setLoading(false)
+        setCourseData({
+          title: '',
+          description: '',
+          duration: '',
+          start_date: '',
+          end_date: '',
+          location: '',
+          capacity: '',
+          amount: '',
+          image: null, //should I change this to empty string ni? 
+        })
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false)
         if (Array.isArray(err.response?.data.msg)) {
           notify('error', err.response.data.msg[0].msg)
         } else if (err.response) {
@@ -107,7 +122,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
     // // Axios request end
 
 
-    onClose()
+    
 
   };
 
@@ -121,6 +136,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
   return (
     // <div className="flex items-center justify-center min-h-screen bg-blue-50">
     <div className="w-full p-8 overflow-y-auto bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3 ">
+      {loading && <Loader />}
       <button className='float-right' onClick={handleCancel}><img src={Icon_x} alt='Icon x close' /></button>
       <h2 className="mb-4 text-3xl font-semibold text-blue-600">Add Course</h2>
       <form onSubmit={handleSubmit}>
@@ -180,7 +196,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
               </label>
               <input
                 className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
-                type="number"
+                type="date"
                 id="start_date"
                 name="start_date"
                 value={courseData.start_date}
@@ -195,17 +211,17 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
           {/* second section start */}
           <div>
             <div className="mb-4">
-              <label className="block mb-2 font-semibold text-gray-600" htmlFor="CourseId">
-                Duration
+              <label className="block mb-2 font-semibold text-gray-600" htmlFor="end_date">
+                End Date
               </label>
               <input
                 className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
-                type="text"
+                type="date"
                 id="end_date"
                 name="end_date"
                 value={courseData.end_date}
                 onChange={handleChange}
-                placeholder=" end date"
+                placeholder="end date"
                 required
               />
             </div>
@@ -263,8 +279,8 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
         </div>
         {/* overall 2 side end */}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
-            File
+          <label className="block mb-2 font-semibold text-gray-600" htmlFor="image">
+            Image
           </label>
           <input
             className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"

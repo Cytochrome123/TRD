@@ -141,7 +141,7 @@ function Landing() {
 
         <div className="flex flex-col items-center mt-20 md:mt-28">
           <h2 className="mb-10 text-2xl font-bold leading-relaxed text-slate-800">
-            We Offer
+            What We Offer
           </h2>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 ">
@@ -254,7 +254,7 @@ function Landing() {
             Announcements
           </h2>
 
-          <marquee className=" w-[50%] mb-4 -mt-5 font-semibold text-lg italic" behavior="alternate" direction="right">Up Coming</marquee>
+          <marquee className=" w-[50%] mb-4 -mt-5 font-semibold text-lg italic" behavior="alternate" direction="right">Upcoming</marquee>
           
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 md:gap-x-32">
             {announcements.map((announcement, index) => (
@@ -265,7 +265,7 @@ function Landing() {
                     <h3 className="text-lg font-bold">{announcement.title}</h3>
                     <hr className="border-2 rounded-lg border-slate-100" />
                   </div>
-                  <p className="leading-relaxed text-justify italic">
+                  <p className="italic leading-relaxed text-justify">
                     {announcement.description}
                   </p>
                 </div>

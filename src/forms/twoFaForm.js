@@ -1,13 +1,15 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
 import { AlertContext, BASEURL } from "../App";
 import { AuthContext } from "../App";
+import Loader from "../component/Loader";
 
 const TwoFAForm = (props) => {
   
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [loading, setLoading] = useState(false)
   const inputRefs = useRef([]);
   
   const navigate = useNavigate();
@@ -18,7 +20,9 @@ const TwoFAForm = (props) => {
   const { authenticatedUser, handleAuth } = useContext(AuthContext);
   const {notify} = useContext(AlertContext)
 
-  // handleAuth()
+  useEffect(() => {
+    inputRefs.current[0].focus()
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,6 +41,7 @@ const TwoFAForm = (props) => {
       },
     })
       .then((res) => {
+        setLoading(false)
         console.log(res.data);
         notify('success', res.data.msg);
 
@@ -57,6 +62,7 @@ const TwoFAForm = (props) => {
         }
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
           notify('error', err.response.data.msg[0].msg)
@@ -105,6 +111,7 @@ const TwoFAForm = (props) => {
 
   return (
     <div className="flex flex-col h-screen">
+      {loading && <Loader />}
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">

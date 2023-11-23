@@ -1,9 +1,10 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
 import axios, { AxiosError } from "axios";
 import { AlertContext, BASEURL } from "../App";
+import Loader from "../component/Loader";
 
 const Signup = (props) => {
   // const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,9 +18,15 @@ const Signup = (props) => {
     image: null,
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const {notify} = useContext(AlertContext)
+  const {notify} = useContext(AlertContext);
+  const firstNameRef = useRef();
+
+  useEffect(() => {
+    firstNameRef.current.focus()
+  }, [])
 
 
   function handleChange(event) {
@@ -58,6 +65,7 @@ const Signup = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true)
     // Validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match .");
@@ -80,6 +88,7 @@ const Signup = (props) => {
       // withCredentials: true
     })
       .then((res) => {
+        setLoading(false)
         console.log(res);
         notify('success', res.data.msg);
         // console.log(res.data.token)
@@ -89,6 +98,7 @@ const Signup = (props) => {
         navigate("/signin");
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err);
         if (Array.isArray(err.response?.data.msg)) {
           notify('error', err.response.data.msg[0].msg)
@@ -107,6 +117,7 @@ const Signup = (props) => {
 
   return (
     <div className="flex flex-col h-screen">
+      {loading && <Loader />}
       <div className="flex items-center justify-center flex-1">
         <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
@@ -125,6 +136,7 @@ const Signup = (props) => {
                 name="firstName"
                 onChange={handleChange}
                 value={formData.firstName}
+                ref={firstNameRef}
               />
             </div>
             <div className="mb-3 form-control">
@@ -183,8 +195,8 @@ const Signup = (props) => {
               />
             </div>
 
-            <div className="form-control">
-              <label className="text-xs font-semibold text-slate-800">
+            <div className="mb-3 form-control">
+              <label className="mb-2 text-xs font-semibold text-slate-800">
                 Phone Number
               </label>
               <input
@@ -198,8 +210,8 @@ const Signup = (props) => {
             </div>
 
             <div className="mb-4">
-              <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
-                File
+              <label className="block mb-2 text-xs font-semibold text-slate-800" htmlFor="passport">
+                Passport
               </label>
               <input
 

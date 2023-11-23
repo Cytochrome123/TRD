@@ -168,12 +168,12 @@ const AdminDashboard = () => {
     };
 
     const series = [{
-        name: 'No of courses',
-        data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43]
+        name: 'Total signup',
+        data: [80, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43]
     },
     {
-        name: 'enrolled courses',
-        data: [21, 7, 25, 13, 22, 8, 21, 7, 25, 13, 22, 18]
+        name: 'Registered Student',
+        data: [20, 7, 25, 13, 22, 8, 21, 7, 25, 13, 22, 18]
     }]
     // let total = users.reduce((acc, user) => user.count + acc, 0);
 
@@ -251,7 +251,7 @@ const AdminDashboard = () => {
                             {/* <!--Graph Card--> */}
                             <div className="bg-white border rounded shadow">
                                 <div className="p-3 border-b">
-                                    <h5 className="font-bold text-gray-600 uppercase">Graph</h5>
+                                    <h5 className="font-bold text-gray-600 uppercase">Customers</h5>
                                 </div>
                                 <div className="p-1">
                                     <Chart options={options} series={series} type="bar" width="100%" height="233" />
@@ -265,7 +265,7 @@ const AdminDashboard = () => {
                             {/* <!--Graph Card--> */}
                             <div className="bg-white border rounded shadow">
                                 <div className="p-3 border-b">
-                                    <h5 className="font-bold text-gray-600 uppercase">Graph</h5>
+                                    <h5 className="font-bold text-gray-600 uppercase">Courses</h5>
                                 </div>
                                 <div className="p-1">
                                     <Chart options={chartData.options} series={chartData.series} type="donut" width="380" />
