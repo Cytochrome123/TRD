@@ -134,7 +134,7 @@ const TwoFAForm = (props) => {
                   value={digit}
                   onPaste={handlePaste}
                   onKeyDown={(event) => handleKeyDown(index, event)}
-                  onChange={() => {}}
+                  // onChange={() => {}}
                   ref={(inputRef) => (inputRefs.current[index] = inputRef)}
                 />
               ))}
