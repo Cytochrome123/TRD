@@ -20,12 +20,12 @@ const InstructorForm = () => {
   };
 
   return (
-    // <div className="min-h-screen flex items-center justify-center bg-blue-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3">
-        <h2 className="text-3xl font-semibold text-blue-600 mb-4">Add Instructor</h2>
+    // <div className="flex items-center justify-center min-h-screen bg-blue-50">
+      <div className="w-full p-8 bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3">
+        <h2 className="mb-4 text-3xl font-semibold text-blue-600">Add Instructor</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2" htmlFor="name">
+            <label className="block mb-2 font-semibold text-gray-600" htmlFor="name">
               Name
             </label>
             <input
@@ -40,7 +40,7 @@ const InstructorForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2" htmlFor="studentId">
+            <label className="block mb-2 font-semibold text-gray-600" htmlFor="studentId">
             Instructor ID
             </label>
             <input
@@ -55,7 +55,7 @@ const InstructorForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2" htmlFor="phoneNumber">
+            <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
               Phone Number
             </label>
             <input
@@ -70,7 +70,7 @@ const InstructorForm = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-600 font-semibold mb-2" htmlFor="enrollmentDate">
+            <label className="block mb-2 font-semibold text-gray-600" htmlFor="enrollmentDate">
               Enrollment Date
             </label>
             <input
@@ -84,7 +84,7 @@ const InstructorForm = () => {
             />
           </div>
           <button
-            className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
             type="submit"
           >
             Add Instructor

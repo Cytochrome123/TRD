@@ -258,7 +258,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
 
             <div className="mb-1">
               <label className="block mb-2 font-semibold text-gray-600" htmlFor="enrollmentDate">
-                Enrolled
+                Amount
               </label>
               <input
                 className="w-full px-4 py-2 border rounded-lg outline-none focus:ring focus:ring-blue-200"
