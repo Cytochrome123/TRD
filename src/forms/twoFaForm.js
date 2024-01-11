@@ -101,6 +101,7 @@ const TwoFAForm = (props) => {
             onSubmit={handleSubmit}
           >
             <OtpInput
+              inputType="number"
               value={otp}
               onChange={setOtp}
               numInputs={6}
