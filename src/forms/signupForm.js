@@ -116,10 +116,10 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col lg:h-screen">
       {loading && <Loader />}
       <div className="flex items-center justify-center flex-1">
-        <div className="w-full p-10 mx-5 my-1 bg-white border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
+        <div className="w-full p-10 mt-32 mb-10 bg-blue-300 border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
             Sign up to our platform
           </div>
