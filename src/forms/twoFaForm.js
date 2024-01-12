@@ -24,6 +24,7 @@ const TwoFAForm = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const temp = cookies.get("temp");
+    console.log(temp, 'temp signin')
     const searchParams = new URLSearchParams(location.search);
     const email = searchParams.get("email");
 
@@ -44,7 +45,7 @@ const TwoFAForm = (props) => {
         console.log(res.data);
         notify('success', res.data.msg);
 
-        cookies.remove("temp");
+        // cookies.remove("temp");
         const token = cookies.set("token", res.data.newAccessToken);
 console.log(token, 'token')
         if (res.data.user.userType === "admin") {

@@ -78,7 +78,9 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
 
     // // Axios request start
     const token = cookies.get('token')
+    const temp = cookies.get('temp')
     console.log(token, 'ADDCOuse token');
+    console.log(temp, 'ADDCOuse temp');
     axios({
       method: "post",
       url: `${BASEURL}/course`,
@@ -86,7 +88,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${temp}`
       }
       // withCredentials: true
     })
