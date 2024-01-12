@@ -31,8 +31,8 @@ const TwoFAForm = (props) => {
     setLoading(true)
     axios({
       method: "post",
-      // url: `${BASEURL}/verify`,
-      url: `${LOCALBASEURL}/verify`,
+      url: `${BASEURL}/verify`,
+      // url: `${LOCALBASEURL}/verify`,
       data: { otp },
       params: { email },
       headers: {
