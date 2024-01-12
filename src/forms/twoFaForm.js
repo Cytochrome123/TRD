@@ -46,7 +46,7 @@ const TwoFAForm = (props) => {
 
         cookies.remove("temp");
         const token = cookies.set("token", res.data.newAccessToken);
-
+console.log(token, 'token')
         if (res.data.user.userType === "admin") {
           navigate("/admin/dashboard");
           handleAuth(token);

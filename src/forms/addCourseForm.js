@@ -78,6 +78,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
 
     // // Axios request start
     const token = cookies.get('token')
+    console.log(token, 'ADDCOuse token');
     axios({
       method: "post",
       url: `${BASEURL}/course`,

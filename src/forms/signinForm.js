@@ -51,7 +51,7 @@ const Signin = (props) => {
       setLoading(false);
       console.log(res.data);
       notify('success', res.data.msg);
-      console.log(res.data.accessToken);
+      console.log(res.data.accessToken, 'res.data.accessToken');
       // cookies.set('token', hard );
       cookies.set("temp", res.data.accessToken);
       // props.handleAlert(true, 'successfully Loged In!!!', 'success');
