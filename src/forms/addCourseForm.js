@@ -1,12 +1,12 @@
 // CourseForm.js
 import { useContext, useState } from 'react';
-import { AlertContext, AuthContext, BASEURL } from "../App";
+import { AlertContext, AuthContext, BASEURL, LOCALBASEURL } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
 import axios, { AxiosError } from 'axios';
-import Cookies from 'js-cookie';
+import cookies from 'js-cookie';
 import Loader from '../component/Loader';
 
-const token = Cookies.get('token')
+
 
 
 const AddCourseForm = ({ onClose, onData, getCourses }) => {
@@ -77,9 +77,11 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
 
 
     // // Axios request start
+    const token = cookies.get('token')
     axios({
       method: "post",
       url: `${BASEURL}/course`,
+      // url: `${LOCALBASEURL}/course`,
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',

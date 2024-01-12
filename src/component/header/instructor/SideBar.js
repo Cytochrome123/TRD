@@ -101,7 +101,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
       </div>
 
       <div
-        className={`fixed h-full bg-purple-400 w-64 text-white transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed h-full bg-blue-400 w-64 text-white transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           } ${isSidebarOpen ? 'block z-40' : 'hidden'} md:hidden`}
       >
         {/* ... Mobile */}
