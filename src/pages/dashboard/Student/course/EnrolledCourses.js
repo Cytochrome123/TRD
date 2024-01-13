@@ -33,8 +33,8 @@ const EnrolledCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      // url: `${BASEURL}/myData`,
-      url: 'http://localhost:5001/api/myData',
+      url: `${BASEURL}/myData`,
+      // url: 'http://localhost:5001/api/myData',
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
