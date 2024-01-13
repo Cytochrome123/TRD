@@ -58,6 +58,7 @@ console.log(token, 'token')
           navigate("/student/dashboard");
           handleAuth(token);
         } else {
+          handleAuth(token);
           navigate("/courses");
         }
       })

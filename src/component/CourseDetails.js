@@ -56,7 +56,8 @@ function CourseDetails(props) {
         onClose()
       }
       onClose()
-      return notify('success', 'Registration sucessfull!!!')
+      notify('success', 'Registration sucessfull!!!')
+      navigate(`/student/dashboard/enrolled-courses/${id}`)
     } catch (err) {
       console.log(err);
       // console.log(instanceof err)

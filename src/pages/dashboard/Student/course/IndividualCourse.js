@@ -101,7 +101,7 @@ const IndividualCourse = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className={`min-h-screen md:ml-72 my-20`}>
+      <div className={`min-h-screen md:ml-72 my-32 w-[900px]`}>
         <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
           <div className="flex flex-col items-center md:flex-row">
             <div className="md:w-1/3 md:pr-4">
