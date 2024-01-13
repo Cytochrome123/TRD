@@ -31,7 +31,6 @@ const StudentDashboard = () => {
         axios({
             method: 'get',
             url: `${BASEURL}/myData`,
-            // url: `${BASEURL}/myData`,
             // url: 'http://localhost:5001/api/myData',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,17 +108,19 @@ const StudentDashboard = () => {
                                                 <tr className="text-white bg-blue-500">
                                                     <th className="px-4 py-2">Course</th>
                                                     <th className="px-4 py-2">Instructor</th>
+                                                    <th className="px-4 py-2">Co-Instructor</th>
                                                     <th className="px-4 py-2">Duration </th>
                                                     <th className="px-4 py-2">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
 
-                                                {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
+                                                {loading ? <p>Loading</p> : data.courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                                                     data.courses.map(course => (
                                                         <tr key={course.id} className="hover:bg-gray-100 group">
                                                             <td className="px-4 py-2">{course.courseID.title}</td>
-                                                            <td className="px-4 py-2">{`${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}`}</td>
+                                                            <td className="px-4 py-2">{course.courseID.instructors[0] ? `${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}` : `Not assigned`}</td>
+                                                            <td className="px-4 py-2">{course.courseID.instructors[1] ? `${course.courseID.instructors[1]?.instructor?.firstName} ${course.courseID.instructors[1]?.instructor?.lastName}` : `Nil`}</td>
                                                             <td className="px-4 py-2">{course.courseID.duration}</td>
                                                             <td className="px-4 py-2 ">
                                                                 <div className='relative flex justify-between'>
@@ -169,7 +170,7 @@ const StudentDashboard = () => {
                                             <tbody>
 
                                                 {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
-                                                courses.map(course => (
+                                                data.courses.map(course => (
                                                     <tr key={course.id} className="hover:bg-gray-100 group">
                                                         <td className="px-4 py-2">{course.course}</td>
                                                         <td className="px-4 py-2">{course.coInstructor}</td>

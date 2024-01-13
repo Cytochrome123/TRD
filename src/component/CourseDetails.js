@@ -43,15 +43,19 @@ function CourseDetails(props) {
       }
       const register = await axios({
         method: "post",
-        // url: `${BASEURL}/course/${id}/register`,
-        url: `http://localhost:5001/api/course/${id}/register`,
+        url: `${BASEURL}/course/${id}/register`,
+        // url: `http://localhost:5001/api/course/${id}/register`, 
         // data: 'formData',
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
       })
-      if (!register) return notify('error', 'Registrtion failed')
+      if (!register) {
+        notify('error', 'Registrtion failed')
+        onClose()
+      }
+      onClose()
       return notify('success', 'Registration sucessfull!!!')
     } catch (err) {
       console.log(err);
@@ -68,6 +72,7 @@ function CourseDetails(props) {
       } else {
         notify('error', err.message)
       }
+      onClose()
     }
   }
   return (
@@ -87,7 +92,8 @@ function CourseDetails(props) {
           <div className="w-full h-32 mb-5 md:h-72 md:w-1/2 md:mb-0">
             {" "}
             <img
-              src={image}
+              // src={image}
+              src={`${image}`.includes('/s') ? `${image}` : `https://trd-server.onrender.com/api/file/${image}`}
               alt="Course"
               className="object-cover object-top w-full h-full rounded-lg"
             />

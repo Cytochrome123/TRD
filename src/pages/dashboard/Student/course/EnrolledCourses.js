@@ -15,7 +15,6 @@ import { useOutletContext } from 'react-router-dom';
 // const img = `${BASEURL}/file/${student.image.file}`
 
 const EnrolledCourses = () => {
-  const [showAddPop, setShowAddPop] = useState(false);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,24 +28,13 @@ const EnrolledCourses = () => {
     setLoading(false);
   }, [])
 
-  const handleAddStudent = () => {
-
-
-
-
-  };
-
-  // closing of the pop up
-  const handleOnClose = () => {
-    setShowAddPop(false);
-  };
-
 
   function getCourses() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/myData`,
+      // url: `${BASEURL}/myData`,
+      url: 'http://localhost:5001/api/myData',
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -55,7 +43,7 @@ const EnrolledCourses = () => {
       // withCredentials: true
     })
       .then((res) => {
-        console.log("xxx created-courses", res.data);
+        console.log("xxx my-data", res.data);
         // const allPost = [newPost, ...courses]
 
         setCourses(() => res.data.details.courses);
@@ -90,23 +78,7 @@ const EnrolledCourses = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className={`flex justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-col justify-self-center md:ml-72 my-20`}>
-        {/* button start */}
-        <div className="flex justify-end m-2 ">
-          <div className="relative group">
-            <button
-              onClick={() => setShowAddPop(true)}
-              className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
-            >
-              Add Course
-            </button>
-            <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
-              create a new course
-            </div>
-          </div>
-
-        </div>
-        {/* button end */}
+      <div className={`flex justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-col justify-self-center md:ml-72 my-1`}>
 
         <h2 className="my-8 text-2xl font-semibold">All Courses</h2>
 
@@ -134,19 +106,19 @@ const EnrolledCourses = () => {
                     <tr key={index} className="hover:bg-gray-100 group">
                       <td className="px-4 py-2">
                         {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
-                        <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
+                        <img src={`https://trd-server.onrender.com/api/file/${student.courseID.image?.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
                         {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
 
                       </td>
-                      <td className="px-4 py-2">{student.title} </td>
-                      <td className="px-4 py-2">{student.description}</td>
-                      <td className="px-4 py-2">{student.duration}</td>
-                      <td className="px-4 py-2">{student.capacity}</td>
-                      <td className="px-4 py-2">{student.amount}</td>
-                      <td className="px-4 py-2">{student.status ? student.status : "Upcoming"}</td>
+                      <td className="px-4 py-2">{student.courseID.title} </td>
+                      <td className="px-4 py-2">{student.courseID.description}</td>
+                      <td className="px-4 py-2">{student.courseID.duration}</td>
+                      <td className="px-4 py-2">{student.courseID.capacity}</td>
+                      <td className="px-4 py-2">{student.courseID.amount}</td>
+                      <td className="px-4 py-2">{student.courseID.status ? student.status : "Upcoming"}</td>
                       <td className="px-4 py-2 ">
                         <div className='relative flex justify-between'>
-                          <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">
+                          <Link to={`${student.courseID._id}`} className="h-8 text-blue-500 hover:underline">
                             View Profile
                           </Link>
                           {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
@@ -162,14 +134,6 @@ const EnrolledCourses = () => {
             </tbody>
           </table>
         </div>
-
-        <ModelContainer onClose={handleOnClose} visible={showAddPop}>
-          <AddCourseForm
-            onData={handleAddStudent}
-            onClose={handleOnClose}
-            getCourses={getCourses}
-          />
-        </ModelContainer>
       </div>
     </div>
   )

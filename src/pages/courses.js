@@ -43,7 +43,12 @@ const Courses = () => {
       _id: 1,
       title: "Microsoft Word for Beginners",
       category: "Introduction to I.C.T.",
-      image: CourseWord,
+      // image: CourseWord,
+      image: {
+        imageID: 1,
+        path: CourseWord
+        
+      },
       featured: true,
       duration: "2 weeks",
       description:
@@ -53,7 +58,12 @@ const Courses = () => {
       _id: 2,
       title: "HTML, CSS, and JavaScript Fundamentals",
       category: "Web Development",
-      image: CourseHTML,
+      // image: CourseHTML,
+      image: {
+        imageID: 2,
+        path: CourseHTML
+        
+      },
       featured: true,
       duration: "4 weeks",
       description:
@@ -63,7 +73,12 @@ const Courses = () => {
       _id: 3,
       title: "Data Analysis with Python",
       category: "Data Science",
-      image: CourseDAP,
+      // image: CourseDAP,
+      image: {
+        imageID: 3,
+        path: CourseDAP
+        
+      },
       duration: "6 weeks",
       description:
         "Analyze data using Python, from data manipulation to visualization.",
@@ -73,6 +88,11 @@ const Courses = () => {
       title: "Excel Mastery: Data Management and Analysis",
       category: "Introduction to I.C.T.",
       image: CourseExcel,
+      image: {
+        imageID: 4,
+        path: CourseExcel
+        
+      },
       featured: true,
       duration: "3 weeks",
       description:
@@ -82,7 +102,12 @@ const Courses = () => {
       _id: 5,
       title: "PHP and MySQL: Dynamic Web Development",
       category: "Web Development",
-      image: CoursePHP,
+      // image: CoursePHP,
+      image: {
+        imageID: 5,
+        path: CoursePHP
+        
+      },
       duration: "5 weeks",
       description:
         "Create dynamic web apps using PHP and connect to MySQL databases.",
@@ -91,7 +116,12 @@ const Courses = () => {
       _id: 6,
       title: "Introduction to Python Programming",
       category: "Data Science",
-      image: CoursePython,
+      // image: CoursePython,
+      image: {
+        imageID: 6,
+        path: CoursePython
+        
+      },
       featured: true,
       duration: "4 weeks",
       description: "Learn Python basics for programming and problem-solving.",
@@ -100,7 +130,12 @@ const Courses = () => {
       _id: 7,
       title: "Crafting Engaging Presentations with PowerPoint",
       category: "Introduction to I.C.T.",
-      image: CoursePPT,
+      // image: CoursePPT,
+      image: {
+        imageID: 7,
+        path: CoursePPT
+        
+      },
       duration: "2 weeks",
       description: "Design captivating presentations using PowerPoint.",
     },
@@ -108,7 +143,12 @@ const Courses = () => {
       _id: 8,
       title: "Introduction to React: Building Modern Web Apps",
       category: "Web Development",
-      image: CourseReact,
+      // image: CourseReact,
+      image: {
+        imageID: 8,
+        path: CourseReact
+        
+      },
       featured: true,
       duration: "6 weeks",
       description:
@@ -240,7 +280,7 @@ console.log(courses)
           id={selectedCourse._id}
           title={selectedCourse.title}
           className={showCourse}
-          image={selectedCourse.image}
+          image={selectedCourse.image.path}
           description={selectedCourse.description}
           duration={selectedCourse.duration}
           onClose={handleCloseDetails}
@@ -295,9 +335,9 @@ console.log(courses)
           All Categories
         </button>
         {Array.from(new Set(courses.map((course) => course.category))).map(
-          (category) => (
+          (category, i) => (
             <button
-              key={category}
+              key={i}
               className={`py-2 px-4 md:text-sm text-xs rounded-full  ${selectedCategory === category
                   ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
                   : "border border-blue-500 text-slate-500"
@@ -321,8 +361,9 @@ console.log(courses)
             <div className="overflow-hidden h-44">
               <img
                 className="object-cover w-full h-full"
-                src={course.image}
-                alt=""
+                // src={course.image}
+                src={`${course.image?.path}`.includes('/s') ? `${course.image?.path}` : `https://trd-server.onrender.com/api/file/${course.image?.path}`}
+                alt="Pic"
               />
             </div>
             <div className="px-4 py-4">

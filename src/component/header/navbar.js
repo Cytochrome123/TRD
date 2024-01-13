@@ -260,7 +260,7 @@ const Navbarr = () => {
           )}
           {authenticatedUser.role === "instructor" && (
             <Link 
-            to={`/instructor/dashboard/instructors`}
+            to={`/instructor/dashboard/assigned-courses`}
             className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
           >
             Assigned Courses
@@ -268,7 +268,7 @@ const Navbarr = () => {
           )}
           {authenticatedUser.role === "student" && (
             <Link 
-            to={`/student/dashboard/instructors`}
+            to={`/student/dashboard/enrolled-courses`}
             className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
           >
             My Courses

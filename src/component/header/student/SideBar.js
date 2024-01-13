@@ -89,7 +89,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
               </li>
               <li>
                 <Link
-                  to="courses"
+                  to="enrolled-courses"
                   onClick={() => handleButtonClick('courses')}
                   className={`block py-2 pl-4 items-center ${isActive === 'courses' ? 'bg-blue-600' : 'hover:bg-blue-700'
                     }`}
