@@ -1,12 +1,8 @@
-// import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import axios from 'axios';
+
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
-import AddCourseForm from '../../../../forms/addCourseForm';
-import ModelContainer from '../../../../component/ModelContainer';
 import Cookies from 'js-cookie';
 import { useOutletContext } from 'react-router-dom';
 

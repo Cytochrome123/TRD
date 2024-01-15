@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 // import Instructo from '../../Data/Instructor'
-import { AlertContext, AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from 'js-cookie';
 import { useOutletContext } from 'react-router-dom';

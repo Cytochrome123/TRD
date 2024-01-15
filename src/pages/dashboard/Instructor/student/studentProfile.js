@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import students from '../Data/User'
 import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useOutletContext } from 'react-router-dom';
 

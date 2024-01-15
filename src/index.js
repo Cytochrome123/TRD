@@ -4,7 +4,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query';
 
 // import { AuthProvider } from './context/AuthProvider';
 import { ToastContainer } from 'react-toastify';

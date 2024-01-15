@@ -36,7 +36,6 @@ import AssignedCourseDetail from './pages/dashboard/Instructor/course/courseDeta
 import EnrolledCourses from './pages/dashboard/Student/course/EnrolledCourses';
 import IndividualCourse from './pages/dashboard/Student/course/IndividualCourse';
 import StudentData from './pages/dashboard/Student/profile/studentData';
-import StudentSideBar from './component/header/student/SideBar';
 import MainS from './pages/dashboard/Student/main';
 import MainI from './pages/dashboard/Instructor/main';
 import Main from './pages/dashboard/Admin/main';
@@ -133,39 +132,6 @@ function App() {
           {/* <Route path='/otpForm' element={<OtpForm />} /> */}
           <Route path='/verify' element={<TwoFA />} />
 
-          {/* // ADMIN  */}
-          {/* <Route path='/admin/dashboard' element={<Main />} >
-              <Route path='' element={<AdminDashboard />} />
-              <Route path='courses' element={<ListCourses />} />
-              <Route path="courses/:id" element={<CourseDetails />} />
-              <Route path='instructors' element={<InstructorsList />} />
-              <Route path='instructors/:id' element={<InstructorsProfile/>} />
-              <Route path='students' element={<Students />} />
-              <Route path='students/:id' element={<AdminStudentProfile/>} />
-            </Route> */}
-
-          {/* INSTRUCTOR */}
-          {/* <Route path='/instructor/dashboard/*' element={<MainI />} >
-              <Route path='' element={<InstructorDashboard />} />
-              <Route path='assigned-courses' element={<AssignedCourses />} />
-              <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
-              <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
-            </Route> */}
-
-          {/* <Route element={<StudentRoutes />}> */}
-          {/* <Route path='/student/dashboard/*' element= {<MainS/>}>
-              <Route path='' element={<StudentDashboard/>} />
-              <Route path='enrolled-courses' element={<EnrolledCourses/>} />
-              <Route path='enrolled-courses/:id' element={<IndividualCourse/>} />
-              <Route path='student/studentData' element={<StudentData />} />
-              <Route path='student/:id' element={<StudentDetail />} />
-              <Route path='course/:id' element={<CourseDetail />} />
-            </Route> */}
-          {/* <Route path='' element={<StudentDashboard />} loader={loadMyCourses} /> */}
-
-
-
-          {/* <Route element={<RequireAuth allowedRoles={[ 'admin']} />}> */}
           <Route path='/admin/dashboard' element={<Main />} >
             <Route path='' element={<AdminDashboard />} />
             <Route path='courses' element={<ListCourses />} />
@@ -197,20 +163,8 @@ function App() {
             <Route path='student/:id' element={<StudentDetail />} />
             <Route path='course/:id' element={<CourseDetail />} />
           </Route>
+
           {/* </Route> */}
-
-          {/* <Route path='/student/studentData' element={<StudentData />} />
-            <Route path='/student/:id' element={<StudentDetail />} />
-            <Route path='/course/:id' element={<CourseDetail />} /> */}
-
-
-          {/* <Route path='/student/dashboard' element={<StudentDashboard />} loader={loadMyCourses} /> */}
-          {/* </Route> */}
-          <Route>
-            {/* <Route path='/dashboard/admin' element={<AdminDashboard />} /> */}
-            {/* <Route path='/instructor/dashboard' element={<InstructorDashboard />} />
-            <Route path='/instructor/course/:id' element={<ViewAssignedCourseStudent />} /> */}
-          </Route>
           <Route path='/unauthorized' element={<Unauthorized />} />
           <Route path='*' element={<PageNotFound />} />
         </Route>

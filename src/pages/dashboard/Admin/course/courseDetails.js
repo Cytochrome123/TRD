@@ -1,12 +1,12 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AlertContext, AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-// import SideBar from "../../../../component/SideBar";
+
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
 import { useOutletContext } from 'react-router-dom';

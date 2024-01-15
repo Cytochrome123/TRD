@@ -6,7 +6,6 @@ import Chart from "react-apexcharts";
 import { AlertContext, BASEURL } from '../../../App';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import { useOutletContext } from 'react-router-dom';
 
 
