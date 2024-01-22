@@ -3,7 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterPro
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
-import Swal from  'sweetalert2';
+import Swal from 'sweetalert2';
 
 import Courses from './pages/courses';
 // import { loadCourses } from './pages/courses';
@@ -132,39 +132,41 @@ function App() {
           {/* <Route path='/otpForm' element={<OtpForm />} /> */}
           <Route path='/verify' element={<TwoFA />} />
 
-          <Route path='/admin/dashboard' element={<Main />} >
-            <Route path='' element={<AdminDashboard />} />
-            <Route path='courses' element={<ListCourses />} />
-            <Route path="courses/:id" element={<CourseDetails />} />
-            <Route path='instructors' element={<InstructorsList />} />
-            <Route path='instructors/:id' element={<InstructorsProfile />} />
-            <Route path='students' element={<Students />} />
-            <Route path='students/:id' element={<AdminStudentProfile />} />
+          <Route element={<RequireAuth allowedRoles={['admin']} />}>
+            <Route path='/admin/dashboard' element={<Main />} >
+              <Route path='' element={<AdminDashboard />} />
+              <Route path='courses' element={<ListCourses />} />
+              <Route path="courses/:id" element={<CourseDetails />} />
+              <Route path='instructors' element={<InstructorsList />} />
+              <Route path='instructors/:id' element={<InstructorsProfile />} />
+              <Route path='students' element={<Students />} />
+              <Route path='students/:id' element={<AdminStudentProfile />} />
+            </Route>
           </Route>
           {/* </Route> */}
 
           {/* INSTRUCTOR */}
-          {/* <Route element={<RequireAuth allowedRoles={[ 'instructor']} />}> */}
-          <Route path='/instructor/dashboard/*' element={<MainI />} >
-            <Route path='' element={<InstructorDashboard />} />
-            <Route path='assigned-courses' element={<AssignedCourses />} />
-            <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
-            <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
+          <Route element={<RequireAuth allowedRoles={['instructor']} />}>
+            <Route path='/instructor/dashboard/*' element={<MainI />} >
+              <Route path='' element={<InstructorDashboard />} />
+              <Route path='assigned-courses' element={<AssignedCourses />} />
+              <Route path='assigned-course/:id' element={<AssignedCourseDetail />} />
+              <Route path='assigned-course/:id/student/:id' element={<InstructorStudentProfile />} />
+            </Route>
           </Route>
-          {/* </Route> */}
 
           {/* <Route element={<StudentRoutes />}> */}
-          {/* <Route element={<RequireAuth allowedRoles={[ 'student']} />}> */}
-          <Route path='/student/dashboard/*' element={<MainS />}>
-            <Route path='' element={<StudentDashboard />} />
-            <Route path='enrolled-courses' element={<EnrolledCourses />} />
-            <Route path='enrolled-courses/:id' element={<IndividualCourse />} />
-            <Route path='student/studentData' element={<StudentData />} />
-            <Route path='student/:id' element={<StudentDetail />} />
-            <Route path='course/:id' element={<CourseDetail />} />
+          <Route element={<RequireAuth allowedRoles={['student']} />}>
+            <Route path='/student/dashboard/*' element={<MainS />}>
+              <Route path='' element={<StudentDashboard />} />
+              <Route path='enrolled-courses' element={<EnrolledCourses />} />
+              <Route path='enrolled-courses/:id' element={<IndividualCourse />} />
+              <Route path='student/studentData' element={<StudentData />} />
+              <Route path='student/:id' element={<StudentDetail />} />
+              <Route path='course/:id' element={<CourseDetail />} />
+            </Route>
           </Route>
 
-          {/* </Route> */}
           <Route path='/unauthorized' element={<Unauthorized />} />
           <Route path='*' element={<PageNotFound />} />
         </Route>
@@ -174,7 +176,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ authenticatedUser, setAuthenticatedUser, handleAuth }}>
-      <AlertContext.Provider value={{notify, call2Action}}>
+      <AlertContext.Provider value={{ notify, call2Action }}>
         <RouterProvider router={router} />
       </AlertContext.Provider>
     </AuthContext.Provider>
