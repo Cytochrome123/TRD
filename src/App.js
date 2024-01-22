@@ -127,6 +127,7 @@ function App() {
           // loader={loadCourses} 
           />
           {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
+          
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
           {/* <Route path='/otpForm' element={<OtpForm />} /> */}
