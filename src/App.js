@@ -147,7 +147,7 @@ function App() {
           {/* </Route> */}
 
           {/* INSTRUCTOR */}
-          <Route element={<RequireAuth allowedRoles={['instructor']} />}>
+          <Route element={<RequireAuth allowedRoles={['admin', 'instructor']} />}>
             <Route path='/instructor/dashboard/*' element={<MainI />} >
               <Route path='' element={<InstructorDashboard />} />
               <Route path='assigned-courses' element={<AssignedCourses />} />
@@ -157,7 +157,7 @@ function App() {
           </Route>
 
           {/* <Route element={<StudentRoutes />}> */}
-          <Route element={<RequireAuth allowedRoles={['student']} />}>
+          <Route element={<RequireAuth allowedRoles={['admin', 'student']} />}>
             <Route path='/student/dashboard/*' element={<MainS />}>
               <Route path='' element={<StudentDashboard />} />
               <Route path='enrolled-courses' element={<EnrolledCourses />} />
