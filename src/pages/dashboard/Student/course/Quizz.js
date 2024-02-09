@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AlertContext, BASEURL, LOCALBASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios from "axios";
 import cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
@@ -30,7 +30,7 @@ const Quizz = () => {
         console.log('n,fdsjkn.cfdkj,')
         axios({
             method: 'get',
-            url: `${LOCALBASEURL}/course/${id}/quiz-status/${quizID}`,
+            url: `${BASEURL}/course/${id}/quiz-status/${quizID}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`
@@ -68,7 +68,7 @@ const Quizz = () => {
     const fetchQuiz = async () => {
         const res = await axios({
             method: 'get',
-            url: `${LOCALBASEURL}/course/${id}/quiz/${quizID}`,
+            url: `${BASEURL}/course/${id}/quiz/${quizID}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`
@@ -93,7 +93,7 @@ const Quizz = () => {
             setLoading(true)
             const res = await axios({
                 method: 'post',
-                url: `${LOCALBASEURL}/quiz/${quiz.name}/${quiz.sheetID}/completed/proceed`,
+                url: `${BASEURL}/quiz/${quiz.name}/${quiz.sheetID}/completed/proceed`,
                 // url: `http://localhost:5001/api/quiz/:name/:sheetID/completed/proceed`,
                 headers: {
                     'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ const Quizz = () => {
             }
             const register = await axios({
                 method: "post",
-                url: `${LOCALBASEURL}/course/${id}/register`,
+                url: `${BASEURL}/course/${id}/register`,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
@@ -187,7 +187,7 @@ const Quizz = () => {
         setLoading(true);
         const basic = await axios({
             method: 'get',
-            url: `${LOCALBASEURL}/course/${id}/basic`,
+            url: `${BASEURL}/course/${id}/basic`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`

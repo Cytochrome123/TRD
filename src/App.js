@@ -52,9 +52,8 @@ import Quizz from './pages/dashboard/Student/course/Quizz';
 export const AuthContext = createContext();
 export const AlertContext = createContext();
 
-export const LOCALBASEURL = 'http://localhost:5001/api';
-export const BASEURL = 'http://localhost:5001/api';
-// export const BASEURL = 'https://trd-server.onrender.com/api'
+export const BASEURL = 'https://trd-server.onrender.com/api'
+// export const BASEURL = 'http://localhost:5001/api';
 
 function App() {
 

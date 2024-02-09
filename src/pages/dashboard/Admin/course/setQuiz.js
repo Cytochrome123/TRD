@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useRef } from "react";
-import { AlertContext, BASEURL, LOCALBASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 
@@ -25,7 +25,7 @@ const SetQuiz = () => {
             const res = await axios({
                 method: 'post',
                 // url: `${BASEURL}/course/${courseID}/quiz/setup`,
-                url: `${LOCALBASEURL}/course/${id}/quiz/setup`,
+                url: `${BASEURL}/course/${id}/quiz/setup`,
                 data: formData,
                 headers: {
                     "Content-Type": "application/json",

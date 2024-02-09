@@ -3,7 +3,7 @@
 // import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertContext, BASEURL, LOCALBASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import AddCourseForm from '../../../../forms/addCourseForm';
 import ModelContainer from '../../../../component/ModelContainer';
@@ -42,7 +42,7 @@ const ListCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${LOCALBASEURL}/admin/courses`,
+      url: `${BASEURL}/admin/courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',

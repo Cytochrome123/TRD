@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 import { IoMdClose } from "react-icons/io";
 import cookies from "js-cookie";
 
-import { AlertContext, BASEURL, LOCALBASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 
 
@@ -82,7 +82,7 @@ function CourseDetails(props) {
       try {
         const quiz = await axios({
           method: 'get',
-          url: `${LOCALBASEURL}/course/${id}/quiz`,
+          url: `${BASEURL}/course/${id}/quiz`,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${cookies.get('token')}`

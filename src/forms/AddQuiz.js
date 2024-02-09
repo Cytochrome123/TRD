@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import { AlertContext, LOCALBASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -26,7 +26,7 @@ const AddQuiz = ({ className, onClose }) => {
             const res = await axios({
                 method: 'post',
                 // url: `${BASEURL}/course/${courseID}/quiz/setup`,
-                url: `${LOCALBASEURL}/course/${id}/quiz/setup`,
+                url: `${BASEURL}/course/${id}/quiz/setup`,
                 data: formData,
                 headers: {
                     "Content-Type": "application/json",

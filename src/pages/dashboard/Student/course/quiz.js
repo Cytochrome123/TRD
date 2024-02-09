@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AlertContext, LOCALBASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import cookies from 'js-cookie';
 
 const Quiz = () => {
@@ -17,7 +17,7 @@ const Quiz = () => {
         try {
             const quiz = await axios({
                 method: 'get',
-                url: `${LOCALBASEURL}/course/${id}/quiz`,
+                url: `${BASEURL}/course/${id}/quiz`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`

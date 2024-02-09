@@ -1,6 +1,6 @@
 // CourseForm.js
 import { useContext, useEffect, useState } from 'react';
-import { AlertContext, AuthContext, BASEURL, LOCALBASEURL } from "../App";
+import { AlertContext, AuthContext, BASEURL } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
 import axios, { AxiosError } from 'axios';
 import cookies from 'js-cookie';
@@ -73,8 +73,7 @@ console.log(courseData, 'dta')
     console.log(courseData, 'datacourse')
     axios({
       method: "post",
-      // url: `${BASEURL}/course`,
-      url: `${LOCALBASEURL}/course`,
+      url: `${BASEURL}/course`,
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',

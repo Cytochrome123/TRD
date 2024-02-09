@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
 import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL, LOCALBASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 import Loader from "../component/Loader";
 
 const Signup = (props) => {
@@ -78,7 +78,6 @@ const Signup = (props) => {
     axios({
       method: "post",
       url: `${BASEURL}/signup`,
-      // url: `${LOCALBASEURL}/signup`,
       data: formData,
       headers: {
         // "Content-Type": "application/json",

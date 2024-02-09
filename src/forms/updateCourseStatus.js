@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { AlertContext, BASEURL, LOCALBASEURL } from '../App';
+import { AlertContext, BASEURL } from '../App';
 import { useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
@@ -33,7 +33,7 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
             const res = await axios({
                 method: 'put',
                 // url: `${BASEURL}/course/${courseID}/quiz/setup`,
-                url: `${LOCALBASEURL}/course/${id}/status`,
+                url: `${BASEURL}/course/${id}/status`,
                 data: formData,
                 headers: {
                     "Content-Type": "application/json",

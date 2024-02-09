@@ -2,7 +2,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL, LOCALBASEURL } from "../App";
+import { AlertContext, BASEURL } from "../App";
 
 import { hard } from "../App";
 import Loader from "../component/Loader";
@@ -39,7 +39,6 @@ const Signin = (props) => {
     axios({
       method: "post",
       url: `${BASEURL}/signin`,
-      // url: `${LOCALBASEURL}/signin`,
       data: formData,
       headers: {
         'Content-Type': 'application/json',

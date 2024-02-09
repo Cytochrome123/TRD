@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { AlertContext, BASEURL, LOCALBASEURL } from "../../../../App";
+import { AlertContext, BASEURL } from "../../../../App";
 import axios from "axios";
 import cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
@@ -32,7 +32,7 @@ const QuizDetail = () => {
         try {
             const attemmpted = await axios({
                 method: 'get',
-                url: `${LOCALBASEURL}/course/${id}/quiz/${quizID}/check`,
+                url: `${BASEURL}/course/${id}/quiz/${quizID}/check`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
@@ -68,7 +68,7 @@ const QuizDetail = () => {
         try {
             const res = await axios({
                 method: 'get',
-                url: `${LOCALBASEURL}/course/${id}/quiz/${quizID}`,
+                url: `${BASEURL}/course/${id}/quiz/${quizID}`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
@@ -104,7 +104,7 @@ const QuizDetail = () => {
             console.log('Done');
             const res = await axios({
                 method: 'post',
-                url: `${LOCALBASEURL}/quiz/${quiz.name}/${quiz.sheetID}/completed/proceed`,
+                url: `${BASEURL}/quiz/${quiz.name}/${quiz.sheetID}/completed/proceed`,
                 // url: `http://localhost:5001/api/quiz/:name/:sheetID/completed/proceed`,
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ const QuizDetail = () => {
             }
             const register = await axios({
                 method: "post",
-                url: `${LOCALBASEURL}/course/${id}/register`,
+                url: `${BASEURL}/course/${id}/register`,
                 // url: `http://localhost:5001/api/course/${id}/register`, 
                 // data: 'formData',
                 headers: {
@@ -185,7 +185,7 @@ const QuizDetail = () => {
         // find the basic course
         const course = await axios({
             method: 'get',
-            // url: `${LOCALBASEURL}/course/${}`,
+            // url: `${BASEURL}/course/${}`,
         })
     }
     return (
