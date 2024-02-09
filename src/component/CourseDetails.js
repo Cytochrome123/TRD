@@ -4,15 +4,15 @@ import axios, { AxiosError } from "axios";
 import { IoMdClose } from "react-icons/io";
 import cookies from "js-cookie";
 
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext, BASEURL, LOCALBASEURL } from "../App";
 
 
 
 function CourseDetails(props) {
-  const { id, image, title, description, duration, className, onClose } = props;
+  const { id, image, title, description, duration, className, onClose, basic } = props;
 
   const navigate = useNavigate()
-  const {notify} = useContext(AlertContext)
+  const { notify } = useContext(AlertContext)
 
   useEffect(() => {
     // Disable scrolling on the background when the modal is open
@@ -76,6 +76,48 @@ function CourseDetails(props) {
       onClose()
     }
   }
+
+  const takeQuiz = async (id) => {
+    const fetchQuiz = async () => {
+      try {
+        const quiz = await axios({
+          method: 'get',
+          url: `${LOCALBASEURL}/course/${id}/quiz`,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${cookies.get('token')}`
+          }
+        })
+
+        if (!quiz) throw new Error('Failed to fetch quiz');
+        console.log(quiz, 'ALLQUIZ');
+
+        return quiz.data.quiz._id
+      } catch (err) {
+        if (Array.isArray(err.response?.data.msg)) {
+          notify('error', err.response.data.msg[0].msg)
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            notify('error', err.response.data.msg)
+          } else {
+            notify('error', err.response.data)
+          }
+        } else {
+          notify('error', err.message)
+        }
+        return null
+      }
+    }
+    const qui = await fetchQuiz()
+    qui ? navigate(`/student/dashboard/course/${id}/quiz/${qui}`) : handleRegister(id);
+    // if (qui) navigate(`/student/dashboard/course/${id}/quiz/${qui}`)
+    // else {
+    //   notify('error', 'The course does not have a quiz associated with it');
+    //   handleRegister(id);
+    // }
+  }
+
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 w-screen  p-10 ${className} fade-in-regular`}
@@ -110,7 +152,10 @@ function CourseDetails(props) {
               Duration: {duration}
             </span>
 
-            <button onClick={() => handleRegister(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
+            {/* <button onClick={() => handleRegister(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
+              Enrol
+            </button> */}
+            <button onClick={basic ? () => handleRegister(id) : () => takeQuiz(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
               Enrol
             </button>
           </div>

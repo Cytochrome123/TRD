@@ -3,7 +3,7 @@
 // import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertContext, BASEURL } from "../../../../App";
+import { AlertContext, BASEURL, LOCALBASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import AddCourseForm from '../../../../forms/addCourseForm';
 import ModelContainer from '../../../../component/ModelContainer';
@@ -42,7 +42,7 @@ const ListCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/courses`,
+      url: `${LOCALBASEURL}/admin/courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const ListCourses = () => {
       // withCredentials: true
     })
       .then((res) => {
-        console.log("xxx created-courses", res.data);
+        console.log("courses", res.data.courses);
         // const allPost = [newPost, ...courses]
 
         setCourses(res.data.courses);
@@ -159,6 +159,7 @@ const ListCourses = () => {
             onData={handleAddStudent}
             onClose={handleOnClose}
             getCourses={getCourses}
+            courses={courses}
           />
         </ModelContainer>
       </div>

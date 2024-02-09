@@ -158,11 +158,6 @@ const Navbarr = () => {
                   </Link>
                 </div>
                 <div className="flex flex-col space-y-3">
-                  {authenticatedUser.role && (
-                    <Link className="font-bold text-white underline" onClick={toggleMobileMenu}>
-                      Hello {authenticatedUser.firstName}
-                    </Link>
-                  )}
                   {authenticatedUser.role === "admin" && (
                     <div className="flex flex-col space-y-3">
                       <Link
@@ -237,11 +232,6 @@ const Navbarr = () => {
 
         {/* Desktop nav authenticated*/}
         <div className="items-center justify-end hidden md:flex">
-          {authenticatedUser.role && (
-            <Link className="mr-10 font-bold underline text-slate-900">
-              Hello {authenticatedUser.firstName}
-            </Link>
-          )}
           {authenticatedUser.role === "admin" && (
             <div className="flex items-center space-x-5">
               <Link 

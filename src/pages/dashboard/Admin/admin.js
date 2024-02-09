@@ -251,7 +251,7 @@ const AdminDashboard = () => {
                             {/* <!--Graph Card--> */}
                             <div className="bg-white border rounded shadow">
                                 <div className="p-3 border-b">
-                                    <h5 className="font-bold text-gray-600 uppercase">Customers</h5>
+                                    <h5 className="font-bold text-gray-600 uppercase">Students</h5>
                                 </div>
                                 <div className="p-1">
                                     <Chart options={options} series={series} type="bar" width="100%" height="233" />

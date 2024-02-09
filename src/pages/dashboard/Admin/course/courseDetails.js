@@ -10,6 +10,9 @@ import { useState } from "react";
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
 import { useOutletContext } from 'react-router-dom';
+import AddQuiz from "../../../../forms/AddQuiz";
+import DropdownItem from "../../../../component/DropdownItem";
+import UpdateCourseStatusForm from "../../../../forms/updateCourseStatus";
 
 
 
@@ -17,7 +20,13 @@ import { useOutletContext } from 'react-router-dom';
 const CourseDetails = () => {
   // const { courses, setCourses } = useContext(AuthContext);
   const [showAddPop, setShowAddPop] = useState(false);
-
+  // const [addQuiz, setAddQuiz] = useState(false);
+  // const [shQuiz, setShQuiz] = useState('hidden')
+  const [modal, setModal] = useState({
+    addQuiz: false,
+    shQuiz: 'hidden',
+    updateStatusForm: 'hidden',
+  })
   const [course, setCourse] = useState({
     _id: '',
     title: '',
@@ -30,12 +39,13 @@ const CourseDetails = () => {
     amount: '',
     image: null,
   })
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate()
 
   const { id } = useParams();
   const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  const { notify } = useContext(AlertContext)
 
 
   // const {id}  = useParams();
@@ -160,6 +170,41 @@ const CourseDetails = () => {
       });
   }
 
+  const handleCloseQuizForm = () => {
+    setModal(prev => ({
+      ...prev,
+      shQuiz: 'hidden'
+    }))
+    document.body.style.overflow = "auto";
+  };
+
+  const handleCloseUpdateForm = () => {
+    // setShQuiz("hidden");
+    setModal(prev => ({
+      ...prev,
+      updateStatusForm: 'hidden'
+    }))
+    document.body.style.overflow = "auto";
+  };
+
+  const handleAddQz = () => {
+    setModal(prev => ({
+      ...prev,
+      addQuiz: true,
+      shQuiz: 'block'
+    }))
+    setIsOpen(!isOpen)
+  }
+  
+  const handleUpdateStatus = () => {
+    setModal(prev => ({
+      ...prev,
+      addQuiz: true,
+      updateStatusForm: 'block'
+    }))
+    setIsOpen(!isOpen)
+  }
+
   return (
     <div className={`p-4 w-full min-h-screen md:ml-72 my-20`} >
       {/* <SideBar /> */}
@@ -197,19 +242,60 @@ const CourseDetails = () => {
 
               </div>
               {/* assign button end */}
+
             </div>
           </div>
           <div className="md:w-2/3">
-            <h2 className="mb-2 text-2xl font-semibold text-blue-600">
-              {course.title}
-            </h2>
-            <p className="mb-2 text-gray-600">Capacity: {course.capacity}</p>
-            <p className="mb-2 text-gray-600">{course.description}</p>
-            <p className="mb-2 text-gray-600">Duration: {course.duration}</p>
-            <p className="mb-2 text-gray-600">Location: {course.location}</p>
-            <p className="mb-2 text-gray-600">Start Date: {course.start_date}</p>
-            <p className="mb-2 text-gray-600">End Date: {course.end_date}</p>
-            <div className="flex justify-end m-2">
+            <div className="flex justify-between">
+              <div className="content">
+                <h2 className="mb-2 text-2xl font-semibold text-blue-600">
+                  {course.title}
+                </h2>
+                <p className="mb-2 text-gray-600">Capacity: {course.capacity}</p>
+                <p className="mb-2 text-gray-600">{course.description}</p>
+                <p className="mb-2 text-gray-600">Duration: {course.duration}</p>
+                <p className="mb-2 text-gray-600">Location: {course.location}</p>
+                <p className="mb-2 text-gray-600">Start Date: {course.start_date}</p>
+                <p className="mb-2 text-gray-600">End Date: {course.end_date}</p>
+
+              </div>
+
+              {/* Quiz button start */}
+              {/* <div className="relative group">
+
+                <button
+                  onClick={handleAddQz}
+                  className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                >
+                  Add Quiz
+                </button>
+                <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
+                  Add a preliminary quiz to the course
+                </div>
+              </div> */}
+              {/* Quiz button end */}
+
+              <div className="relative">
+                {/* Button to toggle dropdown */}
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring"
+                >
+                  Edit
+                </button>
+
+                {/* Dropdown Content */}
+                {isOpen && (
+                  <div className="absolute right-0 z-10 mt-2 w-56 bg-white shadow-lg rounded">
+                    <DropdownItem description="Description for Action 1" fire={handleAddQz}>Add Quiz</DropdownItem>
+                    <DropdownItem description="Description for Action 2" fire={handleUpdateStatus}>Status</DropdownItem>
+                    <DropdownItem description="Description for Action 3" fire={() => setIsOpen(!isOpen)}>Delete</DropdownItem>
+                  </div>
+                )}
+              </div>
+
+            </div>
+            {/* <div className="flex justify-end m-2">
               <button
                 className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
               >
@@ -218,7 +304,7 @@ const CourseDetails = () => {
               <div className="absolute hidden p-2 text-sm text-gray-700 bg-gray-100 rounded shadow-md group-hover:block">
                 This Course will be deleted
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -273,6 +359,18 @@ const CourseDetails = () => {
           id={course._id}
         />
       </ModelContainer>
+
+      {/* {addQuiz && */}
+        <AddQuiz
+          className={modal.shQuiz}
+          onClose={handleCloseQuizForm}
+        />
+      {/* } */}
+
+      <UpdateCourseStatusForm
+        className={modal.updateStatusForm}
+        onClose={handleCloseUpdateForm}
+      />
     </div>
   )
 }

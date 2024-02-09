@@ -42,6 +42,10 @@ import Main from './pages/dashboard/Admin/main';
 import RequireAuth from './component/RequireAuth';
 import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
+import Quiz from './pages/dashboard/Student/course/quiz';
+import QuizDetail from './pages/dashboard/Student/course/quizDetail';
+import SetQuiz from './pages/dashboard/Admin/course/setQuiz';
+import Quizz from './pages/dashboard/Student/course/Quizz';
 // import Remita from './service/remita';
 // import Side from './side';
 
@@ -49,7 +53,8 @@ export const AuthContext = createContext();
 export const AlertContext = createContext();
 
 export const LOCALBASEURL = 'http://localhost:5001/api';
-export const BASEURL = 'https://trd-server.onrender.com/api'
+export const BASEURL = 'http://localhost:5001/api';
+// export const BASEURL = 'https://trd-server.onrender.com/api'
 
 function App() {
 
@@ -138,6 +143,7 @@ function App() {
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
               <Route path="courses/:id" element={<CourseDetails />} />
+              <Route path="courses/:id/quiz/setup" element={<SetQuiz />} />
               <Route path='instructors' element={<InstructorsList />} />
               <Route path='instructors/:id' element={<InstructorsProfile />} />
               <Route path='students' element={<Students />} />
@@ -165,6 +171,10 @@ function App() {
               <Route path='student/studentData' element={<StudentData />} />
               <Route path='student/:id' element={<StudentDetail />} />
               <Route path='course/:id' element={<CourseDetail />} />
+
+              <Route path='course/:id/quiz/:quizID' element={<Quizz />} />
+              {/* <Route path='course/:id/quiz' element={<Quiz />} />
+              <Route path='course/:id/quiz/:quizID' element={<QuizDetail />} /> */}
             </Route>
           </Route>
 

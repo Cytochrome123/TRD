@@ -1,5 +1,5 @@
 // CourseForm.js
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AlertContext, AuthContext, BASEURL, LOCALBASEURL } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
 import axios, { AxiosError } from 'axios';
@@ -9,7 +9,7 @@ import Loader from '../component/Loader';
 
 
 
-const AddCourseForm = ({ onClose, onData, getCourses }) => {
+const AddCourseForm = ({ onClose, onData, getCourses, courses: allCourses }) => {
   const { courses, setCourses, setShouldMakeApiCall } = useContext(AuthContext)
 
   // const [sm, setSm] = useState(null)
@@ -23,15 +23,15 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
     location: '',
     capacity: '',
     amount: '',
+    basic: '',
     image: null, //should I change this to empty string ni? 
   });
   const [loading, setLoading] = useState(false)
 
-  const {notify} = useContext(AlertContext)
+  const { notify } = useContext(AlertContext)
 
-
-
-
+  const token = cookies.get('token')
+  const temp = cookies.get('temp');
 
   const handleChange = (event) => {
     setCourseData(prevData => (
@@ -41,9 +41,8 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
       }
     ));
   };
-
+console.log(courseData, 'dta')
   const [selectedImage, setSelectedImage] = useState(null);
-
 
   //   image seperate start
   const onFileChange = (e) => {
@@ -68,31 +67,23 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
-    // const id = Math.floor(Math.random() * 1000) + 1
 
-    // const newPost = { id, title: Course.title, description : Course.description,  duration: Course.duration,start_date: Course.start_date, end_date: Course.end_date, location: Course.location, capacity: Course.capacity, amount: Course.amount, image: selectedImage  }
-    // console.log('new post newPost', newPost);
-    // console.log('new post selectedImage', selectedImage);
-    // onData(Course, selectedImage);
-
-
-    // // Axios request start
-    const token = cookies.get('token')
-    const temp = cookies.get('temp')
     console.log(token, 'ADDCOuse token');
     console.log(temp, 'ADDCOuse temp');
+    console.log(courseData, 'datacourse')
     axios({
       method: "post",
-      url: `${BASEURL}/course`,
-      // url: `${LOCALBASEURL}/course`,
+      // url: `${BASEURL}/course`,
+      url: `${LOCALBASEURL}/course`,
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${temp}`
+        Authorization: `Bearer ${token}`
       }
       // withCredentials: true
     })
       .then((res) => {
+        notify('success', res.data.msg);
         console.log("xxx created-courses", res.data.msg);
         getCourses();
         setLoading(false)
@@ -127,7 +118,7 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
     // // Axios request end
 
 
-    
+
 
   };
 
@@ -275,6 +266,26 @@ const AddCourseForm = ({ onClose, onData, getCourses }) => {
                 placeholder='Amount '
                 required
               />
+            </div>
+
+            <div className="mb-1">
+              <label className="block mb-2 font-semibold text-gray-600" htmlFor="enrollmentDate">
+                Basic course
+              </label>
+              <select
+                className="w-full px-4 py-2 text-gray-600 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+                name="basic"
+                id="lang"
+                onChange={handleChange}
+              >
+                <option>basic course</option>
+                {loading ? <option>loading</option> :
+                  // console.log( allCourses.filter(course => !course.basicCourseID))
+                  allCourses.map((cours, index) => (
+                    <option key={index} value={cours._id}>{cours.title}</option>
+                  ))
+                }
+              </select>
             </div>
 
           </div>

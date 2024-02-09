@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { AiOutlineHome } from 'react-icons/ai';
 import { GiBlackBook } from 'react-icons/gi';
 import { PiStudentLight } from 'react-icons/pi';
+import { AuthContext } from '../../../App';
 
 
 const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
+  const { authenticatedUser } = useContext(AuthContext);
   const [isActive, setIsActive] = useState('home');
 
 
@@ -57,7 +59,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
               src="http://i.pravatar.cc/300"
               alt="User Avatar"
             />
-            <p className="font-semibold">User Name</p>
+            <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>
           </div>
           <div className="mt-12">
             <ul className="flex flex-col gap-5">
@@ -119,7 +121,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
               src="http://i.pravatar.cc/300"
               alt="User Avatar"
             />
-            <p className="font-semibold">User Name</p>
+            <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>
           </div>
           <div className="mt-12">
             <ul className="flex flex-col gap-5">
