@@ -212,7 +212,7 @@ const Quizz = () => {
         document.body.style.overflow = "auto";
     }
 
-    if (loading) return <div className={`min-h-screen md:ml-72 my-12 w-[900px]`}>Loading...</div>;
+    // if (loading) return <div className={`min-h-screen md:ml-72 my-12 w-[900px]`}>Loading...</div>;
 
     return (
         <div className={`min-h-screen md:ml-72 my-12 w-[900px]`}>
@@ -220,9 +220,9 @@ const Quizz = () => {
             <div className="container h-screen mx-auto mt-32">
                 {!quizStatus.taken ? (
                     <div>
-                        <p>You need to take the preliminary test.</p>
+                        <p className="text-2xl mb-10">You need to take the preliminary test.</p>
                         {/* Render TestComponent here or provide a button/link to it */}
-                        <p className="text-2xl mb-10">Instructions</p>
+                        <p className="text-lg mb-10">Instructions</p>
                         <ul>
                             <li>
                                 supply your........
@@ -232,7 +232,7 @@ const Quizz = () => {
                         </ul>
 
                         <div className="flex justify-between mt-32">
-                            <p><Link target="_blank" to={quiz.link}>Click to start</Link></p>
+                            <p><Link target="_blank" to={quiz.link} className="underline text-blue-500">Click to start</Link></p>
                             <button className="bg-green-300 text-green-700 p-3 rounded-md" onClick={handleDone}>Done</button>
 
                         </div>

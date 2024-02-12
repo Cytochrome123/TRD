@@ -95,7 +95,7 @@ const Signup = (props) => {
         // cookies.set('token', res.data.token );
         // props.handleAlervscode-file://vscode-app/Applications/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlt(true, 'successfully Loged In!!!', 'success');
 
-        navigate("/signin");
+        // navigate("/signin");
       })
       .catch((err) => {
         setLoading(false)

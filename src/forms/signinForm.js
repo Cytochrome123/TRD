@@ -2,12 +2,13 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext, AuthContext, BASEURL } from "../App";
 
 import { hard } from "../App";
 import Loader from "../component/Loader";
 
 const Signin = (props) => {
+  const { authenticatedUser, handleAuth } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -52,19 +53,22 @@ const Signin = (props) => {
       notify('success', res.data.msg);
       console.log(res.data.accessToken, 'res.data.accessToken');
       // cookies.set('token', hard );
-      cookies.set("temp", res.data.accessToken);
-      // props.handleAlert(true, 'successfully Loged In!!!', 'success');
-      navigate(`/verify?email=${formData.email}`);
-      // window.location.href = '/dashboard'
-      // if(res.data.data.userType === 'admin') {
-      //     navigate('/admin')
-      // } else if(res.data.data.userType === 'subAdmin') {
-      //     navigate('/subAdmin/examiners')
-      // } else if(res.data.data.userType === 'examiner') {
-      //     navigate('/examiner/course');
-      // } else {
-      //     navigate('/student/allExams')
-      // }
+      // cookies.set("temp", res.data.accessToken);
+      // navigate(`/verify?email=${formData.email}`);
+      const token = cookies.set("token", res.data.accessToken);
+      if (res.data.user.userType === "admin") {
+        navigate("/admin/dashboard");
+        handleAuth(token);
+      } else if (res.data.user.userType === "instructor") {
+        navigate("/instructor/dashboard");
+        handleAuth(token);
+      } else if (res.data.user.userType === "student") {
+        navigate("/student/dashboard");
+        handleAuth(token);
+      } else {
+        handleAuth(token);
+        navigate("/courses");
+      }
     })
     .catch((err) => {
       setLoading(false);

@@ -46,6 +46,7 @@ import PageNotFound from './pages/pagenotfound';
 // import QuizDetail from './pages/dashboard/Student/course/quizDetail';
 import SetQuiz from './pages/dashboard/Admin/course/setQuiz';
 import Quizz from './pages/dashboard/Student/course/Quizz';
+import EmailVerification from './pages/verification';
 // import Remita from './service/remita';
 // import Side from './side';
 
@@ -134,8 +135,8 @@ function App() {
           
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
-          {/* <Route path='/otpForm' element={<OtpForm />} /> */}
-          <Route path='/verify' element={<TwoFA />} />
+          <Route path='/auth' element={<EmailVerification />} />
+          {/* <Route path='/verify' element={<TwoFA />} /> */}
 
           <Route element={<RequireAuth allowedRoles={['admin']} />}>
             <Route path='/admin/dashboard' element={<Main />} >
