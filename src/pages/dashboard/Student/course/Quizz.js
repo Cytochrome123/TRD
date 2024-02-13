@@ -261,7 +261,7 @@ const Quizz = () => {
                                 description={basic.description}
                                 duration={basic.duration}
                                 onClose={handleCloseBasic}
-                                basic={true}
+                                // basic={true}
                             />
                         )}
                         {/* < div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3">
