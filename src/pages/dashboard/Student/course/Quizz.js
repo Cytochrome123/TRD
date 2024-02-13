@@ -66,6 +66,7 @@ const Quizz = () => {
     }, []);
 
     const fetchQuiz = async () => {
+        console.log('fetching')
         const res = await axios({
             method: 'get',
             url: `${BASEURL}/course/${id}/quiz/${quizID}`,

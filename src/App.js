@@ -53,8 +53,8 @@ import EmailVerification from './pages/verification';
 export const AuthContext = createContext();
 export const AlertContext = createContext();
 
-export const BASEURL = 'https://trd-server.onrender.com/api'
-// export const BASEURL = 'http://localhost:5001/api';
+// export const BASEURL = 'https://trd-server.onrender.com/api'
+export const BASEURL = 'http://localhost:5001/api';
 
 function App() {
 
@@ -137,6 +137,8 @@ function App() {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/auth' element={<EmailVerification />} />
           {/* <Route path='/verify' element={<TwoFA />} /> */}
+
+          <Route path='/course/:id/quiz/:quizID' element={<Quizz />} />
 
           <Route element={<RequireAuth allowedRoles={['admin']} />}>
             <Route path='/admin/dashboard' element={<Main />} >
