@@ -6,6 +6,7 @@ import { AlertContext, BASEURL } from "../../../../App";
 import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { IoMdAdd, IoMdOptions } from 'react-icons/io';
 
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
@@ -45,7 +46,8 @@ const CourseDetails = () => {
 
   const { id } = useParams();
   const [isSidebarOpen] = useOutletContext();
-  const { notify } = useContext(AlertContext)
+  const { notify } = useContext(AlertContext);
+  const token = Cookies.get('token');
 
 
   // const {id}  = useParams();
@@ -135,10 +137,10 @@ const CourseDetails = () => {
   }, []);
 
   function getStudents() {
-    const token = Cookies.get('token');
+
     axios({
       method: "get",
-      url: `${BASEURL}/students`,
+      url: `${BASEURL}/admin/course/${id}/students`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -187,15 +189,55 @@ const CourseDetails = () => {
     document.body.style.overflow = "auto";
   };
 
-  const handleAddQz = () => {
-    setModal(prev => ({
-      ...prev,
-      addQuiz: true,
-      shQuiz: 'block'
-    }))
-    setIsOpen(!isOpen)
+  const hanndleDownloadStudent = async () => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${BASEURL}/admin/course/${id}/students/download`,
+        headers: {
+          // 'Content-Type': 'text/html',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob',
+      });
+
+      if(!res) throw new Error('Error occured while trying to download resource')
+
+      // console.log(res);
+      // const blbUrl = await res.data.blob()
+
+      // // const url = window.URL.createObjectURL(new Blob([res.data]));
+      // console.log(blbUrl)
+      // window.location.href = url;
+
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${course.title}.xlsx`); // Specify the filename here
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.log(err);
+      if (Array.isArray(err.response?.data.msg)) {
+        notify('error', err.response.data.msg[0].msg)
+      } else if (err.response) {
+        // This can happen when the required headers or options to access the endpoint r not provided
+        if (err.response.data.msg) {
+          notify('error', err.response.data.msg)
+        } else {
+          notify('error', err.response.data)
+        }
+      } else {
+        notify('error', err.message)
+      }
+    }
   }
-  
+
   const handleUpdateStatus = () => {
     setModal(prev => ({
       ...prev,
@@ -281,15 +323,15 @@ const CourseDetails = () => {
                   onClick={() => setIsOpen(!isOpen)}
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring"
                 >
-                  Edit
+                  <IoMdOptions />
                 </button>
 
                 {/* Dropdown Content */}
                 {isOpen && (
                   <div className="absolute right-0 z-10 mt-2 w-56 bg-white shadow-lg rounded">
-                    <DropdownItem description="Description for Action 1" fire={handleAddQz}>Add Quiz</DropdownItem>
-                    <DropdownItem description="Description for Action 2" fire={handleUpdateStatus}>Status</DropdownItem>
-                    <DropdownItem description="Description for Action 3" fire={() => setIsOpen(!isOpen)}>Delete</DropdownItem>
+                    <DropdownItem description="" fire={hanndleDownloadStudent}>Download student</DropdownItem>
+                    <DropdownItem description="update course status" fire={handleUpdateStatus}>Status</DropdownItem>
+                    <DropdownItem description="" fire={() => setIsOpen(!isOpen)}>Delete</DropdownItem>
                   </div>
                 )}
               </div>
@@ -315,7 +357,7 @@ const CourseDetails = () => {
           <tr className="text-white bg-blue-500">
             <th className="px-4 py-2">Image</th>
             <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">ID</th>
+            <th className="px-4 py-2">Email</th>
             <th className="px-4 py-2">Phone Number</th>
             <th className="px-4 py-2">Enrollment Date</th>
             <th className="px-4 py-2">Actions</th>
@@ -329,10 +371,10 @@ const CourseDetails = () => {
                   <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
                 </td>
-                <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
-                <td className="px-4 py-2">{student._id}</td>
-                <td className="px-4 py-2">{student.phoneNumber}</td>
-                <td className="px-4 py-2">{(new Date(Date(student.createdDate))).toLocaleDateString()}</td>
+                <td className="px-4 py-2">{student.user_id.firstName} {student.user_id.lastName}</td>
+                <td className="px-4 py-2">{student.user_id.email}</td>
+                <td className="px-4 py-2">{student.user_id.phoneNumber}</td>
+                <td className="px-4 py-2">{(new Date(Date(student.user_id.createdDate))).toLocaleDateString()}</td>
                 {/* <td className="px-4 py-2">{  (new Date(student.createdDate)).getFullYear() }</td> */}
                 <td className="px-4 py-2 ">
                   <div className='relative flex justify-between h-8 text-blue-500 cursor-pointer hover:underline'>
@@ -361,10 +403,10 @@ const CourseDetails = () => {
       </ModelContainer>
 
       {/* {addQuiz && */}
-        <AddQuiz
+      {/* <AddQuiz
           className={modal.shQuiz}
           onClose={handleCloseQuizForm}
-        />
+        /> */}
       {/* } */}
 
       <UpdateCourseStatusForm

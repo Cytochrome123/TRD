@@ -9,7 +9,7 @@ import Loader from '../component/Loader';
 
 
 
-const AddCourseForm = ({ onClose, onData, getCourses, courses: allCourses }) => {
+const AddCourseForm = ({ onClose, onData }) => {
   const { courses, setCourses, setShouldMakeApiCall } = useContext(AuthContext)
 
   // const [sm, setSm] = useState(null)
@@ -23,7 +23,7 @@ const AddCourseForm = ({ onClose, onData, getCourses, courses: allCourses }) => 
     location: '',
     capacity: '',
     amount: '',
-    basic: '',
+    isModuleZero: false,
     image: null, //should I change this to empty string ni? 
   });
   const [loading, setLoading] = useState(false)
@@ -41,7 +41,14 @@ const AddCourseForm = ({ onClose, onData, getCourses, courses: allCourses }) => 
       }
     ));
   };
-console.log(courseData, 'dta')
+
+  const handleCheck = e => {
+    setCourseData(prev => ({
+      ...prev,
+      isModuleZero: e.target.checked
+    }))
+  }
+  console.log(courseData, 'dta')
   const [selectedImage, setSelectedImage] = useState(null);
 
   //   image seperate start
@@ -73,7 +80,7 @@ console.log(courseData, 'dta')
     console.log(courseData, 'datacourse')
     axios({
       method: "post",
-      url: `${BASEURL}/course`,
+      url: `${BASEURL}/admin/course`,
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -84,9 +91,9 @@ console.log(courseData, 'dta')
       .then((res) => {
         notify('success', res.data.msg);
         console.log("xxx created-courses", res.data.msg);
-        getCourses();
         setLoading(false)
-        setCourseData({
+        setCourseData(prev => ({
+          ...prev,
           title: '',
           description: '',
           duration: '',
@@ -95,8 +102,9 @@ console.log(courseData, 'dta')
           location: '',
           capacity: '',
           amount: '',
+          isModuleZero: false,
           image: null, //should I change this to empty string ni? 
-        })
+        }))
       })
       .catch((err) => {
         console.log(err);
@@ -262,29 +270,16 @@ console.log(courseData, 'dta')
                 name="amount"
                 value={courseData.amount}
                 onChange={handleChange}
-                placeholder='Amount '
+                placeholder='Amount'
                 required
               />
             </div>
 
-            <div className="mb-1">
-              <label className="block mb-2 font-semibold text-gray-600" htmlFor="enrollmentDate">
-                Basic course
+            <div className="mb-1 flex align-center py-3 gap-2">
+              <input type='checkbox' name='isModuleZero' checked={courseData.isModuleZero} onChange={handleCheck}/>
+              <label className="block font-semibold text-gray-600" htmlFor="enrollmentDate">
+                Module 0
               </label>
-              <select
-                className="w-full px-4 py-2 text-gray-600 border rounded-lg outline-none focus:ring focus:ring-blue-200"
-                name="basic"
-                id="lang"
-                onChange={handleChange}
-              >
-                <option>basic course</option>
-                {loading ? <option>loading</option> :
-                  // console.log( allCourses.filter(course => !course.basicCourseID))
-                  allCourses.map((cours, index) => (
-                    <option key={index} value={cours._id}>{cours.title}</option>
-                  ))
-                }
-              </select>
             </div>
 
           </div>

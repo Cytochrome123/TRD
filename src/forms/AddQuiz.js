@@ -1,44 +1,41 @@
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { AlertContext, BASEURL } from "../App";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Loader from "../component/Loader";
 
-const AddQuiz = ({ className, onClose }) => {
+const AddQuiz = ({ isOpen, onClose }) => {
 
     const formRef = useRef();
-    const { id } = useParams();
-    const { notify } = useContext(AlertContext)
+    // const { id } = useParams();
+    const { notify } = useContext(AlertContext);
+    let [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState({
+        page: false,
+        courses: true
+    })
+    const [formData, setFormData] = useState({
+        name: '',
+        sheet_id: '',
+        link: '',
+        pass_mark: 0,
+        course_id: null,
+        type: ''
+    })
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
         try {
-            e.preventDefault();
-            console.log('submitted', formRef.current.name.value)
-            const formData = {
-                name: formRef.current.name.value,
-                sheetID: formRef.current.sheetID.value,
-                link: formRef.current.link.value,
-                pass_mark: formRef.current.pass_mark.value,
-                courseID: id
-            }
-            console.log(formData, 'FORMDATA')
-            const res = await axios({
-                method: 'post',
-                // url: `${BASEURL}/course/${courseID}/quiz/setup`,
-                url: `${BASEURL}/course/${id}/quiz/setup`,
-                data: formData,
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${Cookies.get('token')}`
-                }
-            });
-
-            if (!res) throw new Error('Failed to create quiz');
-            notify('success', 'Created suc');
-            console.log(res.data, 'DATA')
-
+            getCourses()
+                .then(res => {
+                    setLoading(prev => ({
+                        ...prev,
+                        courses: false
+                    }))
+                })
         } catch (err) {
+            setLoading(prev => ({ ...prev, courses: false }));
             if (Array.isArray(err.response?.data.msg)) {
                 notify('error', err.response.data.msg[0].msg)
             } else if (err.response) {
@@ -52,11 +49,99 @@ const AddQuiz = ({ className, onClose }) => {
                 notify('error', err.message)
             }
         }
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    };
+
+    if(formData.type === 'entry') {
+        courses = courses.filter(course => course.isModuleZero);
     }
+
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            console.log('submitted', formRef.current?.name.value)
+            setLoading(prev => ({
+                ...prev,
+                page: true
+            }))
+            // const formData = {
+            //     name: formRef.current.name.value,
+            //     sheet_id: formRef.current.sheet_id.value,
+            //     link: formRef.current.link.value,
+            //     pass_mark: formRef.current.pass_mark.value,
+            //     course_id: formRef.current.course.value,
+            //     type: formRef.current.type.value
+            // }
+            console.log(formData, 'FORMDATA')
+            const res = await axios({
+                method: 'post',
+                url: `${BASEURL}/admin/quiz/setup`,
+                data: formData,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${Cookies.get('token')}`
+                }
+            });
+
+            setLoading(prev => ({
+                ...prev,
+                page: false
+            }))
+
+            if (!res) throw new Error('Failed to create quiz');
+            notify('success', 'Created suc');
+            console.log(res.data, 'DATA')
+
+        } catch (err) {
+            setLoading(prev => ({
+                ...prev,
+                page: false
+            }))
+
+            if(err.response.data.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
+            
+            if (Array.isArray(err.response?.data.msg)) {
+                notify('error', err.response.data.msg[0].msg)
+            } else if (err.response) {
+                // This can happen when the required headers or options to access the endpoint r not provided
+                if (err.response.data.msg) {
+                    notify('error', err.response.data.msg)
+                } else {
+                    notify('error', err.response.data)
+                }
+            } else {
+                notify('error', err.message)
+            }
+        }
+    };
+
+    async function getCourses() {
+        const courses = await axios({
+            method: 'get',
+            url: `${BASEURL}/courses`,
+        });
+
+        if (!courses) throw new Error('Error fetching courses');
+
+        setCourses(courses.data.courses);
+    }
+
+    if (!isOpen) return null;
+console.log(formRef.current?.type.value, 'ref');
+console.log(formData);
+console.log(courses)
     return (
         <div
-            className={`fixed inset-0 flex items-center justify-center z-50 w-screen  p-10 ${className} fade-in-regular`}
+            className={`fixed inset-0 flex items-center justify-center z-50 w-screen  p-10 fade-in-regular`}
         >
+            {loading.page && <Loader />}
             <div className="fixed inset-0 bg-black opacity-30"></div>{" "}
             {/* Black overlay */}
             <div className="relative w-full max-w-5xl p-5 overflow-hidden bg-white rounded-lg md:p-10">
@@ -77,7 +162,8 @@ const AddQuiz = ({ className, onClose }) => {
                             type="text"
                             id="name"
                             name="name"
-                            // value={student.name}
+                            value={formData.name}
+                            onChange={handleChange}
                             placeholder="Name"
                             required
                         />
@@ -89,9 +175,10 @@ const AddQuiz = ({ className, onClose }) => {
                         <input
                             className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200"
                             type="text"
-                            id="sheetID"
-                            name="sheetID"
-                            // value={student.studentId}
+                            id="sheet_id"
+                            name="sheet_id"
+                            value={formData.sheet_id}
+                            onChange={handleChange}
                             placeholder="SheetID"
                             required
                         />
@@ -105,7 +192,8 @@ const AddQuiz = ({ className, onClose }) => {
                             type="text"
                             id="link"
                             name="link"
-                            // value={student.phoneNumber}
+                            value={formData.link}
+                            onChange={handleChange}
                             placeholder="Link"
                             required
                         />
@@ -119,10 +207,57 @@ const AddQuiz = ({ className, onClose }) => {
                             type="text"
                             id="pass_mark"
                             name="pass_mark"
-                            // value={student.phoneNumber}
+                            value={formData.pass_mark}
+                            onChange={handleChange}
                             placeholder="Pass mark"
                             required
                         />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block mb-2 font-semibold text-gray-600" htmlFor="phoneNumber">
+                            Type
+                        </label>
+                        <select
+                            className="w-full px-4 py-2 text-gray-600 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+                            name="type"
+                            id="type"
+                            value={formData.type}
+                            onChange={handleChange}
+                        >
+                            <option value={'end'}>End</option>
+                            <option value='entry'>Entry</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label
+                            className="block mb-2 font-semibold text-gray-600"
+                            htmlFor="course__id"
+                        >
+                            Course
+                        </label>
+                        <select
+                            className="w-full px-4 py-2 text-gray-600 border rounded-lg outline-none focus:ring focus:ring-blue-200"
+                            name="course_id"
+                            id="course_id"
+                            value={formData.course_id}
+                            onChange={handleChange}
+                        >
+                            {!loading.courses && <option></option>}
+                            {loading.courses ? <option>loading...</option> :
+                                courses.map((course, index) => (
+                                    <option key={index} value={course._id}>{course.title}</option>
+                                ))
+                            }
+                            {/* {loading.courses ? <option>loading...</option> : 
+                                formRef.current.type.value === 'entry' ? 
+                                    courses.filter(course => course.isModuleZero).map((course, index) => (
+                                        <option key={index} value={course._id}>{course.title}</option>
+                                    )) : courses.map((course, index) => (
+                                        <option key={index} value={course._id}>{course.title}</option>
+                                    ))
+
+                            } */}
+                        </select>
                     </div>
                     <button
                         className="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"

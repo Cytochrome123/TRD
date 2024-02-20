@@ -42,7 +42,7 @@ const ListCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/admin/courses`,
+      url: `${BASEURL}/courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -158,8 +158,8 @@ const ListCourses = () => {
           <AddCourseForm
             onData={handleAddStudent}
             onClose={handleOnClose}
-            getCourses={getCourses}
-            courses={courses}
+            // getCourses={getCourses}
+            // courses={courses}
           />
         </ModelContainer>
       </div>

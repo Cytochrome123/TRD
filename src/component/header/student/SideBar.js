@@ -78,19 +78,6 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
               </li>
               <li>
                 <Link
-                  to="student/studentData"
-                  onClick={() => handleButtonClick('student')}
-                  className={`block py-2 pl-4 items-center ${isActive === 'student/s' ? 'bg-blue-600' : 'hover:bg-blue-700'
-                    }`}
-                >
-                  <div className='flex items-center gap-2'>
-                    <PiStudentLight className="w-6 h-6" />
-                    <p>Student</p>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="enrolled-courses"
                   onClick={() => handleButtonClick('courses')}
                   className={`block py-2 pl-4 items-center ${isActive === 'courses' ? 'bg-blue-600' : 'hover:bg-blue-700'
@@ -99,6 +86,19 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
                   <div className='flex items-center gap-2'>
                     <GiBlackBook className="w-6 h-6" />
                     <p>Courses</p>
+                  </div>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="student/studentData"
+                  onClick={() => handleButtonClick('student')}
+                  className={`block py-2 pl-4 items-center ${isActive === 'student/s' ? 'bg-blue-600' : 'hover:bg-blue-700'
+                    }`}
+                >
+                  <div className='flex items-center gap-2'>
+                    <PiStudentLight className="w-6 h-6" />
+                    <p>Profile</p>
                   </div>
                 </Link>
               </li>
@@ -140,20 +140,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
               </li>
               <li>
                 <Link
-                  to="student/studentData"
-                  onClick={() => handleButtonClick('student/s')}
-                  className={`block py-2 pl-4 items-center ${isActive === 'student/s' ? 'bg-blue-600' : 'hover:bg-blue-700'
-                    }`}
-                >
-                  <div className='flex items-center gap-2'>
-                    <PiStudentLight className="w-6 h-6" />
-                    <p>Student</p>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="courses"
+                  to="enrolled-courses"
                   onClick={() => handleButtonClick('courses')}
                   className={`block py-2 pl-4 items-center ${isActive === 'courses' ? 'bg-blue-600' : 'hover:bg-blue-700'
                     }`}
@@ -161,6 +148,19 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
                   <div className='flex items-center gap-2'>
                     <GiBlackBook className="w-6 h-6" />
                     <p>Courses</p>
+                  </div>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="student/studentData"
+                  onClick={() => handleButtonClick('student/s')}
+                  className={`block py-2 pl-4 items-center ${isActive === 'student/s' ? 'bg-blue-600' : 'hover:bg-blue-700'
+                    }`}
+                >
+                  <div className='flex items-center gap-2'>
+                    <PiStudentLight className="w-6 h-6" />
+                    <p>Profile</p>
                   </div>
                 </Link>
               </li>

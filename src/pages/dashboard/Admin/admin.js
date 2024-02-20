@@ -14,6 +14,7 @@ const AdminDashboard = () => {
 
     const [users, setUsers] = useState([]);
     const [courses, setCourses] = useState([]);
+    const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const [isSidebarOpen] = useOutletContext();
@@ -24,7 +25,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `${BASEURL}/users`,
+            url: `${BASEURL}/admin/users`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
@@ -81,6 +82,37 @@ const AdminDashboard = () => {
             })
     }, []);
 
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: `${BASEURL}/admin/enrolled_courses`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log(res, 'enrollments');
+                setEnrollments(res.data.enrollments);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                if (Array.isArray(err.response?.data.msg)) {
+                    notify('error', err.response.data.msg[0].msg)
+                } else if (err.response) {
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                        notify('error', err.response.data.msg)
+                    } else {
+                        notify('error', err.response.data)
+                    }
+                } else {
+                    notify('error', err.message)
+                }
+            })
+    }, [ ])
+
     // The donot chart data
     const [chartData, setChartData] = useState({
         options: {},
@@ -95,8 +127,8 @@ const AdminDashboard = () => {
         window.scroll(0, 0)
     }, [])
 
-    const curs = courses.filter(item => item.enrolled.length > 0)
-    console.log(curs, 'curs');
+    // const curs = courses.filter(item => item.enrolled.length > 0)
+    // console.log(curs, 'curs');
 
 
     const options = {
@@ -212,7 +244,8 @@ const AdminDashboard = () => {
                         <MetricCard
                             title="enrolled courses"
                             value={
-                                loading ? '...' : (courses.filter(item => item.enrolled.length > 0)).length
+                                // loading ? '...' : (courses.filter(item => item.enrolled.length > 0)).length
+                                loading ? '...' : enrollments.length
                             }
                         />
                         <MetricCard

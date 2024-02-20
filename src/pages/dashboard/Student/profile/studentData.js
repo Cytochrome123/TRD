@@ -30,9 +30,7 @@ const StudentData = () => {
     const token = cookies.get("token");
     axios({
       method: "get",
-      url: `${BASEURL}/myData`,
-      // url: `${BASEURL}/myData`,
-      // url: 'http://localhost:5001/api/myData',
+      url: `${BASEURL}/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

@@ -15,7 +15,6 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
     const [formData, setFormData] = useState({
         status: '',
         deadline: '',
-        courseID: id
     })
 
     const handleChange = (event) => {
@@ -32,8 +31,7 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
             console.log(formData, 'FORMDATA')
             const res = await axios({
                 method: 'put',
-                // url: `${BASEURL}/course/${courseID}/quiz/setup`,
-                url: `${BASEURL}/course/${id}/status`,
+                url: `${BASEURL}/admin/course/${id}/status`,
                 data: formData,
                 headers: {
                     "Content-Type": "application/json",

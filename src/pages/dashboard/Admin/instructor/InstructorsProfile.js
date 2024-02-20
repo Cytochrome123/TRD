@@ -44,7 +44,7 @@ function InstructorsProfile() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/instructor/${id}`,
+      url: `${BASEURL}/admin/instructor/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',

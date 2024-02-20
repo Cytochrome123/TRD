@@ -5,26 +5,29 @@ import { IoMdClose } from "react-icons/io";
 import cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext, AuthContext, BASEURL } from "../App";
+import Loader from "./Loader";
 
 
 
 function CourseDetails(props) {
-  const { id, image, title, description, duration, className, onClose } = props;
+  const { id, image, title, description, duration, className, onClose, isModuleZero, fetchModule0 } = props;
 
   const navigate = useNavigate()
   const { notify } = useContext(AlertContext);
-
-  const [quizStatus, setQuizStatus] = useState({
-    taken: false,
-    passed: false
-  });
-  const [loading, setLoading] = useState(true);
-
-  const token = cookies.get('token');
-  const decoded = jwtDecode(token)
-  const ref = useRef(true);
+  const { authenticatedUser, handleAuth } = useContext(AuthContext);
   
+
+  // const [quizStatus, setQuizStatus] = useState({
+  //   taken: false,
+  //   passed: false
+  // });
+  const [loading, setLoading] = useState(false);
+
+
+  const ref = useRef(true);
+  const token = cookies.get('token');
+
   useEffect(() => {
     // Event listener for clicking outside the modal to close it
     const handleOutsideClick = (event) => {
@@ -33,41 +36,9 @@ function CourseDetails(props) {
       }
     };
 
-    if(ref.current) {
     // Disable scrolling on the background when the modal is open
     document.body.style.overflow = "hidden";
-
-
     document.addEventListener("mousedown", handleOutsideClick);
-
-
-    axios({
-      method: 'get',
-      url: `${BASEURL}/course/${id}/quiz`,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${cookies.get('token')}`
-      }
-    }).then(async res => {
-      await checkStatus(res.data.quiz._id);
-      setLoading(false);
-    })
-    .catch(err => {
-      setLoading(false)
-      if (Array.isArray(err.response?.data.msg)) {
-        notify('error', err.response.data.msg[0].msg);
-      } else if (err.response) {
-        // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          notify('error', err.response.data.msg)
-        } else {
-          notify('error', err.response.data)
-        }
-      } else {
-        notify('error', err.message)
-      }
-    })
-  }
 
     return () => {
       // Cleanup: Re-enable scrolling and remove the event listener
@@ -77,52 +48,69 @@ function CourseDetails(props) {
     };
   }, [onClose]);
 
-  async function checkStatus(quizID) {
-    console.log(quizID, 'QUIZID')
-    axios({
+  const checkEntryQuiz = async () => {
+    const has = await axios({
       method: 'get',
-      url: `${BASEURL}/course/${id}/quiz-status/${quizID}`,
+      url: `${BASEURL}/entry_quiz/status`,
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${cookies.get('token')}`
+        Authorization: `Bearer ${token}`
       }
-    }).then(async res => {
-      const { hasTakenQuiz, quizPassed } = res.data;
-      console.log({ hasTakenQuiz, quizPassed })
-      setQuizStatus(prev => ({
-        ...prev,
-        taken: hasTakenQuiz,
-        passed: quizPassed
-      }));
-    })
-      
+    });
+
+    if (!has) throw new Error('Could not check user status for the entry quiz')
+
+    return has.data;
   }
-  console.log(quizStatus.taken, 'takkkenenn');
+
+  const register = async (id) => {
+    const reg = await axios({
+      method: "post",
+      url: `${BASEURL}/course/${id}/register`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    });
+
+    if (!reg) throw new Error('Failed to enrol to course');
+
+    if(authenticatedUser.role === 'user') handleAuth(reg.data.renewToken);
+
+    onClose();
+    notify('success', 'Registration sucessfull!!!')
+    navigate(`/student/dashboard/enrolled-courses/${id}`)
+  }
 
   const handleRegister = async (id) => {
     try {
-      if (!token) {
-        notify('error', 'You need to login to register for this course');
-        return navigate(`/signin`);
-      }
-      const register = await axios({
-        method: "post",
-        url: `${BASEURL}/course/${id}/register`,
-        // url: `http://localhost:5001/api/course/${id}/register`, 
-        // data: 'formData',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-      })
-      if (!register) {
-        notify('error', 'Registrtion failed')
+      // check if authenticated, if not redirect to login page
+      // if module_0, conntinue to register
+      // check if taken enry quiz
+      // if yes and passed, continue to registration
+      // if yes but failed, module 0
+      // if no, redirect to quiz page
+
+      setLoading(true);
+      if (!authenticatedUser.authenticated) navigate('/signin');
+
+      if(isModuleZero) return await register(id);
+
+      const entry_quiz = await checkEntryQuiz();
+      console.log(entry_quiz, 'entry quiz staatus')
+      if (!entry_quiz.hasTakenQuiz) return navigate(`/${id}/enrol/entry_quiz`);
+
+      if (entry_quiz.hasTakenQuiz && !entry_quiz.quizPassed) {
         onClose()
-      }
-      onClose()
-      notify('success', 'Registration sucessfull!!!')
-      navigate(`/student/dashboard/enrolled-courses/${id}`)
+        notify('error', 'Unfortunately, you did not pass the test. Consider enrolling in the basic course (module 0) first.')
+        setTimeout(() => {
+          return fetchModule0()
+
+        }, 2000)
+      };
+
+      await register(id);
     } catch (err) {
+      setLoading(false);
       console.log(err);
       // console.log(instanceof err)
       if (Array.isArray(err.response?.data.msg)) {
@@ -137,56 +125,16 @@ function CourseDetails(props) {
       } else {
         notify('error', err.message)
       }
-      onClose()
     }
   }
 
-  const takeQuiz = async (id) => {
-    console.log(decoded, 'decccco')
-    const fetchQuiz = async () => {
-      try {
-        const quiz = await axios({
-          method: 'get',
-          url: `${BASEURL}/course/${id}/quiz`,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${cookies.get('token')}`
-          }
-        })
 
-        if (!quiz) throw new Error('Failed to fetch quiz');
-        console.log(quiz, 'ALLQUIZ');
-
-        return quiz.data.quiz._id
-      } catch (err) {
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
-        } else if (err.response) {
-          // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
-          } else {
-            notify('error', err.response.data)
-          }
-        } else {
-          notify('error', err.message)
-        }
-        return null
-      }
-    }
-    const qui = await fetchQuiz()
-    qui ? navigate(decoded.userType === 'user' ? `/course/${id}/quiz/${qui}` : `/student/dashboard/course/${id}/quiz/${qui}`) : handleRegister(id);
-    // if (qui) navigate(`/student/dashboard/course/${id}/quiz/${qui}`)
-    // else {
-    //   notify('error', 'The course does not have a quiz associated with it');
-    //   handleRegister(id);
-    // }
-  }
 
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 w-screen  p-10 ${className} fade-in-regular`}
     >
+      {loading && <Loader />}
       <div className="fixed inset-0 bg-black opacity-30"></div>{" "}
       {/* Black overlay */}
       <div className="relative w-full max-w-5xl p-5 overflow-hidden bg-white rounded-lg md:p-10">
@@ -220,7 +168,7 @@ function CourseDetails(props) {
             {/* <button onClick={() => handleRegister(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
               Enrol
             </button> */}
-            <button onClick={quizStatus.taken ? () => handleRegister(id) : () => takeQuiz(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
+            <button onClick={() => handleRegister(id)} className="w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700">
               Enrol
             </button>
           </div>

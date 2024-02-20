@@ -27,7 +27,7 @@ function StudentProfile() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/student/${id}`,
+      url: `${BASEURL}/admin/student/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',

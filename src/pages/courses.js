@@ -211,7 +211,17 @@ const Courses = () => {
     }
     return () => (ref.current = false);
   }, [])
-console.log(courses)
+
+  console.log(courses);
+
+  const fetchModule0 = () => {
+    const moduleZero = courses.find(course => course.isModuleZero);
+    console.log(moduleZero, 'MODULEZERO')
+    setShowCourse("block");
+    setSelectedCourse(moduleZero);
+    document.body.style.overflow = "hidden";
+  }
+  
   const handleViewDetails = (course) => {
     setShowCourse("block");
     setSelectedCourse(course);
@@ -284,6 +294,8 @@ console.log(courses)
           description={selectedCourse.description}
           duration={selectedCourse.duration}
           onClose={handleCloseDetails}
+          isModuleZero={selectedCourse.isModuleZero}
+          fetchModule0={fetchModule0}
         />
       )}
 

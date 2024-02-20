@@ -44,9 +44,10 @@ import Unauthorized from './pages/unauthorized';
 import PageNotFound from './pages/pagenotfound';
 // import Quiz from './pages/dashboard/Student/course/quiz';
 // import QuizDetail from './pages/dashboard/Student/course/quizDetail';
-import SetQuiz from './pages/dashboard/Admin/course/setQuiz';
+// import SetQuiz from './pages/dashboard/Admin/course/setQuiz';
 import Quizz from './pages/dashboard/Student/course/Quizz';
 import EmailVerification from './pages/verification';
+import Quizzes from './pages/dashboard/Admin/quiz/quizzes';
 // import Remita from './service/remita';
 // import Side from './side';
 
@@ -68,9 +69,9 @@ function App() {
     authenticated: decoded ? true : false,
     firstName: decoded ? decoded.firstName : '',
     lastName: decoded ? decoded.lastName : '',
-    courses: decoded ? decoded.courses : [],
+    // courses: decoded ? decoded.courses : [],
     role: decoded ? decoded.userType : '',
-    token: decoded ? decoded.token : ''
+    // token: decoded ? decoded.token : ''
   })
 
   console.log(authenticatedUser, 'auth');
@@ -138,14 +139,15 @@ function App() {
           <Route path='/auth' element={<EmailVerification />} />
           {/* <Route path='/verify' element={<TwoFA />} /> */}
 
-          <Route path='/course/:id/quiz/:quizID' element={<Quizz />} />
+          <Route path='/:course_id/enrol/entry_quiz' element={<Quizz />} />
 
           <Route element={<RequireAuth allowedRoles={['admin']} />}>
             <Route path='/admin/dashboard' element={<Main />} >
               <Route path='' element={<AdminDashboard />} />
               <Route path='courses' element={<ListCourses />} />
               <Route path="courses/:id" element={<CourseDetails />} />
-              <Route path="courses/:id/quiz/setup" element={<SetQuiz />} />
+              <Route path='quiz' element={<Quizzes />} />
+              {/* <Route path="courses/:id/quiz/setup" element={<SetQuiz />} /> */}
               <Route path='instructors' element={<InstructorsList />} />
               <Route path='instructors/:id' element={<InstructorsProfile />} />
               <Route path='students' element={<Students />} />
@@ -174,7 +176,7 @@ function App() {
               <Route path='student/:id' element={<StudentDetail />} />
               <Route path='course/:id' element={<CourseDetail />} />
 
-              <Route path='course/:id/quiz/:quizID' element={<Quizz />} />
+              {/* <Route path='course/:id/quiz/:quizID' element={<Quizz />} /> */}
               {/* <Route path='course/:id/quiz' element={<Quiz />} />
               <Route path='course/:id/quiz/:quizID' element={<QuizDetail />} /> */}
             </Route>

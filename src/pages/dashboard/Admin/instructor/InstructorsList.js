@@ -187,7 +187,7 @@ const InstructorsList = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/instructors`,
+      url: `${BASEURL}/admin/instructors`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',

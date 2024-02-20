@@ -9,20 +9,11 @@ import MetricCard from '../../../component/MetricCard';
 import { useOutletContext } from 'react-router-dom';
 
 const StudentDashboard = () => {
-    const [courses, setCourses] = useState([])
-    const [data, setData] = useState({
-        id: null,
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        userType: '',
-        courses: [],
-    });
-    const [loading, setLoading] = useState(true)
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const [isSidebarOpen] = useOutletContext();
-    const {notify} = useContext(AlertContext)
+    const {notify} = useContext(AlertContext);
 
 
     const navigate = useNavigate()
@@ -30,8 +21,7 @@ const StudentDashboard = () => {
         const token = cookies.get('token');
         axios({
             method: 'get',
-            url: `${BASEURL}/myData`,
-            // url: 'http://localhost:5001/api/myData',
+            url: `${BASEURL}/enrolled_courses`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
@@ -39,16 +29,7 @@ const StudentDashboard = () => {
         })
             .then(res => {
                 console.log(res.data.details)
-                setData(prev => ({
-                    ...prev,
-                    id: res.data.details._id,
-                    firstName: res.data.details.firstName,
-                    lastName: res.data.details.lastName,
-                    email: res.data.details.email,
-                    phoneNumber: res.data.details.phoneNumber,
-                    userType: res.data.details.userType,
-                    courses: res.data.details.courses
-                }));
+                setCourses(res.data.details);
                 setLoading(false)
             })
             .catch(err => {
@@ -80,18 +61,12 @@ const StudentDashboard = () => {
                     {/* <!--Console Content--> */}
 
                     <div className="flex flex-wrap justify-center">
-                        <MetricCard title="Enrolled courses" value={loading ? '....' : data.courses.length} />
-                        <MetricCard title="Active courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'In-progress').length} />
-                        <MetricCard title="Upcoming courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'Not-started').length} />
-                        <MetricCard title="Completed courses" value={loading ? '....' : data.courses.filter(course => course.progress == 'Completed').length} />
-                        {/* <MetricCard title="active courses" value="50" />
-                            <MetricCard title="no of instructor" value="5" />
-                            <MetricCard title="total" value="5" /> */}
+                        <MetricCard title="Enrolled courses" value={loading ? '....' : courses.length} />
+                        <MetricCard title="Active courses" value={loading ? '....' : courses.filter(course => course.progress == 'In-progress').length} />
+                        <MetricCard title="Upcoming courses" value={loading ? '....' : courses.filter(course => course.progress == 'Not-started').length} />
+                        <MetricCard title="Completed courses" value={loading ? '....' : courses.filter(course => course.progress == 'Completed').length} />
                     </div>
 
-                    {/* <!--Divider--> */}
-                    {/* <hr className="mx-4 my-8 border-b-2 border-gray-400"> */}
-                    {/* <hr></hr> */}
 
                     <div class="flex flex-row flex-wrap flex-grow mt-2">
 
@@ -115,23 +90,18 @@ const StudentDashboard = () => {
                                             </thead>
                                             <tbody>
 
-                                                {loading ? <p>Loading</p> : data.courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
-                                                    data.courses.map(course => (
+                                                {loading ? <p>Loading</p> : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
+                                                    courses.map(course => (
                                                         <tr key={course.id} className="hover:bg-gray-100 group">
-                                                            <td className="px-4 py-2">{course.courseID.title}</td>
-                                                            <td className="px-4 py-2">{course.courseID.instructors[0] ? `${course.courseID.instructors[0]?.instructor?.firstName} ${course.courseID.instructors[0]?.instructor?.lastName}` : `Not assigned`}</td>
-                                                            <td className="px-4 py-2">{course.courseID.instructors[1] ? `${course.courseID.instructors[1]?.instructor?.firstName} ${course.courseID.instructors[1]?.instructor?.lastName}` : `Nil`}</td>
-                                                            <td className="px-4 py-2">{course.courseID.duration}</td>
+                                                            <td className="px-4 py-2">{course.course_id.title}</td>
+                                                            <td className="px-4 py-2">{course.course_id.instructors[0] ? `${course.course_id.instructors[0]?.instructor?.firstName} ${course.course_id.instructors[0]?.instructor?.lastName}` : `Not assigned`}</td>
+                                                            <td className="px-4 py-2">{course.course_id.instructors[1] ? `${course.course_id.instructors[1]?.instructor?.firstName} ${course.course_id.instructors[1]?.instructor?.lastName}` : `Nil`}</td>
+                                                            <td className="px-4 py-2">{course.course_id.duration}</td>
                                                             <td className="px-4 py-2 ">
                                                                 <div className='relative flex justify-between'>
-                                                                    <span onClick={() => navigate(`/student/dashboard/enrolled-courses/${course.courseID._id}`)} className="h-8 text-blue-500 cursor-pointer hover:underline">
+                                                                    <span onClick={() => navigate(`/student/dashboard/enrolled-courses/${course.course_id._id}`)} className="h-8 text-blue-500 cursor-pointer hover:underline">
                                                                         View Profile
                                                                     </span>
-                                                                    {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
-                    <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                    <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
-                    </svg>
-                    </div> */}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -170,7 +140,7 @@ const StudentDashboard = () => {
                                             <tbody>
 
                                                 {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
-                                                data.courses.map(course => (
+                                                courses.map(course => (
                                                     <tr key={course.id} className="hover:bg-gray-100 group">
                                                         <td className="px-4 py-2">{course.course}</td>
                                                         <td className="px-4 py-2">{course.coInstructor}</td>
@@ -180,11 +150,6 @@ const StudentDashboard = () => {
                                                                 <Link to={`${course.id}`} className="h-8 text-blue-500 hover:underline">
                                                                     View Profile
                                                                 </Link>
-                                                                {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
-                    <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                    <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
-                    </svg>
-                    </div> */}
                                                             </div>
                                                         </td>
                                                     </tr>

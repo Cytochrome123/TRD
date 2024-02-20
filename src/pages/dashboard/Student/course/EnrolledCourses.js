@@ -29,8 +29,7 @@ const EnrolledCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/myData`,
-      // url: 'http://localhost:5001/api/myData',
+      url: `${BASEURL}/enrolled_courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -42,7 +41,8 @@ const EnrolledCourses = () => {
         console.log("xxx my-data", res.data);
         // const allPost = [newPost, ...courses]
 
-        setCourses(() => res.data.details.courses);
+        // setCourses(() => res.data.details.courses);
+        setCourses(() => res.data.details);
 
 
 
@@ -76,7 +76,7 @@ const EnrolledCourses = () => {
       {/* <SideBar /> */}
       <div className={`flex justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-col justify-self-center md:ml-72 my-1`}>
 
-        <h2 className="my-8 text-2xl font-semibold">All Courses</h2>
+        <h2 className="my-8 text-2xl font-semibold">Enroled Courses</h2>
 
 
         <div className='overflow-x-auto '>
@@ -98,23 +98,23 @@ const EnrolledCourses = () => {
               {loading ? ('Loading')
                 : courses.length === 0
                   ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
-                  courses.map((student, index) => (
+                  courses.map((course, index) => (
                     <tr key={index} className="hover:bg-gray-100 group">
                       <td className="px-4 py-2">
-                        {/* <img src={img} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
-                        <img src={`https://trd-server.onrender.com/api/file/${student.courseID.image?.path}`} alt={student.title} className="w-10 h-10 rounded-full" />
-                        {/* <img src={imgCallback} alt={student.title}   className="w-10 h-10 rounded-full" /> */}
+                        {/* <img src={img} alt={course.title}   className="w-10 h-10 rounded-full" /> */}
+                        <img src={`https://trd-server.onrender.com/api/file/${course.course_id.image?.path}`} alt={course.title} className="w-10 h-10 rounded-full" />
+                        {/* <img src={imgCallback} alt={course.title}   className="w-10 h-10 rounded-full" /> */}
 
                       </td>
-                      <td className="px-4 py-2">{student.courseID.title} </td>
-                      <td className="px-4 py-2">{student.courseID.description}</td>
-                      <td className="px-4 py-2">{student.courseID.duration}</td>
-                      <td className="px-4 py-2">{student.courseID.capacity}</td>
-                      <td className="px-4 py-2">{student.courseID.amount}</td>
-                      <td className="px-4 py-2">{student.courseID.status ? student.status : "Upcoming"}</td>
+                      <td className="px-4 py-2">{course.course_id.title} </td>
+                      <td className="px-4 py-2">{course.course_id.description}</td>
+                      <td className="px-4 py-2">{course.course_id.duration}</td>
+                      <td className="px-4 py-2">{course.course_id.capacity}</td>
+                      <td className="px-4 py-2">{course.course_id.amount}</td>
+                      <td className="px-4 py-2">{course.course_id.status ? course.status : "Upcoming"}</td>
                       <td className="px-4 py-2 ">
                         <div className='relative flex justify-between'>
-                          <Link to={`${student.courseID._id}`} className="h-8 text-blue-500 hover:underline">
+                          <Link to={`${course.course_id._id}`} className="h-8 text-blue-500 hover:underline">
                             View Profile
                           </Link>
                           {/* <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>

@@ -22,62 +22,69 @@ const Quizz = () => {
         link: ''
     });
 
-    const [module_0, setModule_0] = useState(null);
+    const [module_0, setModule_0] = useState();
 
-    const { course_id, quizID } = useParams();
+    const { id, quizID } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await axios({
-                    method: 'get',
-                    url: `${BASEURL}/entry_quiz/status`,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${cookies.get('token')}`
-                    }
-                });
-                const { hasTakenQuiz, quizPassed } = res.data;
+        console.log('n,fdsjkn.cfdkj,')
+        axios({
+            method: 'get',
+            url: `${BASEURL}/entry_quiz/status`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${cookies.get('token')}`
+            }
+        }).then(async res => {
+            const { hasTakenQuiz, quizPassed } = res.data;
             console.log({ hasTakenQuiz, quizPassed })
             setQuizStatus(prev => ({
                 ...prev,
                 taken: hasTakenQuiz,
                 passed: quizPassed
             }));
-
-                if (!hasTakenQuiz) {
-                    await fetchQuiz();
-                }
-            } catch (err) {
-                notify('error', 'An error occurred while fetching quiz status.');
-            } finally {
-                setLoading(false);
+            if (!hasTakenQuiz) {
+                await fetchQuiz();
             }
-        };
-        fetchData();
+            setLoading(false);
+        })
+            .catch(err => {
+                setLoading(false)
+                if (Array.isArray(err.response?.data.msg)) {
+                    notify('error', err.response.data.msg[0].msg)
+                } else if (err.response) {
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                        notify('error', err.response.data.msg)
+                    } else {
+                        notify('error', err.response.data)
+                    }
+                } else {
+                    notify('error', err.message)
+                }
+            })
     }, []);
 
     const fetchQuiz = async () => {
-        try {
-            const res = await axios({
-                method: 'get',
-                url: `${BASEURL}/entry_quiz`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${cookies.get('token')}`
-                }
-            });
-            console.log(res, 'QUIZ')
+        console.log('fetching')
+        const res = await axios({
+            method: 'get',
+            url: `${BASEURL}/entry_quiz`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${cookies.get('token')}`
+            }
+        })
+
+        if (!res) throw new Error('Failed to fetch quiz');
+        console.log(res, 'QUIZ')
         setQuiz(prev => ({
             ...prev,
             name: res.data.quiz.name,
             sheet_id: res.data.quiz.sheet_id,
             link: res.data.quiz.link
         }))
-        } catch (error) {
-            notify('error', 'Failed to fetch quiz details.');
-        }
     };
 
     console.log(quizStatus)
@@ -118,8 +125,6 @@ const Quizz = () => {
 
         } catch (err) {
             setLoading(false)
-            if(err.response.data.msg.includes('duplicate')) return notify('error', "You can't the entry quiz more than once")
-
             if (Array.isArray(err.response?.data.msg)) {
                 notify('error', err.response.data.msg[0].msg)
             } else if (err.response) {
@@ -156,7 +161,7 @@ const Quizz = () => {
                 notify('error', 'Registrtion failed')
                 // onClose()
             }
-            if(register.data.renewToken) handleAuth(register.data.renewToken);
+            if(reg.data.renewToken) handleAuth(reg.data.renewToken);
             // onClose()
             notify('success', 'Registration sucessfull!!!')
             navigate(`/student/dashboard/enrolled-courses/${id}`)
@@ -181,97 +186,88 @@ const Quizz = () => {
     }
 
     const handleModuleZero = async () => {
-        try {
-            setLoading(true);
-            const module = await axios({
-                method: 'get',
-                url: `${BASEURL}/module_zero`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${cookies.get('token')}`
-                }
-            })
-            if (!module) throw new Error('failed to fetch the module_zero course!');
-            console.log(module.data, 'module_zero COURSE');
-            const { _id, image, title, description, duration, start_date, end_date } = module.data.module_zero;
-            setModule_0({
-                _id,
-                image,
-                title,
-                description,
-                duration,
-                start_date, end_date
-            })
-            
-        } catch (err) {
-            console.log(err);
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
-            } else if (err.response) {
-                // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
-                } else {
-                    notify('error', err.response.data)
-                }
-            } else {
-                notify('error', err.message)
+        setLoading(true);
+        const module_zero = await axios({
+            method: 'get',
+            url: `${BASEURL}/course/module_zero`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${cookies.get('token')}`
             }
-        } finally {
-            setLoading(false);
-        }
+        })
+        setLoading(false);
+        if (!module_zero) throw new Error('failed to fetch the module_zero course!');
+        console.log(module_zero.data, 'module_zero COURSE');
+        const { _id, image, title, description, duration, start_date, end_date } = basic.data.module_zero;
+        setModule_0({
+            _id,
+            image,
+            title,
+            description,
+            duration,
+            start_date, end_date
+        })
     }
 
     const handleCloseModuleZero = () => {
-        setModule_0(null);
+        setModule_0();
         document.body.style.overflow = "auto";
     }
 
     // if (loading) return <div className={`min-h-screen md:ml-72 my-12 w-[900px]`}>Loading...</div>;
 
-    if (loading) return <Loader />;
-
     return (
-        <div className="min-h-screen mx-auto my-32 w-full max-w-4xl px-4 py-8">
-            <div className="bg-white shadow rounded-lg p-6">
+        <div className={`min-h-screen md:ml-72 my-12 w-[900px]`}>
+            {loading && <Loader />}
+            <div className="container h-screen mx-auto mt-32">
                 {!quizStatus.taken ? (
                     <div>
-                        <h2 className="text-2xl font-semibold mb-4">Preliminary Test Required</h2>
-                        <p className="mb-6">Please read the instructions carefully and click the link below to start your test:</p>
-                        <ul className="list-disc list-inside space-y-2 mb-6">
-                            <li>Ensure you have a stable internet connection.</li>
-                            <li>Read each question carefully before answering.</li>
-                            <li>Make sure to submit your answers before closing the test.</li>
+                        <p className="text-2xl mb-10">You need to take the preliminary test.</p>
+                        {/* Render TestComponent here or provide a button/link to it */}
+                        <p className="text-lg mb-10">Instructions</p>
+                        <ul>
+                            <li>
+                                supply your........
+                            </li>
+                            <li>S.......</li>
+                            <li>S.......</li>
                         </ul>
-                        <div className="flex items-center justify-between">
-                            <Link to={quiz.link} target="_blank" className="text-blue-600 hover:text-blue-800 underline">Start Test</Link>
-                            <button onClick={handleDone} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">I've Finished</button>
+
+                        <div className="flex justify-between mt-32">
+                            <p><Link target="_blank" to={quiz.link} className="underline text-blue-500">Click to start</Link></p>
+                            <button className="bg-green-300 text-green-700 p-3 rounded-md" onClick={handleDone}>Done</button>
+
                         </div>
                     </div>
                 ) : quizStatus.passed ? (
                     <div>
-                        <p className="mb-4">Congratulations! You've passed the preliminary test.</p>
-                        <button onClick={() => handleRegister(course_id)} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300">Proceed to Enrollment</button>
+                        <p>You have passed the test. You can now enrol in the course.</p>
+                        {/* Render EnrolmentComponent here or provide a button/link to it */}
+                        <button onClick={() => handleRegister(id)} className={`w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700`}>
+                            Proceed to enrol
+                        </button>
                     </div>
                 ) : (
                     <div>
-                        <p className="mb-4">Unfortunately 😞, you did not pass the test. Consider enrolling in the module 0 first.</p>
-                        <button onClick={handleModuleZero} className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition duration-300">Enroll in Module 0</button>
+                        <p>You did not pass the test. Please take the basic course.</p>
+                        <button onClick={() => handleModuleZero()} className={`w-full px-10 py-2 mt-3 font-semibold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg md:mt-0 md:w-max hover:bg-blue-700`}>
+                            Basic course
+                        </button>
+                        {module_0 && (
+                            <CourseDetails
+                                id={module_0._id}
+                                title={module_0.title}
+                                className={module_0 ? 'block' : 'hidden'}
+                                image={module_0.image.path}
+                                description={module_0.description}
+                                duration={module_0.duration}
+                                onClose={handleCloseModuleZero}
+                                // module_0={true}
+                            />
+                        )}
                     </div>
                 )}
             </div>
-            {module_0 && (
-                <CourseDetails
-                    id={module_0._id}
-                    title={module_0.title}
-                    image={module_0.image.path}
-                    description={module_0.description}
-                    duration={module_0.duration}
-                    onClose={handleCloseModuleZero}
-                    isModuleZero={true}
-                    // fetchModule0={fetchModule0}
-                />
-            )}
         </div>
     );
 

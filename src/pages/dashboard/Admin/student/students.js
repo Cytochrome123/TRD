@@ -15,19 +15,22 @@ import AddStudent from "../../../../forms/AddStudent";
 // import cookies from "js-cookie";
 // import axios, { AxiosError } from "axios";
 import { AlertContext, BASEURL } from "../../../../App";
+import { IoMdOptions } from 'react-icons/io';
+import DropdownItem from '../../../../component/DropdownItem';
 // import { useEffect } from 'react';
 
 const Students = () => {
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   // const [studentData, setStudentData] = useState({});
   // const [items, setItems] = useState([]);
   const [showAddPop, setShowAddPop] = useState(false);
   const [isSidebarOpen] = useOutletContext();
-  const { notify, call2Action } = useContext(AlertContext)
-
+  const { notify, call2Action } = useContext(AlertContext);
+  const token = Cookies.get('token');
 
 
   useEffect(() => {
@@ -39,10 +42,6 @@ const Students = () => {
   const handleOnClose = () => {
     setShowAddPop(false);
   };
-
-
-  // const { id } = useParams();
-  console.log("params", useMatch);
 
   // Handle search
   const handleSearch = (event) => {
@@ -82,10 +81,9 @@ const Students = () => {
   };
 
   function getStudents() {
-    const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/students`,
+      url: `${BASEURL}/admin/students`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -117,13 +115,55 @@ const Students = () => {
       });
   }
 
+  const handleDownloadStudent = async () => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${BASEURL}/admin/students/download`,
+        headers: {
+          // 'Content-Type': 'text/html',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        responseType: 'blob',
+      });
+  
+      if(!res) throw new Error('Error occured while trying to get resource');
+
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `students.xlsx`); // Specify the filename here
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+    } catch (err) {
+      console.log(err);
+        if (Array.isArray(err.response?.data.msg)) {
+          notify('error', err.response.data.msg[0].msg)
+        } else if (err.response) {
+          // This can happen when the required headers or options to access the endpoint r not provided
+          if (err.response.data.msg) {
+            notify('error', err.response.data.msg)
+          } else {
+            notify('error', err.response.data)
+          }
+        } else {
+          notify('error', err.message)
+        }
+    }
+  }
+
   return (
     <div className={`p-4 w-full md:ml-72 min-h-screen my-20`}>
       {/* <SideBar /> */}
       <div className="flex-col justify-center max-w-screen-xl min-h-screen p-6 mx-auto align-middle bg-white rounded shadow justify-self-center">
 
         <div className="flex justify-end ">
-          <div className="relative group">
+          {/* <div className="relative group">
 
             <button
               onClick={() => setShowAddPop(true)}
@@ -135,14 +175,28 @@ const Students = () => {
               You can add Student
             </div>
 
+          </div> */}
+          <div className="relative group">
+            {/* Button to toggle dropdown */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring"
+            >
+              <IoMdOptions />
+            </button>
+
+            {/* Dropdown Content */}
+            {isOpen && (
+              <div className="absolute right-0 z-10 mt-2 w-56 bg-white shadow-lg rounded">
+                <DropdownItem description="" fire={() => setShowAddPop(true)}>Add student</DropdownItem>
+                <DropdownItem description="" fire={handleDownloadStudent}>Download students</DropdownItem>
+              </div>
+            )}
           </div>
         </div>
 
+
         <div className="flex justify-center w-[90%] mt-1 md:-mt-5">
-
-
-
-
 
           <form
             className="flex flex-row items-center w-4/5 p-2 bg-gray-100 border border-gray-300 rounded-lg md:w-3/5 md:p-3"

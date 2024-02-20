@@ -23,6 +23,8 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
       setIsActive('students')
     } else if ((location.pathname).includes('courses')) {
       setIsActive('courses')
+    } else if ((location.pathname).includes('quiz')) {
+      setIsActive('quiz')
     } else {
       setIsActive('home')
     }
@@ -117,6 +119,19 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
                   </div>
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="quiz"
+                  onClick={() => handleButtonClick('quiz')}
+                  className={`block py-2 pl-4 items-center ${isActive === 'quiz' ? 'bg-blue-600' : 'hover:bg-blue-700'
+                    }`}
+                >
+                  <div className='flex items-center gap-2'>
+                    <GiBlackBook className="w-6 h-6" />
+                    <p>Quiz</p>
+                  </div>
+                </Link>
+              </li>
               {/* Add more menu items as needed */}
             </ul>
           </div>
@@ -189,6 +204,19 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
                   <div className='flex items-center gap-2'>
                     <GiBlackBook className="w-6 h-6" />
                     <p>Courses</p>
+                  </div>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="quiz"
+                  onClick={() => handleButtonClick('quiz')}
+                  className={`block py-2 pl-4 items-center ${isActive === 'quiz' ? 'bg-blue-600' : 'hover:bg-blue-700'
+                    }`}
+                >
+                  <div className='flex items-center gap-2'>
+                    <GiBlackBook className="w-6 h-6" />
+                    <p>Quiz</p>
                   </div>
                 </Link>
               </li>

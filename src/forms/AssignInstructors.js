@@ -41,7 +41,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/instructors`,
+      url: `${BASEURL}/admin/instructors`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
@@ -91,7 +91,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     const token = Cookies.get('token');
     axios({
       method: "patch",
-      url: `${BASEURL}/course/${id}/assign`,
+      url: `${BASEURL}/admin/course/${id}/assign`,
       // url: `http://localhost:5001/api/course/${id}/assign`,
       data: selectedInstructors,
       headers: {
