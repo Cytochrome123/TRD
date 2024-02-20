@@ -74,7 +74,10 @@ function CourseDetails(props) {
 
     if (!reg) throw new Error('Failed to enrol to course');
 
-    if(authenticatedUser.role === 'user') handleAuth(reg.data.renewToken);
+    if(authenticatedUser.role === 'user') {
+      const token = cookies.set("token", reg.data.renewToken)
+      handleAuth(token);
+    }
 
     onClose();
     notify('success', 'Registration sucessfull!!!')
@@ -112,7 +115,9 @@ function CourseDetails(props) {
     } catch (err) {
       setLoading(false);
       console.log(err);
-      // console.log(instanceof err)
+
+      if(err.response.data.msg.includes('duplicate')) return notify('error', "You've already enroll to this course")
+
       if (Array.isArray(err.response?.data.msg)) {
         notify('error', err.response.data.msg[0].msg)
       } else if (err.response) {

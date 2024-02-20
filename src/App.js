@@ -86,7 +86,7 @@ function App() {
         lastName: decoded.lastName,
         // courses: decoded.courses
         role: decoded.userType,
-        token
+        // token
       }))
     } else {
       console.log('Not logged in');
