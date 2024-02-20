@@ -60,9 +60,27 @@ export const BASEURL = 'https://trd-server.onrender.com/api'
 function App() {
 
   const token = cookies.get('token');
+  console.log(token)
   let decoded;
-  if (token) decoded = jwtDecode(token);
-  console.log(decoded)
+
+  // if (token) decoded = jwtDecode(token);
+  // console.log(decoded)
+
+  if (token && token.split('.').length === 3) {
+    decoded = jwtDecode(token);
+  } else {
+    console.error('Invalid token format:', token);
+  }
+
+  if (token) {
+    try {
+      decoded = jwtDecode(token);
+      console.log(decoded);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
+  }
+  
 
 
   const [authenticatedUser, setAuthenticatedUser] = useState({

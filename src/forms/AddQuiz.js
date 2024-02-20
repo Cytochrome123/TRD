@@ -105,7 +105,7 @@ const AddQuiz = ({ isOpen, onClose }) => {
                 page: false
             }))
 
-            if(err.response.data.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
+            if(err.response?.data?.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
             
             if (Array.isArray(err.response?.data.msg)) {
                 notify('error', err.response.data.msg[0].msg)

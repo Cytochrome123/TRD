@@ -116,7 +116,7 @@ function CourseDetails(props) {
       setLoading(false);
       console.log(err);
 
-      if(err.response.data.msg.includes('duplicate')) return notify('error', "You've already enroll to this course")
+      if(err.response?.data?.msg.includes('duplicate')) return notify('error', "You've already enroll to this course")
 
       if (Array.isArray(err.response?.data.msg)) {
         notify('error', err.response.data.msg[0].msg)
