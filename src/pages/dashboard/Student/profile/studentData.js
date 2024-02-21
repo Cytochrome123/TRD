@@ -37,16 +37,16 @@ const StudentData = () => {
       },
     })
       .then((res) => {
-        console.log(res.data.details);
+        console.log(res.data.me, 'me');
         setData((prev) => ({
           ...prev,
-          id: res.data.details._id,
-          firstName: res.data.details.firstName,
-          lastName: res.data.details.lastName,
-          email: res.data.details.email,
-          phoneNumber: res.data.details.phoneNumber,
-          userType: res.data.details.userType,
-          courses: res.data.details.courses,
+          id: res.data.me._doc._id,
+          firstName: res.data.me._doc.firstName,
+          lastName: res.data.me._doc.lastName,
+          email: res.data.me._doc.email,
+          phoneNumber: res.data.me._doc.phoneNumber,
+          userType: res.data.me._doc.userType,
+          courses: res.data.me.enrolled_courses,
         }));
       })
       .catch((err) => {
