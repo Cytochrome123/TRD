@@ -66,11 +66,11 @@ function App() {
   // if (token) decoded = jwtDecode(token);
   // console.log(decoded)
 
-  if (token && token.split('.').length === 3) {
-    decoded = jwtDecode(token);
-  } else {
-    console.error('Invalid token format:', token);
-  }
+  // if (token && token.split('.').length === 3) {
+  //   decoded = jwtDecode(token);
+  // } else {
+  //   console.error('Invalid token format:', token);
+  // }
 
   if (token) {
     try {
@@ -105,6 +105,7 @@ function App() {
         // courses: decoded.courses
         role: decoded.userType,
         // token
+        exp: decoded.exp
       }))
     } else {
       console.log('Not logged in');

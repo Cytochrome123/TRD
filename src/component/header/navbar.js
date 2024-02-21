@@ -10,6 +10,7 @@ import { AuthContext } from "../../App";
 
 const Navbarr = () => {
   const { authenticatedUser, setAuthenticatedUser, handleAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
   // const [authenticatedUser, setAuthenticatedUser] = useState({
   //   authenticated: false,
   //   firstName: "",
@@ -17,9 +18,10 @@ const Navbarr = () => {
   //   role: "",
   // });
 
+  if(authenticatedUser.exp <= Date.now()) navigate('/signin')
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ref = useRef(true);
-  const navigate = useNavigate();
   const location = useLocation();
 
   console.log(authenticatedUser, 'navbar');
@@ -128,7 +130,7 @@ const Navbarr = () => {
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
                     onClick={toggleMobileMenu}
-                    
+
                   >
                     About
                   </Link>
@@ -152,7 +154,7 @@ const Navbarr = () => {
                     to="/contact"
                     className={`${mobileMenuOpen ? "fade-in" : ""
                       } block hover:text-gray-200 transition duration-300 ease-in-out`}
-                      onClick={toggleMobileMenu}
+                    onClick={toggleMobileMenu}
                   >
                     Contact Us
                   </Link>
@@ -234,13 +236,13 @@ const Navbarr = () => {
         <div className="items-center justify-end hidden md:flex">
           {authenticatedUser.role === "admin" && (
             <div className="flex items-center space-x-5">
-              <Link 
+              <Link
                 to={`/admin/dashboard/instructors`}
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Instructors
               </Link>
-              <Link 
+              <Link
                 to={`/admin/dashboard/students`}
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
@@ -249,20 +251,20 @@ const Navbarr = () => {
             </div>
           )}
           {authenticatedUser.role === "instructor" && (
-            <Link 
-            to={`/instructor/dashboard/assigned-courses`}
-            className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
-          >
-            Assigned Courses
-          </Link>
+            <Link
+              to={`/instructor/dashboard/assigned-courses`}
+              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
+            >
+              Assigned Courses
+            </Link>
           )}
           {authenticatedUser.role === "student" && (
-            <Link 
-            to={`/student/dashboard/enrolled-courses`}
-            className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
-          >
-            My Courses
-          </Link>
+            <Link
+              to={`/student/dashboard/enrolled-courses`}
+              className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
+            >
+              My Courses
+            </Link>
           )}
           {/* {(authenticatedUser.authenticated && (location.pathname == '/' || location.pathname == '/about')) && (
             <a href="#" className="mr-10 font-bold underline text-slate-900">
