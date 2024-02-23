@@ -7,6 +7,7 @@ import { VscClose } from "react-icons/vsc";
 import { CiMenuBurger } from "react-icons/ci";
 import LOGO from "../../images/logo.png";
 import { AuthContext } from "../../App";
+import { isTokenExpiredv1 } from "../../utils";
 
 const Navbarr = () => {
   const { authenticatedUser, setAuthenticatedUser, handleAuth } = useContext(AuthContext);
@@ -18,7 +19,15 @@ const Navbarr = () => {
   //   role: "",
   // });
 
-  if(authenticatedUser.exp <= Date.now()) navigate('/signin')
+  useEffect(() => {
+    const expired = isTokenExpiredv1(cookies.get('token'))
+    if (expired) {
+      console.log('token expired');
+      navigate('/signin');
+    }
+
+  }, [authenticatedUser.authenticated])
+
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const ref = useRef(true);

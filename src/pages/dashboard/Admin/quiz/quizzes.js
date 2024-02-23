@@ -106,6 +106,7 @@ const Quizzes = () => {
                 <AddQuiz
                     isOpen={isModalOpen.addQuiz}
                     onClose={closeForm}
+                    quizzes={quizzes}
                 />
             }
         </div>

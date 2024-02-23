@@ -89,7 +89,8 @@ function App() {
     lastName: decoded ? decoded.lastName : '',
     // courses: decoded ? decoded.courses : [],
     role: decoded ? decoded.userType : '',
-    // token: decoded ? decoded.token : ''
+    // token: decoded ? decoded.token : '',
+    exp: decoded ? decoded.exp : ''
   })
 
   console.log(authenticatedUser, 'auth');

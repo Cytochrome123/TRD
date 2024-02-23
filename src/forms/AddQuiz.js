@@ -6,7 +6,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Loader from "../component/Loader";
 
-const AddQuiz = ({ isOpen, onClose }) => {
+const AddQuiz = ({ isOpen, onClose, quizzes }) => {
 
     const formRef = useRef();
     // const { id } = useParams();
@@ -24,42 +24,55 @@ const AddQuiz = ({ isOpen, onClose }) => {
         course_id: null,
         type: ''
     })
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        try {
-            getCourses()
-                .then(res => {
-                    setLoading(prev => ({
-                        ...prev,
-                        courses: false
-                    }))
-                })
-        } catch (err) {
-            setLoading(prev => ({ ...prev, courses: false }));
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
-            } else if (err.response) {
-                // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+        const fetch = async () => {
+            try {
+                await getCourses()
+                setLoading(prev => ({
+                    ...prev,
+                    courses: false
+                }))
+            } catch (err) {
+                setLoading(prev => ({ ...prev, courses: false }));
+                if (Array.isArray(err.response?.data.msg)) {
+                    notify('error', err.response.data.msg[0].msg)
+                } else if (err.response) {
+                    // This can happen when the required headers or options to access the endpoint r not provided
+                    if (err.response.data.msg) {
+                        notify('error', err.response.data.msg)
+                    } else {
+                        notify('error', err.response.data)
+                    }
                 } else {
-                    notify('error', err.response.data)
+                    notify('error', err.message)
                 }
-            } else {
-                notify('error', err.message)
             }
+
         }
+
+        fetch()
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target
+        console.log({ name, value })
+        if(name === 'type' && value === 'entry') {
+            for(let quiz of quizzes) {
+                if(quiz.type === 'entry') setError(true);
+            }
+        } else {
+            setError(false)
+        }
+        
         setFormData(prev => ({
             ...prev,
             [name]: value
         }))
     };
 
-    if(formData.type === 'entry') {
+    if (formData.type === 'entry') {
         courses = courses.filter(course => course.isModuleZero);
     }
 
@@ -80,6 +93,7 @@ const AddQuiz = ({ isOpen, onClose }) => {
             //     type: formRef.current.type.value
             // }
             console.log(formData, 'FORMDATA')
+            if (formData.type == "") formData.type = formRef.current?.type.value
             const res = await axios({
                 method: 'post',
                 url: `${BASEURL}/admin/quiz/setup`,
@@ -105,8 +119,8 @@ const AddQuiz = ({ isOpen, onClose }) => {
                 page: false
             }))
 
-            if(err.response?.data?.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
-            
+            if (err.response?.data?.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
+
             if (Array.isArray(err.response?.data.msg)) {
                 notify('error', err.response.data.msg[0].msg)
             } else if (err.response) {
@@ -134,9 +148,9 @@ const AddQuiz = ({ isOpen, onClose }) => {
     }
 
     if (!isOpen) return null;
-console.log(formRef.current?.type.value, 'ref');
-console.log(formData);
-console.log(courses)
+    console.log(formRef.current?.type.value, 'ref');
+    console.log(formData);
+    console.log(courses)
     return (
         <div
             className={`fixed inset-0 flex items-center justify-center z-50 w-screen  p-10 fade-in-regular`}
@@ -224,9 +238,10 @@ console.log(courses)
                             value={formData.type}
                             onChange={handleChange}
                         >
-                            <option value={'end'}>End</option>
+                            <option value='end'>End</option>
                             <option value='entry'>Entry</option>
                         </select>
+                        {error && <p className="text-red-400">‼️⚠️An entry quiz already exist</p>}
                     </div>
                     <div className="mb-4">
                         <label
@@ -262,6 +277,7 @@ console.log(courses)
                     <button
                         className="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                         type="submit"
+                        disabled={error}
                     >
                         Add Quiz
                     </button>
