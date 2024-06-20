@@ -1,9 +1,9 @@
 import { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 // import cookies from 'js-cookie';
-import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL } from "../App";
+import axios from "axios";
+import { AlertContext } from "../App";
 import Loader from "../component/Loader";
 
 const Signup = (props) => {
@@ -20,7 +20,7 @@ const Signup = (props) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {notify} = useContext(AlertContext);
   const firstNameRef = useRef();
 
@@ -65,7 +65,6 @@ const Signup = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setLoading(true)
     // Validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match .");
@@ -74,10 +73,11 @@ const Signup = (props) => {
       setError("");
       // Perform further actions like submitting the form or making API calls here
     }
-
+    
+    setLoading(true)
     axios({
       method: "post",
-      url: `${BASEURL}/signup`,
+      url: `${process.env.REACT_APP_SERVERURL}/auth/signup`,
       data: formData,
       headers: {
         // "Content-Type": "application/json",
@@ -90,7 +90,16 @@ const Signup = (props) => {
       .then((res) => {
         setLoading(false)
         console.log(res);
-        notify('success', res.data.msg);
+        notify('success', res.data.message);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          phoneNumber: "",
+          image: null,
+        })
         // console.log(res.data.token)
         // cookies.set('token', res.data.token );
         // props.handleAlervscode-file://vscode-app/Applications/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmlt(true, 'successfully Loged In!!!', 'success');
@@ -100,12 +109,12 @@ const Signup = (props) => {
       .catch((err) => {
         setLoading(false)
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }

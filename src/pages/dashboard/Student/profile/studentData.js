@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import cookies from "js-cookie";
 
-// import { BASEURL } from "../../../App";
-import { AlertContext, BASEURL } from "../../../../App";
+// import { process.env.REACT_APP_SERVERURL } from "../../../App";
+import { AlertContext } from "../../../../App";
 // import course_img from "../../../images/trd_img.png";
-import { useNavigate } from "react-router-dom";
-import { useOutletContext } from 'react-router-dom';
+// import { useNavigate } from "react-router-dom";
+// import { useOutletContext } from 'react-router-dom';
 
 
 const StudentData = () => {
@@ -21,42 +21,43 @@ const StudentData = () => {
     courses: [],
   });
 
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     const token = cookies.get("token");
     axios({
       method: "get",
-      url: `${BASEURL}/me`,
+      url: `${process.env.REACT_APP_SERVERURL}/me`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        console.log(res.data.me, 'me');
+        console.log(res.data.data, 'data');
         setData((prev) => ({
           ...prev,
-          id: res.data.me._doc._id,
-          firstName: res.data.me._doc.firstName,
-          lastName: res.data.me._doc.lastName,
-          email: res.data.me._doc.email,
-          phoneNumber: res.data.me._doc.phoneNumber,
-          userType: res.data.me._doc.userType,
-          courses: res.data.me.enrolled_courses,
+          // id: res.data.data._doc._id,
+          id: res.data.data._id,
+          firstName: res.data.data.firstName,
+          lastName: res.data.data.lastName,
+          email: res.data.data.email,
+          phoneNumber: res.data.data.phoneNumber,
+          userType: res.data.data.userType,
+          courses: res.data.data.enrolled_courses,
         }));
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }

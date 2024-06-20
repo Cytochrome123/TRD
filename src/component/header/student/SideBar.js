@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineHome } from 'react-icons/ai';
 import { GiBlackBook } from 'react-icons/gi';
 import { PiStudentLight } from 'react-icons/pi';
@@ -27,12 +27,12 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
     } else {
       setIsActive('home')
     }
-  })
+  }, [isActive])
 
-  const linkStyles = {
-    base: 'block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600',
-    active: 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600',
-  };
+  // const linkStyles = {
+  //   base: 'block py-1 md:py-3 pl-1 align-middle border-b-2 hover:border-blue-600',
+  //   active: 'text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600',
+  // };
 
   return (
     <nav className="mt-20">

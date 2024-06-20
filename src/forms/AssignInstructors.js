@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from 'js-cookie';
-import { AlertContext, BASEURL } from '../App';
+import { AlertContext } from '../App';
 
 import Icon_x from "../assets/Icons/x-close.png";
 
@@ -23,7 +23,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     // },
 
   ]);
-  const {notify} = useContext(AlertContext)
+  const { notify } = useContext(AlertContext)
 
 
   // this is the form to be submited, that will contain all the instructor to be added
@@ -41,7 +41,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/admin/instructors`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/instructors`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
@@ -50,16 +50,16 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     })
       .then((res) => {
         console.log("instructors", res.data);
-        setInstructorsList(res.data.instructors);
+        setInstructorsList(res.data.data);
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -91,7 +91,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     const token = Cookies.get('token');
     axios({
       method: "patch",
-      url: `${BASEURL}/admin/course/${id}/assign`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/course/${id}/assign`,
       // url: `http://localhost:5001/api/course/${id}/assign`,
       data: selectedInstructors,
       headers: {
@@ -102,17 +102,17 @@ const AssignInstructors = ({ onClose, id, onData }) => {
     })
       .then((res) => {
         console.log(res.data);
-        notify('success', res.data.msg);
-
+        notify('success', res.data.message);
+        onClose()
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -188,7 +188,7 @@ const AssignInstructors = ({ onClose, id, onData }) => {
             id="lang"
             onChange={handleSelect}
           >
-            {/* <option value="civil engineering">Mr Areemu</option> */}
+            <option></option>
             {loading ? <option>loading</option> :
               instructorsList.map((instructor, index) => (
                 <option key={index} value={`${instructor._id}-${instructor.firstName}`}>{instructor.firstName}</option>

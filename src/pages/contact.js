@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useContext, useState } from "react";
 import { BsTelephone } from "react-icons/bs";
 import { IoMailOutline, IoLocationOutline } from "react-icons/io5";
@@ -85,7 +85,7 @@ const Contact = () => {
       // Handle form submission logic here
       const res = await axios({
         method: 'post',
-        url: 'http://localhost:5001/api/message',
+        url: `${process.env.REACT_APP_SERVERURL}/message`,
         data: formData,
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const Contact = () => {
         }
       })
       if (!res) return notify('error', 'Error submitting form')
-      notify('success', res.data.msg)
+      notify('success', res.data.message)
       // Reset form fields
       setFormData({
         name: "",
@@ -103,12 +103,12 @@ const Contact = () => {
       });
     } catch (err) {
       console.log(err);
-      if (Array.isArray(err.response?.data.msg)) {
-        notify('error', err.response.data.msg[0].msg)
+      if (Array.isArray(err.response?.data.message)) {
+        notify('error', err.response.data.errors[0].msg)
       } else if (err.response) {
         // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          notify('error', err.response.data.msg)
+        if (err.response.data.message) {
+          notify('error', err.response.data.message)
         } else {
           notify('error', err.response.data)
         }

@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import students from '../Data/User'
-import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import { AlertContext } from "../../../../App";
+import axios from "axios";
 import Cookies from "js-cookie";
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 function StudentProfile() {
   const [student, setStudent] = useState({
@@ -18,7 +18,7 @@ function StudentProfile() {
   const { id } = useParams()
 
   console.log('id', id);
-  const [isSidebarOpen] = useOutletContext();
+  // const [isSidebarOpen] = useOutletContext();
   const {notify} = useContext(AlertContext)
 
 
@@ -27,7 +27,7 @@ function StudentProfile() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/admin/student/${id}`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/student/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function StudentProfile() {
           lastName: res.data.student.lastName,
           email: res.data.student.email,
           phoneNumber: res.data.student.phoneNumber,
-          image: `https://trd-server.onrender.com/api/file/${res.data.student.image.path}`,
+          image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.student.image.path}`,
         }))
         // console.log("url", url)
         // const studentData = res.data.students

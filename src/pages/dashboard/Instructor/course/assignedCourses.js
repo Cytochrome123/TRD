@@ -1,71 +1,26 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { useLoaderData, useNavigate, useNavigation } from "react-router-dom";
-import { useQuery } from '@tanstack/react-query';
-import { Form, Button } from "react-bootstrap";
-import axios, { AxiosError } from "axios";
-import { BsSearch } from "react-icons/bs";
-import { AiFillStar } from "react-icons/ai";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+// import { useQuery } from '@tanstack/react-query';
+// import { Form, Button } from "react-bootstrap";
+import axios from "axios";
+// import { BsSearch } from "react-icons/bs";
+// import { AiFillStar } from "react-icons/ai";
 import { LuCalendarClock } from "react-icons/lu";
 import CourseHTML from "../../../../images/html.jpg";
 import CourseExcel from "../../../../images/excel.png";
 import CourseWord from "../../../../images/word.jpg";
 import CourseDAP from "../../../../images/dapython.jpg";
-import CoursePHP from "../../../../images/PHP.jpg";
-import CoursePython from "../../../../images/python.jpg";
-import CoursePPT from "../../../../images/powerpoint.jpg"
-import CourseReact from "../../../../images/react.jpg";
-import CourseDetails from "../../../../component/CourseDetails";
 // import CourseCard from "../component/courseCard
 
 import Cookies from "js-cookie";
-import { AlertContext, BASEURL } from "../../../../App";
-import { useOutletContext } from 'react-router-dom';
+import { AlertContext } from "../../../../App";
+// import { useOutletContext } from 'react-router-dom';
 
 const AssignedCourses = () => {
 
-  const initialCourses = [
-    {
-      _id: 1,
-      title: "Microsoft Word for Beginners",
-      category: "Introduction to I.C.T.",
-      image: CourseWord,
-      featured: true,
-      duration: "2 weeks",
-      description:
-        "Master Microsoft Word basics to create and edit documents with confidence.",
-    },
-    {
-      _id: 2,
-      title: "HTML, CSS, and JavaScript Fundamentals",
-      category: "Web Development",
-      image: CourseHTML,
-      featured: true,
-      duration: "4 weeks",
-      description:
-        "Build web pages with HTML, style them with CSS, and add interactivity with JavaScript.",
-    },
-    {
-      _id: 3,
-      title: "Data Analysis with Python",
-      category: "Data Science",
-      image: CourseDAP,
-      duration: "6 weeks",
-      description:
-        "Analyze data using Python, from data manipulation to visualization.",
-    },
-    {
-      _id: 4,
-      title: "Excel Mastery: Data Management and Analysis",
-      category: "Introduction to I.C.T.",
-      image: CourseExcel,
-      featured: true,
-      duration: "3 weeks",
-      description:
-        "Excel skills for data management, formulas, and generating insights.",
-    },
-  ];
-  const [assignedCourses, setAssignedCourses] = useState(initialCourses);
-  const [isSidebarOpen] = useOutletContext();
+  // const [assignedCourses, setAssignedCourses] = useState(initialCourses);
+  const [assignedCourses, setAssignedCourses] = useState([]);
+  // const [isSidebarOpen] = useOutletContext();
   const {notify} = useContext(AlertContext)
 
 
@@ -77,12 +32,12 @@ const AssignedCourses = () => {
   }, [])
 
   // closing of the pop up
-  const handleOnClose = () => {
+  // const handleOnClose = () => {
     // setShowAddPop(false);
-  };
+  // };
 
 
-  const ref = useRef(true);
+  // const ref = useRef(true);
 
   console.log(assignedCourses)
 
@@ -91,7 +46,7 @@ const AssignedCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/assigned-courses`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/assigned-courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -105,19 +60,19 @@ const AssignedCourses = () => {
 
         // setAssignedCourses(initialCourses.push(res.data.assignedcourses));
         setAssignedCourses(prev => ([
-          ...res.data.assignedcourses,
-          ...initialCourses
+          ...res.data.data,
+          // ...initialCourses
         ]));
 
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -130,7 +85,7 @@ const AssignedCourses = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className={`p-4 md:ml-96 my-20 min-h-screen`}>
+      <div className={`p-4 md:ml-72 my-20 min-h-screen`}>
         {/* <div className="px-4 py-4 pb-20 my-32 md:px-8 lg:px-16 xl:px-20"> */}
 
         <h2 className="mt-6 text-xl font-bold md:text-4xl md:mt-10">
@@ -141,6 +96,7 @@ const AssignedCourses = () => {
 
         {/* Display courses */}
         <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3">
+          {!assignedCourses.length && <p>You're yet to be assigned a course</p>}
           {assignedCourses.map((course) => (
             <div
               className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"

@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import img1 from "../images/events/tech-odyssey/img1.png";
 import img2 from "../images/events/tech-odyssey/img2.png";
 import img3 from "../images/events/tech-odyssey/img3.png";
@@ -9,8 +9,8 @@ import img1_3 from "../images/events/dpt/img3.png";
 import img1_4 from "../images/events/dpt/img4.png";
 
 const Events = () => {
-  const [events, setEvents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [events, setEvents] = useState([]);
+  // const [searchQuery, setSearchQuery] = useState("");
 
   const techOdyssey = [
     {

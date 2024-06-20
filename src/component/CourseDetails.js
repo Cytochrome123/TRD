@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { IoMdClose } from "react-icons/io";
 import cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 
-import { AlertContext, AuthContext, BASEURL } from "../App";
+import { AlertContext, AuthContext } from "../App";
 import Loader from "./Loader";
 
 
@@ -16,7 +16,7 @@ function CourseDetails(props) {
   const navigate = useNavigate()
   const { notify } = useContext(AlertContext);
   const { authenticatedUser, handleAuth } = useContext(AuthContext);
-  
+
 
   // const [quizStatus, setQuizStatus] = useState({
   //   taken: false,
@@ -51,7 +51,7 @@ function CourseDetails(props) {
   const checkEntryQuiz = async () => {
     const has = await axios({
       method: 'get',
-      url: `${BASEURL}/entry_quiz/status`,
+      url: `${process.env.REACT_APP_SERVERURL}/entry_quiz/status`,
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -59,13 +59,13 @@ function CourseDetails(props) {
 
     if (!has) throw new Error('Could not check user status for the entry quiz')
 
-    return has.data;
+    return has.data.data;
   }
 
   const register = async (id) => {
     const reg = await axios({
       method: "post",
-      url: `${BASEURL}/course/${id}/register`,
+      url: `${process.env.REACT_APP_SERVERURL}/course/${id}/register`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -74,8 +74,8 @@ function CourseDetails(props) {
 
     if (!reg) throw new Error('Failed to enrol to course');
 
-    if(authenticatedUser.role === 'user') {
-      const token = cookies.set("token", reg.data.renewToken)
+    if (authenticatedUser.role === 'user') {
+      const token = cookies.set("token", reg.data.data.renewToken)
       handleAuth(token);
     }
 
@@ -94,9 +94,10 @@ function CourseDetails(props) {
       // if no, redirect to quiz page
 
       setLoading(true);
-      if (!authenticatedUser.authenticated) navigate('/signin');
+      // if (!authenticatedUser.authenticated) return navigate(`/auth/signin?rd=${process.env.REACT_APP_CLIENTURL}/courses`);
+      if (!authenticatedUser.authenticated) return navigate(`/auth/signin?rd=courses`);
 
-      if(isModuleZero) return await register(id);
+      if (isModuleZero) return await register(id);
 
       const entry_quiz = await checkEntryQuiz();
       console.log(entry_quiz, 'entry quiz staatus')
@@ -116,14 +117,14 @@ function CourseDetails(props) {
       setLoading(false);
       console.log(err);
 
-      if(err.response?.data?.msg.includes('duplicate')) return notify('error', "You've already enroll to this course")
+      if (err.response?.data?.message?.includes('duplicate')) return notify('error', "You've already enroll to this course")
 
-      if (Array.isArray(err.response?.data.msg)) {
-        notify('error', err.response.data.msg[0].msg)
+      if (Array.isArray(err.response?.data.message)) {
+        notify('error', err.response.data.errors[0].msg);
       } else if (err.response) {
         // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          notify('error', err.response.data.msg)
+        if (err.response.data.message) {
+          notify('error', err.response.data.message)
         } else {
           notify('error', err.response.data)
         }
@@ -154,7 +155,7 @@ function CourseDetails(props) {
             {" "}
             <img
               // src={image}
-              src={`${image}`.includes('/s') ? `${image}` : `https://trd-server.onrender.com/api/file/${image}`}
+              src={`${image}`.includes('/s') ? `${image}` : `${process.env.REACT_APP_SERVERURL}/file/${image}`}
               alt="Course"
               className="object-cover object-top w-full h-full rounded-lg"
             />

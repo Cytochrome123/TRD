@@ -10,7 +10,7 @@ const Main = () => {
   };
   
   return (
-    <div className='flex flex-row'>
+    <div className='flex'>
         < SideBar handleSidebarToggle={handleSidebarToggle} isSidebarOpen={isSidebarOpen}/>
         < Outlet context={[isSidebarOpen]}/>
     </div>

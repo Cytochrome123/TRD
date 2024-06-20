@@ -4,9 +4,10 @@ import MetricCard from '../../../component/MetricCard'
 import Chart from "react-apexcharts";
 // import SideBar from '../../../component/SideBar';
 import axios from 'axios';
-import { AlertContext, BASEURL } from '../../../App';
+// import { AlertContext, process.env.REACT_APP_SERVERURL } from '../../../App';
+import { AlertContext } from '../../../App';
 import Cookies from 'js-cookie';
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 
 
@@ -17,15 +18,15 @@ const AdminDashboard = () => {
     const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [isSidebarOpen] = useOutletContext();
-    const {notify} = useContext(AlertContext)
+    // const [isSidebarOpen] = useOutletContext();
+    const { notify } = useContext(AlertContext)
 
     const token = Cookies.get('token');
 
     useEffect(() => {
         axios({
             method: 'get',
-            url: `${BASEURL}/admin/users`,
+            url: `${process.env.REACT_APP_SERVERURL}/admin/users`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
@@ -33,16 +34,16 @@ const AdminDashboard = () => {
         })
             .then(res => {
                 console.log(res, 'users');
-                setUsers(res.data.users);
+                setUsers(res.data.data);
             })
             .catch(err => {
                 console.log(err);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -55,24 +56,24 @@ const AdminDashboard = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `${BASEURL}/courses`,
+            url: `${process.env.REACT_APP_SERVERURL}/courses`,
             headers: {
                 'Content-Type': 'application/json',
             }
         })
             .then(res => {
                 console.log(res, 'courses');
-                setCourses(res.data.courses);
+                setCourses(res.data.data);
                 setLoading(false);
             })
             .catch(err => {
                 console.log(err);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -85,7 +86,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `${BASEURL}/admin/enrolled_courses`,
+            url: `${process.env.REACT_APP_SERVERURL}/admin/enrolled_courses`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
@@ -93,17 +94,17 @@ const AdminDashboard = () => {
         })
             .then(res => {
                 console.log(res, 'enrollments');
-                setEnrollments(res.data.enrollments);
+                setEnrollments(res.data.data);
                 setLoading(false);
             })
             .catch(err => {
                 console.log(err);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -111,7 +112,7 @@ const AdminDashboard = () => {
                     notify('error', err.message)
                 }
             })
-    }, [ ])
+    }, [])
 
     // The donot chart data
     const [chartData, setChartData] = useState({
@@ -317,38 +318,38 @@ const AdminDashboard = () => {
                             {/* <!--Table Card--> */}
                             <div className="bg-white border rounded shadow">
                                 <div className="p-3 border-b">
-                                    <h5 className="font-bold text-gray-600 uppercase">Table</h5>
+                                    <h5 className="font-bold text-gray-600 uppercase">ADMINS</h5>
                                 </div>
                                 <div className="p-5">
                                     <table className="w-full p-5 text-gray-700">
                                         <thead>
                                             <tr>
                                                 <th className="text-left text-blue-900">Name</th>
-                                                <th className="text-left text-blue-900">Side</th>
+                                                {/* <th className="text-left text-blue-900">Side</th> */}
                                                 <th className="text-left text-blue-900">Role</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
                                             <tr>
-                                                <td>Obi Wan Kenobi</td>
-                                                <td>Light</td>
-                                                <td>Jedi</td>
+                                                <td>A</td>
+                                                <td>Director</td>
+                                                {/* <td>Light</td> */}
                                             </tr>
                                             <tr>
-                                                <td>Greedo</td>
-                                                <td>South</td>
-                                                <td>Scumbag</td>
+                                                <td>B</td>
+                                                <td>Deputy</td>
+                                                {/* <td>South</td> */}
                                             </tr>
                                             <tr>
-                                                <td>Darth Vader</td>
-                                                <td>Dark</td>
-                                                <td>Sith</td>
+                                                <td>C</td>
+                                                <td>Technical lead</td>
+                                                {/* <td>Dark</td> */}
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <p className="py-2"><a href="#">See More issues...</a></p>
+                                    <p className="py-2"><a href="#">View more...</a></p>
 
                                 </div>
                             </div>

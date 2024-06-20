@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 // import students from '../Data/User'
-import { AlertContext, BASEURL } from "../../../../App";
+import { AlertContext } from "../../../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 function StudentProfile() {
   const [student, setStudent] = useState({
@@ -15,8 +15,8 @@ function StudentProfile() {
   })
 
   const { id } = useParams()
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
   console.log('id', id);
@@ -25,7 +25,7 @@ function StudentProfile() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/student/${id}`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/student/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -37,10 +37,10 @@ function StudentProfile() {
         console.log("abc", res.data);
         setStudent(prev => ({
           ...prev,
-          firstName: res.data.student.firstName,
-          lastName: res.data.student.lastName,
-          email: res.data.student.email,
-          phoneNumber: res.data.student.phoneNumber,
+          firstName: res.data.data.firstName,
+          lastName: res.data.data.lastName,
+          email: res.data.data.email,
+          phoneNumber: res.data.data.phoneNumber,
         }))
         // console.log("url", url)
         // const studentData = res.data.students
@@ -49,12 +49,12 @@ function StudentProfile() {
       })
       .catch((err) => {
         console.log(err.message);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -125,7 +125,10 @@ function StudentProfile() {
             <div className="mt-6">
               <h2 className="text-xl font-semibold text-gray-900">Contact</h2>
               <p className="mt-2 text-gray-600">
-                Email: johndoe@example.com
+                Email: {student.email}
+              </p>
+              <p className="mt-2 text-gray-600">
+                Phone: {student.phoneNumber}
               </p>
             </div>
           </div>)}

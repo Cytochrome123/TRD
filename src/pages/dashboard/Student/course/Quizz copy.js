@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AlertContext, AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext } from "../../../../App";
 import axios from "axios";
 import cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
@@ -31,7 +31,7 @@ const Quizz = () => {
         console.log('n,fdsjkn.cfdkj,')
         axios({
             method: 'get',
-            url: `${BASEURL}/entry_quiz/status`,
+            url: `${process.env.REACT_APP_SERVERURL}/entry_quiz/status`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`
@@ -70,7 +70,7 @@ const Quizz = () => {
         console.log('fetching')
         const res = await axios({
             method: 'get',
-            url: `${BASEURL}/entry_quiz`,
+            url: `${process.env.REACT_APP_SERVERURL}/entry_quiz`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`
@@ -95,7 +95,7 @@ const Quizz = () => {
             setLoading(true)
             const res = await axios({
                 method: 'post',
-                url: `${BASEURL}/entry_quiz/${quiz.name}/${quiz.sheet_id}/completed/proceed`,
+                url: `${process.env.REACT_APP_SERVERURL}/entry_quiz/${quiz.name}/${quiz.sheet_id}/completed/proceed`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
@@ -150,7 +150,7 @@ const Quizz = () => {
             }
             const register = await axios({
                 method: "post",
-                url: `${BASEURL}/course/${id}/register`,
+                url: `${process.env.REACT_APP_SERVERURL}/course/${id}/register`,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
@@ -189,7 +189,7 @@ const Quizz = () => {
         setLoading(true);
         const module_zero = await axios({
             method: 'get',
-            url: `${BASEURL}/course/module_zero`,
+            url: `${process.env.REACT_APP_SERVERURL}/course/module_zero`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies.get('token')}`

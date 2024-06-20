@@ -131,7 +131,7 @@ function Landing() {
               </p>
             </div>
             <button className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:bg-blue-400">
-              <a href="/signup">Sign Up</a>
+              <a href="/auth/signup">Sign Up</a>
             </button>
           </div>
           <div className="flex flex-col w-full md:w-1/2">

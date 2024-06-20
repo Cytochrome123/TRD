@@ -23,7 +23,7 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
     } else {
       setIsActive('home')
     }
-  })
+  }, [isActive])
 
   const handleButtonClick = (item) => {
     setIsActive(item);

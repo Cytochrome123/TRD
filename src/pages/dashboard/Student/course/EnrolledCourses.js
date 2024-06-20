@@ -1,21 +1,21 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import { AlertContext } from "../../../../App";
+import axios from "axios";
 import Cookies from 'js-cookie';
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 
 
-// const img = `${BASEURL}/file/${student.image.file}`
+// const img = `${process.env.REACT_APP_SERVERURL}/file/${student.image.file}`
 
 const EnrolledCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
 
@@ -29,7 +29,7 @@ const EnrolledCourses = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/enrolled_courses`,
+      url: `${process.env.REACT_APP_SERVERURL}/enrolled_courses`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -42,21 +42,16 @@ const EnrolledCourses = () => {
         // const allPost = [newPost, ...courses]
 
         // setCourses(() => res.data.details.courses);
-        setCourses(() => res.data.details);
-
-
-
-
-
+        setCourses(() => res.data.data);
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -74,9 +69,9 @@ const EnrolledCourses = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className={`flex justify-center min-h-screen max-w-screen-xl p-6 mx-auto align-middle bg-white rounded shadow flex-col justify-self-center md:ml-72 my-1`}>
+      <div className={`flex justify-center min-h-screen w-full max-w-screen-xl p-6 mx-auto align-middle flex-col justify-self-center md:ml-72 m-1`}>
 
-        <h2 className="my-8 text-2xl font-semibold">Enroled Courses</h2>
+        <h2 className="my-8 text-2xl font-semibold">Enrolled Courses</h2>
 
 
         <div className='overflow-x-auto '>
@@ -102,7 +97,7 @@ const EnrolledCourses = () => {
                     <tr key={index} className="hover:bg-gray-100 group">
                       <td className="px-4 py-2">
                         {/* <img src={img} alt={course.title}   className="w-10 h-10 rounded-full" /> */}
-                        <img src={`https://trd-server.onrender.com/api/file/${course.course_id.image?.path}`} alt={course.title} className="w-10 h-10 rounded-full" />
+                        <img src={`${process.env.REACT_APP_SERVERURL}/file/${course.course_id.image?.path}`} alt={course.title} className="w-10 h-10 rounded-full" />
                         {/* <img src={imgCallback} alt={course.title}   className="w-10 h-10 rounded-full" /> */}
 
                       </td>

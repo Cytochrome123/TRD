@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import cookies from "js-cookie";
 
-import { AlertContext, BASEURL } from '../../../App';
-import course_img from '../../../images/trd_img.png'
+import { AlertContext } from '../../../App';
+// import course_img from '../../../images/trd_img.png'
 import { Link, useNavigate } from 'react-router-dom';
 import MetricCard from '../../../component/MetricCard';
 import { useOutletContext } from 'react-router-dom';
@@ -13,7 +13,7 @@ const StudentDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     const [isSidebarOpen] = useOutletContext();
-    const {notify} = useContext(AlertContext);
+    const { notify } = useContext(AlertContext);
 
 
     const navigate = useNavigate()
@@ -21,25 +21,25 @@ const StudentDashboard = () => {
         const token = cookies.get('token');
         axios({
             method: 'get',
-            url: `${BASEURL}/enrolled_courses`,
+            url: `${process.env.REACT_APP_SERVERURL}/enrolled_courses`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             }
         })
             .then(res => {
-                console.log(res.data.details)
-                setCourses(res.data.details);
+                console.log(res.data.data)
+                setCourses(res.data.data);
                 setLoading(false)
             })
             .catch(err => {
                 console.log(err);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -62,9 +62,9 @@ const StudentDashboard = () => {
 
                     <div className="flex flex-wrap justify-center">
                         <MetricCard title="Enrolled courses" value={loading ? '....' : courses.length} />
-                        <MetricCard title="Active courses" value={loading ? '....' : courses.filter(course => course.progress == 'In-progress').length} />
-                        <MetricCard title="Upcoming courses" value={loading ? '....' : courses.filter(course => course.progress == 'Not-started').length} />
-                        <MetricCard title="Completed courses" value={loading ? '....' : courses.filter(course => course.progress == 'Completed').length} />
+                        <MetricCard title="Active courses" value={loading ? '....' : courses.filter(course => course.progress === 'In-progress').length} />
+                        <MetricCard title="Upcoming courses" value={loading ? '....' : courses.filter(course => course.progress === 'Not-started').length} />
+                        <MetricCard title="Completed courses" value={loading ? '....' : courses.filter(course => course.progress === 'Completed').length} />
                     </div>
 
 
@@ -92,7 +92,7 @@ const StudentDashboard = () => {
 
                                                 {loading ? <p>Loading</p> : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                                                     courses.map(course => (
-                                                        <tr key={course.id} className="hover:bg-gray-100 group">
+                                                        <tr key={course._id} className="hover:bg-gray-100 group">
                                                             <td className="px-4 py-2">{course.course_id.title}</td>
                                                             <td className="px-4 py-2">{course.course_id.instructors[0] ? `${course.course_id.instructors[0]?.instructor?.firstName} ${course.course_id.instructors[0]?.instructor?.lastName}` : `Not assigned`}</td>
                                                             <td className="px-4 py-2">{course.course_id.instructors[1] ? `${course.course_id.instructors[1]?.instructor?.firstName} ${course.course_id.instructors[1]?.instructor?.lastName}` : `Nil`}</td>
@@ -140,20 +140,20 @@ const StudentDashboard = () => {
                                             <tbody>
 
                                                 {loading ? ('Loading') : courses.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
-                                                courses.map(course => (
-                                                    <tr key={course.id} className="hover:bg-gray-100 group">
-                                                        <td className="px-4 py-2">{course.course}</td>
-                                                        <td className="px-4 py-2">{course.coInstructor}</td>
-                                                        <td className="px-4 py-2">{course.duration}</td>
-                                                        <td className="px-4 py-2 ">
-                                                            <div className='relative flex justify-between'>
-                                                                <Link to={`${course.id}`} className="h-8 text-blue-500 hover:underline">
-                                                                    View Profile
-                                                                </Link>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                    courses.map(course => (
+                                                        <tr key={course.id} className="hover:bg-gray-100 group">
+                                                            <td className="px-4 py-2">{course.course}</td>
+                                                            <td className="px-4 py-2">{course.coInstructor}</td>
+                                                            <td className="px-4 py-2">{course.duration}</td>
+                                                            <td className="px-4 py-2 ">
+                                                                <div className='relative flex justify-between'>
+                                                                    <Link to={`${course.id}`} className="h-8 text-blue-500 hover:underline">
+                                                                        View Profile
+                                                                    </Link>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                             </tbody>
                                         </table>
                                     </div>

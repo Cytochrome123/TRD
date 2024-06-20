@@ -1,17 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 // import Instructo from '../../Data/Instructor'
-import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import { AlertContext } from "../../../../App";
+import axios from "axios";
 import Cookies from 'js-cookie';
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 const InstructorsList = () => {
   // const { instructors } = useContext(AuthContext);
   const [instructors, setInstructors] = useState([])
   const [loading, setLoading] = useState(true);
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
   //   const {pathname} = useLocation()
@@ -187,7 +187,7 @@ const InstructorsList = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/admin/instructors`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/instructors`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -197,16 +197,16 @@ const InstructorsList = () => {
     })
       .then((res) => {
         console.log("instructors", res.data);
-        setInstructors(res.data.instructors);
+        setInstructors(res.data.data);
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }

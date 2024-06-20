@@ -1,7 +1,7 @@
 import React from "react";
 import ABOUTIMG1 from "../images/About1.png";
 import ABOUTIMG2 from "../images/About2.png";
-import PROFILE from "../images/profile.jpeg";
+// import PROFILE from "../images/profile.jpeg";
 
 import alao from "../images/staff/alao.jpeg";
 import adisa from "../images/staff/adisa.jpeg";

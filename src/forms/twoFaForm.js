@@ -1,8 +1,8 @@
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from "js-cookie";
-import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL } from "../App";
+import axios from "axios";
+import { AlertContext } from "../App";
 import { AuthContext } from "../App";
 import OtpInput from 'react-otp-input';
 import Loader from "../component/Loader";
@@ -11,14 +11,13 @@ const TwoFAForm = (props) => {
 
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false)
-  const inputRefs = useRef([]);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   console.log(otp);
 
-  const { authenticatedUser, handleAuth } = useContext(AuthContext);
+  const { handleAuth } = useContext(AuthContext);
   const { notify } = useContext(AlertContext)
 
   const handleSubmit = (event) => {
@@ -31,7 +30,7 @@ const TwoFAForm = (props) => {
     setLoading(true)
     axios({
       method: "post",
-      url: `${BASEURL}/verify`,
+      url: `${process.env.REACT_APP_SERVERURL}/verify`,
       data: { otp },
       params: { email },
       headers: {

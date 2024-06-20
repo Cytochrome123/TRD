@@ -1,8 +1,8 @@
 // CourseForm.js
-import { useContext, useEffect, useState } from 'react';
-import { AlertContext, AuthContext, BASEURL } from "../App";
+import { useContext, useState } from 'react';
+import { AlertContext } from "../App";
 import Icon_x from "../assets/Icons/x-close.png";
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import cookies from 'js-cookie';
 import Loader from '../component/Loader';
 
@@ -10,10 +10,7 @@ import Loader from '../component/Loader';
 
 
 const AddCourseForm = ({ onClose, onData }) => {
-  const { courses, setCourses, setShouldMakeApiCall } = useContext(AuthContext)
-
-  // const [sm, setSm] = useState(null)
-
+  // const { courses, setCourses, setShouldMakeApiCall } = useContext(AuthContext)
   const [courseData, setCourseData] = useState({
     title: '',
     description: '',
@@ -80,7 +77,7 @@ const AddCourseForm = ({ onClose, onData }) => {
     console.log(courseData, 'datacourse')
     axios({
       method: "post",
-      url: `${BASEURL}/admin/course`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/course`,
       data: courseData,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -89,8 +86,8 @@ const AddCourseForm = ({ onClose, onData }) => {
       // withCredentials: true
     })
       .then((res) => {
-        notify('success', res.data.msg);
-        console.log("xxx created-courses", res.data.msg);
+        notify('success', res.data.message);
+        console.log("xxx created-courses", res.data.message);
         setLoading(false)
         setCourseData(prev => ({
           ...prev,
@@ -105,16 +102,17 @@ const AddCourseForm = ({ onClose, onData }) => {
           isModuleZero: false,
           image: null, //should I change this to empty string ni? 
         }))
+        onClose();
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false)
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        setLoading(false);
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg);
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -276,7 +274,7 @@ const AddCourseForm = ({ onClose, onData }) => {
             </div>
 
             <div className="mb-1 flex align-center py-3 gap-2">
-              <input type='checkbox' name='isModuleZero' checked={courseData.isModuleZero} onChange={handleCheck}/>
+              <input type='checkbox' name='isModuleZero' checked={courseData.isModuleZero} onChange={handleCheck} />
               <label className="block font-semibold text-gray-600" htmlFor="enrollmentDate">
                 Module 0
               </label>
@@ -298,7 +296,8 @@ const AddCourseForm = ({ onClose, onData }) => {
             id="image"
             name="image"
             // value={Course.image}
-            accept='image/*'
+            // accept='image/*'
+            accept="image/png, image/jpeg, image/jpg"
             onChange={onFileChange}
             placeholder="Upload img"
             required

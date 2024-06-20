@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route, Outlet, RouterProvider } from 'react-router-dom';
 import cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -10,7 +10,7 @@ import Courses from './pages/courses';
 import Navbarr from './component/header/navbar';
 import SignUp from './pages/auth/signUp';
 import SignIn from './pages/auth/signIn';
-import TwoFA from './pages/auth/twoFA';
+// import TwoFA from './pages/auth/twoFA';
 import Landing from './pages/landing';
 import Footer from './component/footer';
 import "./App.css";
@@ -54,11 +54,12 @@ import Quizzes from './pages/dashboard/Admin/quiz/quizzes';
 export const AuthContext = createContext();
 export const AlertContext = createContext();
 
-export const BASEURL = 'https://trd-server.onrender.com/api'
-// export const BASEURL = 'http://localhost:5001/api';
+// export const BASEURL = 'https://trd-server.onrender.com/api'
+// export const BASEURL = 'http://localhost:5001/api/v2';
+// export const CLIENTURL = 'http://localhost:5001/api/v2';
 
 function App() {
-
+  console.log('Environment Variables:', process.env);
   const token = cookies.get('token');
   console.log(token)
   let decoded;
@@ -154,9 +155,9 @@ function App() {
           />
           {/* <Route path='/course/:id' element={<CourseDetails />} /> */}
           
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/signin' element={<SignIn />} />
-          <Route path='/auth' element={<EmailVerification />} />
+          <Route path='/auth/signup' element={<SignUp />} />
+          <Route path='/auth/signin' element={<SignIn />} />
+          <Route path='/auth/verify' element={<EmailVerification />} />
           {/* <Route path='/verify' element={<TwoFA />} /> */}
 
           <Route path='/:course_id/enrol/entry_quiz' element={<Quizz />} />

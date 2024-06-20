@@ -1,19 +1,20 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AlertContext, BASEURL } from "../../../../App";
+import { AlertContext } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { IoMdAdd, IoMdOptions } from 'react-icons/io';
+import { IoMdOptions } from 'react-icons/io';
 
 import ModelContainer from "../../../../component/ModelContainer";
 import AssignInstructors from "../../../../forms/AssignInstructors";
-import { useOutletContext } from 'react-router-dom';
-import AddQuiz from "../../../../forms/AddQuiz";
+// import { useOutletContext } from 'react-router-dom';
+// import AddQuiz from "../../../../forms/AddQuiz";
 import DropdownItem from "../../../../component/DropdownItem";
 import UpdateCourseStatusForm from "../../../../forms/updateCourseStatus";
+import Loader from "../../../../component/Loader";
 
 
 
@@ -21,8 +22,6 @@ import UpdateCourseStatusForm from "../../../../forms/updateCourseStatus";
 const CourseDetails = () => {
   // const { courses, setCourses } = useContext(AuthContext);
   const [showAddPop, setShowAddPop] = useState(false);
-  // const [addQuiz, setAddQuiz] = useState(false);
-  // const [shQuiz, setShQuiz] = useState('hidden')
   const [modal, setModal] = useState({
     addQuiz: false,
     shQuiz: 'hidden',
@@ -45,8 +44,9 @@ const CourseDetails = () => {
   const navigate = useNavigate()
 
   const { id } = useParams();
-  const [isSidebarOpen] = useOutletContext();
+  // const [isSidebarOpen] = useOutletContext();
   const { notify } = useContext(AlertContext);
+  // const ref = useRef(true)
   const token = Cookies.get('token');
 
 
@@ -69,53 +69,55 @@ const CourseDetails = () => {
 
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    axios({
-      method: "get",
-      url: `${BASEURL}/course/${id}`,
-      headers: {
-        // 'Content-Type': 'text/html',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      // withCredentials: true
-    })
-      .then((res) => {
-        console.log("abc", res.data);
-        setCourse(prev => ({
-          ...prev,
-          _id: res.data.course._id,
-          title: res.data.course.title,
-          description: res.data.course.description,
-          duration: res.data.course.duration,
-          start_date: res.data.course.start_date,
-          end_date: res.data.course.end_date,
-          location: res.data.course.location,
-          capacity: res.data.course.capacity,
-          amount: res.data.course.amount,
-          image: `https://trd-server.onrender.com/api/file/${res.data.course.image?.path}`,
-        }))
-        // console.log("url", url)
-        // const studentData = res.data.students
-        // setItems(() => res.data.students)
-
+    // if(ref.current) {
+      const token = Cookies.get('token');
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_SERVERURL}/course/${id}`,
+        headers: {
+          // 'Content-Type': 'text/html',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        // withCredentials: true
       })
-      .catch((err) => {
-        console.log(err.message);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
-        } else if (err.response) {
-          // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+        .then((res) => {
+          // console.log("abc", res.data);
+          setCourse(prev => ({
+            ...prev,
+            _id: res.data.data._id,
+            title: res.data.data.title,
+            description: res.data.data.description,
+            duration: res.data.data.duration,
+            start_date: res.data.data.start_date,
+            end_date: res.data.data.end_date,
+            location: res.data.data.location,
+            capacity: res.data.data.capacity,
+            amount: res.data.data.amount,
+            image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.data.image?.path}`,
+          }))
+          // const studentData = res.data.students
+          // setItems(() => res.data.students)
+  
+        })
+        .catch((err) => {
+          console.log(err.message);
+          if (Array.isArray(err.response?.data.message)) {
+            notify('error', err.response.data.errors[0].msg);
+          } else if (err.response) {
+            // This can happen when the required headers or options to access the endpoint r not provided
+            if (err.response.data.message) {
+              notify('error', err.response.data.message)
+            } else {
+              notify('error', err.response.data)
+            }
           } else {
-            notify('error', err.response.data)
+            notify('error', err.message)
           }
-        } else {
-          notify('error', err.message)
-        }
-      });
+        });
+    // }
 
+    // return () => ref.current = false;
   }, []);
 
   //   const clickedInstructor = instructorList.find(
@@ -129,18 +131,17 @@ const CourseDetails = () => {
   }, []);
 
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getStudents();
-    setLoading(false);
   }, []);
 
   function getStudents() {
 
     axios({
       method: "get",
-      url: `${BASEURL}/admin/course/${id}/students`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/course/${id}/students`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -152,33 +153,36 @@ const CourseDetails = () => {
         console.log("Students", res.data);
         // const allPost = [newPost, ...courses]
 
-        setStudents(res.data.students);
+        setStudents(res.data.data);
 
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg);
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
         } else {
           notify('error', err.message)
         }
-      });
+      })
+      .finally(() => {
+        setLoading(false);
+      })
   }
 
-  const handleCloseQuizForm = () => {
-    setModal(prev => ({
-      ...prev,
-      shQuiz: 'hidden'
-    }))
-    document.body.style.overflow = "auto";
-  };
+  // const handleCloseQuizForm = () => {
+  //   setModal(prev => ({
+  //     ...prev,
+  //     shQuiz: 'hidden'
+  //   }))
+  //   document.body.style.overflow = "auto";
+  // };
 
   const handleCloseUpdateForm = () => {
     // setShQuiz("hidden");
@@ -193,7 +197,7 @@ const CourseDetails = () => {
     try {
       const res = await axios({
         method: "get",
-        url: `${BASEURL}/admin/course/${id}/students/download`,
+        url: `${process.env.REACT_APP_SERVERURL}/admin/course/${id}/students/download`,
         headers: {
           // 'Content-Type': 'text/html',
           'Content-Type': 'application/json',
@@ -202,9 +206,9 @@ const CourseDetails = () => {
         responseType: 'blob',
       });
 
-      if(!res) throw new Error('Error occured while trying to download resource')
+      if (!res) throw new Error('Error occured while trying to download resource')
 
-      // console.log(res);
+      console.log(res);
       // const blbUrl = await res.data.blob()
 
       // // const url = window.URL.createObjectURL(new Blob([res.data]));
@@ -223,17 +227,30 @@ const CourseDetails = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.log(err);
-      if (Array.isArray(err.response?.data.msg)) {
-        notify('error', err.response.data.msg[0].msg)
-      } else if (err.response) {
-        // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          notify('error', err.response.data.msg)
+
+      if (err.response && err.response.data) {
+        const contentType = err.response.headers['content-type'];
+
+        if (contentType && contentType.includes('application/json')) {
+          // Convert blob to JSON to read the error message
+          const reader = new FileReader();
+          reader.onload = () => {
+            const error = JSON.parse(reader.result);
+            if (Array.isArray(error.message)) {
+              notify('error', error.message[0].msg);
+            } else if (error.message) {
+              notify('error', error.message);
+            } else {
+              notify('error', 'An unknown error occurred');
+            }
+          };
+          reader.readAsText(err.response.data);
         } else {
-          notify('error', err.response.data)
+          // Handle other types of error responses
+          notify('error', 'An error occurred while processing your request.');
         }
       } else {
-        notify('error', err.message)
+        notify('error', err.message);
       }
     }
   }
@@ -247,14 +264,18 @@ const CourseDetails = () => {
     setIsOpen(!isOpen)
   }
 
+  if(loading) return <Loader />
+
   return (
     <div className={`p-4 w-full min-h-screen md:ml-72 my-20`} >
       {/* <SideBar /> */}
       <div className="p-4 bg-white rounded-lg shadow-md">
         <div className="flex flex-col items-center md:flex-row">
           <div className="md:w-1/3 md:pr-4">
+            {console.log(course.image)}
             <img
               src={course.image}
+              // src={`http://localhost:5001/api/v2/file/${course.image?.path}`}
               alt={course.title}
               className="object-cover w-full mb-4 h-60"
             />
@@ -263,7 +284,7 @@ const CourseDetails = () => {
               {/* back button start */}
               <button
                 onClick={() => navigate(-1)}
-                className="px-4 py-2 text-xs text-white bg-blue-500 rounded me-2 hover:bg-blue-600 md:text-base"
+                className="border border-blue-500 bg-transparent text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded"
               >
                 Back
               </button>
@@ -274,7 +295,8 @@ const CourseDetails = () => {
 
                 <button
                   onClick={() => setShowAddPop(true)}
-                  className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                  // className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                  className="border border-blue-500 bg-transparent text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded"
                 >
                   Assign Instructor
                 </button>
@@ -368,7 +390,7 @@ const CourseDetails = () => {
             students.map((student, index) => (
               <tr key={index} className="hover:bg-gray-100 group">
                 <td className="px-4 py-2">
-                  <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
+                  <img src={`${process.env.REACT_APP_SERVERURL}/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
                 </td>
                 <td className="px-4 py-2">{student.user_id.firstName} {student.user_id.lastName}</td>
@@ -379,7 +401,7 @@ const CourseDetails = () => {
                 <td className="px-4 py-2 ">
                   <div className='relative flex justify-between h-8 text-blue-500 cursor-pointer hover:underline'>
                     {/* <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline"> */}
-                    <span onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}/student/${student._id}`)}>View Profile</span>
+                    <span onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}/student/${student.user_id._id}`)}>View Profile</span>
 
                     {/* </Link> */}
                     <div className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>

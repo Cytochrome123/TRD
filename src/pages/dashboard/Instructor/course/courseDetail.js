@@ -1,19 +1,21 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AlertContext, AuthContext, BASEURL } from "../../../../App";
+import { AlertContext } from "../../../../App";
 // import imgCallback from "../../images/profile.jpeg";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import MetricCard from "../../../../component/MetricCard";
-import { useOutletContext } from 'react-router-dom';
+// import MetricCard from "../../../../component/MetricCard";
+// import { useOutletContext } from 'react-router-dom';
+import Loader from "../../../../component/Loader";
 
 
 
 const CourseDetail = () => {
     // const { courses, setCourses } = useContext(AuthContext);
     const [course, setCourse] = useState({
+        id: '',
         title: '',
         description: '',
         duration: '',
@@ -26,7 +28,7 @@ const CourseDetail = () => {
     })
 
     const navigate = useNavigate();
-    const [isSidebarOpen] = useOutletContext();
+    // const [isSidebarOpen] = useOutletContext();
     const { notify, call2Action } = useContext(AlertContext)
 
 
@@ -50,8 +52,7 @@ const CourseDetail = () => {
         const token = Cookies.get('token');
         axios({
             method: "get",
-            url: `${BASEURL}/course/${id}`,
-            // url: `${BASEURL}/course/64a983f6ea07003579ec2682`,
+            url: `${process.env.REACT_APP_SERVERURL}/course/${id}`,
             headers: {
                 // 'Content-Type': 'text/html',
                 'Content-Type': 'application/json',
@@ -63,15 +64,16 @@ const CourseDetail = () => {
                 console.log("abc", res.data);
                 setCourse(prev => ({
                     ...prev,
-                    title: res.data.course.title,
-                    description: res.data.course.description,
-                    duration: res.data.course.duration,
-                    start_date: res.data.course.start_date,
-                    end_date: res.data.course.end_date,
-                    location: res.data.course.location,
-                    capacity: res.data.course.capacity,
-                    amount: res.data.course.amount,
-                    // image: `https://trd-server.onrender.com/api/file/${res.data.course.image?.path}`,
+                    id: res.data.data._id,
+                    title: res.data.data.title,
+                    description: res.data.data.description,
+                    duration: res.data.data.duration,
+                    start_date: res.data.data.start_date,
+                    end_date: res.data.data.end_date,
+                    location: res.data.data.location,
+                    capacity: res.data.data.capacity,
+                    amount: res.data.data.amount,
+                    image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.data.image?.path}`,
                 }))
                 // console.log("url", url)
                 // const studentData = res.data.students
@@ -80,12 +82,12 @@ const CourseDetail = () => {
             })
             .catch((err) => {
                 console.log(err.message);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -107,7 +109,7 @@ const CourseDetail = () => {
     }, []);
 
     const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getStudents();
@@ -128,8 +130,8 @@ const CourseDetail = () => {
         const token = Cookies.get('token');
         axios({
             method: "get",
-            url: `${BASEURL}/assigned-course/${id}/students`,
-            // url: `${BASEURL}/assigned-course/64a983f6ea07003579ec2682/students`,
+            url: `${process.env.REACT_APP_SERVERURL}/admin/assigned-courses/${id}/students`,
+            // url: `${process.env.REACT_APP_SERVERURL}/assigned-course/64a983f6ea07003579ec2682/students`,
             headers: {
                 // 'Content-Type': 'text/html',
                 'Content-Type': 'application/json',
@@ -141,17 +143,18 @@ const CourseDetail = () => {
                 console.log("Students", res.data);
                 // const allPost = [newPost, ...courses]
 
-                setStudents(res.data.courseDetails.enrolled);
+                // setStudents(res.data.courseDetails.enrolled);
+                setStudents(res.data.data);
 
             })
             .catch((err) => {
                 console.log(err);
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -161,11 +164,13 @@ const CourseDetail = () => {
             });
     }
 
+    if (loading) return <Loader />;
+
     return (
         <div className={`w-full p-4 md:ml-64 my-20 min-h-screen`}>
             {/* <SideBar /> */}
             <div>
-                <MetricCard title="No of students" value="5" />
+                {/* <MetricCard title="No of students" value="5" /> */}
                 <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
                     <div className="flex flex-col items-center md:flex-row">
                         <div className="md:w-1/3 md:pr-4">
@@ -177,7 +182,7 @@ const CourseDetail = () => {
                             <div className="flex items-center m-2 md:justify-between">
                                 <button
                                     onClick={() => navigate(-1)}
-                                    className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                                    className="border border-blue-500 bg-transparent text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded"
                                 >
                                     Back
                                 </button>
@@ -232,9 +237,10 @@ const CourseDetail = () => {
             <table className="w-full table-auto min-w-max x-overflow-scroll ">
                 <thead>
                     <tr className="text-white bg-blue-500">
+                        <th className="px-4 py-2">S/N</th>
                         <th className="px-4 py-2">Image</th>
                         <th className="px-4 py-2">Name</th>
-                        <th className="px-4 py-2">ID</th>
+                        {/* <th className="px-4 py-2">ID</th> */}
                         <th className="px-4 py-2">Phone Number</th>
                         <th className="px-4 py-2">Enrollment Date</th>
                         <th className="px-4 py-2">Actions</th>
@@ -244,22 +250,23 @@ const CourseDetail = () => {
                     {loading ? ('Loading') : students.length === 0 ? <h1 className='h-32 text-xl text-center'>No data yet</h1> :
                         students.map((student, index) => (
                             <tr key={index} className="hover:bg-gray-100 group">
+                                <td className="px-4 py-2">{index+1}</td>
                                 <td className="px-4 py-2">
                                     <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
                                 </td>
-                                <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
-                                <td className="px-4 py-2">{student._id}</td>
-                                <td className="px-4 py-2">{student.phoneNumber}</td>
-                                <td className="px-4 py-2">{student.createdDate}</td>
+                                <td className="px-4 py-2">{student.user_id.firstName} {student.user_id.lastName}</td>
+                                {/* <td className="px-4 py-2">{student.user_id._id}</td> */}
+                                <td className="px-4 py-2">{student.user_id.phoneNumber}</td>
+                                <td className="px-4 py-2">{student.user_id.createdDate}</td>
                                 <td className="px-4 py-2 ">
                                     <div className='relative flex justify-between h-8 text-blue-500 cursor-pointer hover:underline'>
                                         {/* <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline"> */}
-                                        <span onClick={() => navigate(`/instructor/dashboard/assigned-course/${course._id}/student/${student._id}`)}>View Profile</span>
+                                        <span onClick={() => navigate(`/instructor/dashboard/assigned-course/${course.id}/student/${student.user_id._id}`)}>View Profile</span>
                                         {/* <span onClick={() => navigate(`/instructor/dashboard/assigned-course/64a983f6ea07003579ec2682/student/${student._id}`)}>View Profile</span> */}
 
                                         {/* </Link> */}
-                                        <div onClick={() => handleRemoveStudent(student.id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
+                                        <div onClick={() => handleRemoveStudent(student.user_id._id)} className='absolute bg-red-0 sm:-right-10 md:-right-16 lg:-right-5 '>
                                             <svg className='hidden h-4 p-0 m-0 cursor-pointer group-hover:block animate-pulse ' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
                                                 <path fill="#f44336" d="M44,24c0,11-9,20-20,20S4,35,4,24S13,4,24,4S44,13,44,24z"></path><line x1="16.9" x2="31.1" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line><line x1="31.1" x2="16.9" y1="16.9" y2="31.1" fill="none" stroke="#fff" strokeMiterlimit="10" strokeWidth="4"></line>
                                             </svg>

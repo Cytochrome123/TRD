@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import QuizDetailModal from './eachQuiz';
 import AddQuiz from '../../../../forms/AddQuiz';
 import { IoMdAdd } from 'react-icons/io';
 import axios from 'axios';
-import { AlertContext, BASEURL } from '../../../../App';
+import { AlertContext } from '../../../../App';
 import Cookies from 'js-cookie';
 import Loader from '../../../../component/Loader';
 
@@ -54,20 +54,20 @@ const Quizzes = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: `${BASEURL}/admin/quizzes`,
+            url: `${process.env.REACT_APP_SERVERURL}/admin/quizzes`,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${Cookies.get('token')}`
             }
         }).then(res => {
-            setQuizzes(res.data.quizzes);
+            setQuizzes(res.data.data);
         }).catch(err => {
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -77,7 +77,7 @@ const Quizzes = () => {
         })
         setLoading(false)
 
-    }, []);
+    }, [isModalOpen]);
 
     return (
         <div className={`p-4 w-full md:ml-72 my-20 min-h-screen`}>

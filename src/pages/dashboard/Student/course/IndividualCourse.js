@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import { AlertContext } from "../../../../App";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 
 
@@ -24,8 +24,8 @@ const IndividualCourse = () => {
   const navigate = useNavigate()
 
   const { id } = useParams();
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
 
@@ -41,7 +41,7 @@ const IndividualCourse = () => {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/course/${id}`,
+      url: `${process.env.REACT_APP_SERVERURL}/course/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -53,15 +53,15 @@ const IndividualCourse = () => {
         console.log("abc", res.data);
         setCourse(prev => ({
           ...prev,
-          title: res.data.course.title,
-          description: res.data.course.description,
-          duration: res.data.course.duration,
-          start_date: res.data.course.start_date,
-          end_date: res.data.course.end_date,
-          location: res.data.course.location,
-          capacity: res.data.course.capacity,
-          amount: res.data.course.amount,
-          image: `https://trd-server.onrender.com/api/file/${res.data.course.image?.path}`,
+          title: res.data.data.title,
+          description: res.data.data.description,
+          duration: res.data.data.duration,
+          start_date: res.data.data.start_date,
+          end_date: res.data.data.end_date,
+          location: res.data.data.location,
+          capacity: res.data.data.capacity,
+          amount: res.data.data.amount,
+          image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.data.image?.path}`,
         }))
         // console.log("url", url)
         // const studentData = res.data.students
@@ -70,12 +70,12 @@ const IndividualCourse = () => {
       })
       .catch((err) => {
         console.log(err.message);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -113,7 +113,8 @@ const IndividualCourse = () => {
               <div className="flex items-center m-2 md:justify-between">
                 <button
                   onClick={() => navigate(-1)}
-                  className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                  // className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"
+                  className="border border-blue-500 bg-transparent text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded"
                 >
                   Back
                 </button>

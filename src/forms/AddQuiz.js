@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { useParams } from "react-router-dom";
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext } from "../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Loader from "../component/Loader";
@@ -36,12 +35,12 @@ const AddQuiz = ({ isOpen, onClose, quizzes }) => {
                 }))
             } catch (err) {
                 setLoading(prev => ({ ...prev, courses: false }));
-                if (Array.isArray(err.response?.data.msg)) {
-                    notify('error', err.response.data.msg[0].msg)
+                if (Array.isArray(err.response?.data.message)) {
+                    notify('error', err.response.data.errors[0].msg)
                 } else if (err.response) {
                     // This can happen when the required headers or options to access the endpoint r not provided
-                    if (err.response.data.msg) {
-                        notify('error', err.response.data.msg)
+                    if (err.response.data.message) {
+                        notify('error', err.response.data.message)
                     } else {
                         notify('error', err.response.data)
                     }
@@ -58,14 +57,14 @@ const AddQuiz = ({ isOpen, onClose, quizzes }) => {
     const handleChange = (e) => {
         const { name, value } = e.target
         console.log({ name, value })
-        if(name === 'type' && value === 'entry') {
-            for(let quiz of quizzes) {
-                if(quiz.type === 'entry') setError(true);
+        if (name === 'type' && value === 'entry') {
+            for (let quiz of quizzes) {
+                if (quiz.type === 'entry') setError(true);
             }
         } else {
             setError(false)
         }
-        
+
         setFormData(prev => ({
             ...prev,
             [name]: value
@@ -93,10 +92,10 @@ const AddQuiz = ({ isOpen, onClose, quizzes }) => {
             //     type: formRef.current.type.value
             // }
             console.log(formData, 'FORMDATA')
-            if (formData.type == "") formData.type = formRef.current?.type.value
+            if (formData.type === "") formData.type = formRef.current?.type.value
             const res = await axios({
                 method: 'post',
-                url: `${BASEURL}/admin/quiz/setup`,
+                url: `${process.env.REACT_APP_SERVERURL}/admin/quiz/setup`,
                 data: formData,
                 headers: {
                     "Content-Type": "application/json",
@@ -110,23 +109,24 @@ const AddQuiz = ({ isOpen, onClose, quizzes }) => {
             }))
 
             if (!res) throw new Error('Failed to create quiz');
-            notify('success', 'Created suc');
+            notify('success', res.data.message);
             console.log(res.data, 'DATA')
 
         } catch (err) {
+            console.log(err);
             setLoading(prev => ({
                 ...prev,
                 page: false
             }))
 
-            if (err.response?.data?.msg.includes('duplicate')) return notify('error', 'Entry quiz already exist')
+            if (err.response?.data?.message.includes('duplicate')) return notify('error', 'Entry quiz already exist')
 
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -139,12 +139,12 @@ const AddQuiz = ({ isOpen, onClose, quizzes }) => {
     async function getCourses() {
         const courses = await axios({
             method: 'get',
-            url: `${BASEURL}/courses`,
+            url: `${process.env.REACT_APP_SERVERURL}/courses`,
         });
 
         if (!courses) throw new Error('Error fetching courses');
 
-        setCourses(courses.data.courses);
+        setCourses(courses.data.data);
     }
 
     if (!isOpen) return null;

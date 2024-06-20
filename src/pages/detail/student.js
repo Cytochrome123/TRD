@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from "axios";
-import { BASEURL } from "../../App";
+// import { BASEURL } from "../../App";
 import cookies from "js-cookie";
 
 import course_img from '../../images/trd_img.png'

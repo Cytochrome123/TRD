@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { BsSearch } from "react-icons/bs";
-import { Link, useMatch } from 'react-router-dom';
-import axios, { AxiosError } from "axios";
+import { Link } from 'react-router-dom';
+import axios from "axios";
 import Cookies from 'js-cookie';
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 
 // import studentData from '../../Data/User'
@@ -14,7 +14,8 @@ import AddStudent from "../../../../forms/AddStudent";
 // import axios from 'axios';
 // import cookies from "js-cookie";
 // import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL } from "../../../../App";
+// import { AlertContext, process.env.REACT_APP_SERVERURL } from "../../../../App";
+import { AlertContext } from "../../../../App";
 import { IoMdOptions } from 'react-icons/io';
 import DropdownItem from '../../../../component/DropdownItem';
 // import { useEffect } from 'react';
@@ -28,7 +29,7 @@ const Students = () => {
   // const [studentData, setStudentData] = useState({});
   // const [items, setItems] = useState([]);
   const [showAddPop, setShowAddPop] = useState(false);
-  const [isSidebarOpen] = useOutletContext();
+  // const [isSidebarOpen] = useOutletContext();
   const { notify, call2Action } = useContext(AlertContext);
   const token = Cookies.get('token');
 
@@ -83,7 +84,7 @@ const Students = () => {
   function getStudents() {
     axios({
       method: "get",
-      url: `${BASEURL}/admin/students`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/students`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
@@ -95,17 +96,17 @@ const Students = () => {
         console.log("Students", res.data);
         // const allPost = [newPost, ...courses]
 
-        setStudents(res.data.students);
+        setStudents(res.data.data);
 
       })
       .catch((err) => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -119,7 +120,7 @@ const Students = () => {
     try {
       const res = await axios({
         method: "get",
-        url: `${BASEURL}/admin/students/download`,
+        url: `${process.env.REACT_APP_SERVERURL}/admin/students/download`,
         headers: {
           // 'Content-Type': 'text/html',
           'Content-Type': 'application/json',
@@ -127,8 +128,8 @@ const Students = () => {
         },
         responseType: 'blob',
       });
-  
-      if(!res) throw new Error('Error occured while trying to get resource');
+
+      if (!res) throw new Error('Error occured while trying to get resource');
 
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
@@ -139,21 +140,33 @@ const Students = () => {
 
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
     } catch (err) {
       console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
-        } else if (err.response) {
-          // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
-          } else {
-            notify('error', err.response.data)
-          }
+      if (err.response && err.response.data) {
+        const contentType = err.response.headers['content-type'];
+
+        if (contentType && contentType.includes('application/json')) {
+          // Convert blob to JSON to read the error message
+          const reader = new FileReader();
+          reader.onload = () => {
+            const error = JSON.parse(reader.result);
+            if (Array.isArray(error.message)) {
+              notify('error', error.message[0].msg);
+            } else if (error.message) {
+              notify('error', error.message);
+            } else {
+              notify('error', 'An unknown error occurred');
+            }
+          };
+          reader.readAsText(err.response.data);
         } else {
-          notify('error', err.message)
+          // Handle other types of error responses
+          notify('error', 'An error occurred while processing your request.');
         }
+      } else {
+        notify('error', err.message);
+      }
     }
   }
 
@@ -222,7 +235,7 @@ const Students = () => {
 
 
         </div>
-        <h2 className="my-8 text-2xl font-semibold">Students Taking Course</h2>
+        <h2 className="my-8 text-2xl font-semibold">Students</h2>
 
         <div className='overflow-x-auto '>
           <table className="w-full table-auto min-w-max x-overflow-scroll ">
@@ -241,7 +254,7 @@ const Students = () => {
                 students.map((student, index) => (
                   <tr key={index} className="hover:bg-gray-100 group">
                     <td className="px-4 py-2">
-                      <img src={`https://trd-server.onrender.com/api/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
+                      <img src={`${process.env.REACT_APP_SERVERURL}/file/${student.image?.path}`} alt={student.firstName} className="w-10 h-10 rounded-full" />
 
                     </td>
                     <td className="px-4 py-2">{student.firstName} {student.lastName}</td>

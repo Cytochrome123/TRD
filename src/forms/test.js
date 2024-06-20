@@ -29,8 +29,8 @@ export const Test = () => {
     //             const token = cookies.get('token');
     //             const res = await axios({
     //                 method: 'get',
-    //                 // url: `${BASEURL}/mycourses`,
-    //                 // url: `${BASEURL}/myData`,
+    //                 // url: `${process.env.REACT_APP_SERVERURL}/mycourses`,
+    //                 // url: `${process.env.REACT_APP_SERVERURL}/myData`,
     //                 url: 'http://localhost:5001/api/myData',
     //                 headers: {
     //                     'Content-Type': 'application/json',

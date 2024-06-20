@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useRef } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { AlertContext, BASEURL } from '../App';
+import { AlertContext } from '../App';
 import { useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
@@ -11,7 +11,7 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
     const { id } = useParams();
     const { notify } = useContext(AlertContext)
 
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
         status: '',
         deadline: '',
@@ -30,9 +30,12 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
             e.preventDefault();
             console.log(formData, 'FORMDATA')
             const res = await axios({
-                method: 'put',
-                url: `${BASEURL}/admin/course/${id}/status`,
-                data: formData,
+                method: 'patch',
+                url: `${process.env.REACT_APP_SERVERURL}/admin/course/${id}/status`,
+                data: {
+                    ...(formData.deadline && { deadline: formData.deadline }),
+                    ...(formData.status && { status: formData.status })
+                },
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${Cookies.get('token')}`
@@ -40,16 +43,17 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
             });
 
             if (!res) throw new Error('Failed to update course');
-            notify('success', 'Updated');
+            onClose()
+            notify('success', res.data.message);
             console.log(res.data, 'DATA')
 
         } catch (err) {
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -92,7 +96,7 @@ const UpdateCourseStatusForm = ({ onClose, onData, className }) => {
                             <option value='completed'>Completed</option>
                         </select>
                     </div>
-                    {formData.status == 'application' && (<div className="mb-4">
+                    {formData.status === 'application' && (<div className="mb-4">
                         <label className="block mb-2 font-semibold text-gray-600" htmlFor="studentId">
                             Deadline
                         </label>

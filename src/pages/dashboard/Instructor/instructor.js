@@ -3,10 +3,10 @@ import MetricCard from '../../../component/MetricCard';
 // import ApexCharts from 'apexcharts'
 import Chart from "react-apexcharts";
 // import SideBar from '../../../component/SideBar';
-import { AlertContext, BASEURL } from '../../../App';
+import { AlertContext } from '../../../App';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 
 const InstructorDashboard = () => {
@@ -14,8 +14,8 @@ const InstructorDashboard = () => {
   const [assignedCourses, setAssignedCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [isSidebarOpen] = useOutletContext();
-  const {notify} = useContext(AlertContext)
+  // const [isSidebarOpen] = useOutletContext();
+  const { notify } = useContext(AlertContext)
 
 
   const token = Cookies.get('token');
@@ -23,7 +23,7 @@ const InstructorDashboard = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `${BASEURL}/assigned-courses`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/assigned-courses`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
@@ -31,22 +31,22 @@ const InstructorDashboard = () => {
     })
       .then(res => {
         console.log(res, 'courses');
-        setAssignedCourses(res.data.assignedcourses);
+        setAssignedCourses(res.data.data);
         setLoading(false);
       })
       .catch(err => {
         console.log(err);
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg);
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg);
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
-            notify('error', err.response.data);
+            notify('error', err.response.data)
           }
         } else {
-          notify('error', err.message);
+          notify('error', err.message)
         }
       })
   }, [token]);
@@ -178,7 +178,8 @@ const InstructorDashboard = () => {
             <MetricCard
               title="Total no of students"
               value={
-                loading ? '...' : (assignedCourses.reduce((accm, course) => course.enrolled.length + accm, 0))
+                // loading ? '...' : (assignedCourses.reduce((accm, course) => course.enrolled.length + accm, 0))
+                loading ? '...' : (assignedCourses.reduce((accm, course) => course.enrollment_count + accm, 0))
               }
             />
           </div>
@@ -216,54 +217,6 @@ const InstructorDashboard = () => {
               </div>
               {/* <!--/Graph Card--> */}
             </div>
-
-
-
-
-
-
-            <div className="w-full p-3">
-              {/* <!--Table Card--> */}
-              <div className="bg-white border rounded shadow">
-                <div className="p-3 border-b">
-                  <h5 className="font-bold text-gray-600 uppercase">Table</h5>
-                </div>
-                <div className="p-5">
-                  <table className="w-full p-5 text-gray-700">
-                    <thead>
-                      <tr>
-                        <th className="text-left text-blue-900">Name</th>
-                        <th className="text-left text-blue-900">Side</th>
-                        <th className="text-left text-blue-900">Role</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr>
-                        <td>Obi Wan Kenobi</td>
-                        <td>Light</td>
-                        <td>Jedi</td>
-                      </tr>
-                      <tr>
-                        <td>Greedo</td>
-                        <td>South</td>
-                        <td>Scumbag</td>
-                      </tr>
-                      <tr>
-                        <td>Darth Vader</td>
-                        <td>Dark</td>
-                        <td>Sith</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <p className="py-2"><a href="#">See More issues...</a></p>
-
-                </div>
-              </div>
-              {/* <!--/table Card--> */}
-            </div>
-
 
           </div>
 

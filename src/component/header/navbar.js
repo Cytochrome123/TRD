@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 import cookies from "js-cookie";
 import { VscClose } from "react-icons/vsc";
 import { CiMenuBurger } from "react-icons/ci";
@@ -10,8 +10,9 @@ import { AuthContext } from "../../App";
 import { isTokenExpiredv1 } from "../../utils";
 
 const Navbarr = () => {
-  const { authenticatedUser, setAuthenticatedUser, handleAuth } = useContext(AuthContext);
+  const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation()
   // const [authenticatedUser, setAuthenticatedUser] = useState({
   //   authenticated: false,
   //   firstName: "",
@@ -21,17 +22,16 @@ const Navbarr = () => {
 
   useEffect(() => {
     const expired = isTokenExpiredv1(cookies.get('token'))
-    if (expired) {
+    if (expired && !location.pathname.includes('auth')) {
       console.log('token expired');
-      navigate('/signin');
+      navigate('/auth/signin');
     }
 
   }, [authenticatedUser.authenticated])
 
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const ref = useRef(true);
-  const location = useLocation();
+  // const ref = useRef(true);
 
   console.log(authenticatedUser, 'navbar');
 
@@ -218,7 +218,7 @@ const Navbarr = () => {
                   ) : (
                     <>
                       <Link
-                        to="/signin"
+                        to="/auth/signin"
                         className={`${mobileMenuOpen ? "fade-in" : ""
                           } text-white`}
                         onClick={toggleMobileMenu}
@@ -226,7 +226,7 @@ const Navbarr = () => {
                         Login
                       </Link>
                       <Link
-                        to="/signup"
+                        to="/auth/signup"
                         className={`${mobileMenuOpen ? "fade-in" : ""
                           } text-white`}
                         onClick={toggleMobileMenu}
@@ -292,13 +292,13 @@ const Navbarr = () => {
           ) : (
             <div className="flex items-center space-x-10">
               <Link
-                to="/signin"
+                to="/auth/signin"
                 className="font-semibold text-blue-600 transition duration-300 ease-in-out hover:text-blue-700"
               >
                 Login
               </Link>
               <Link
-                to="/signup"
+                to="/auth/signup"
                 className="py-3 font-bold text-white transition duration-300 ease-in-out bg-blue-600 rounded-lg px-7 hover:shadow-lg hover:shadow-blue-600"
               >
                 Sign Up

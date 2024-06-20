@@ -2,7 +2,7 @@ import { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import cookies from "js-cookie";
 import axios, { AxiosError } from "axios";
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext } from "../App";
 import { AuthContext } from "../App";
 import Loader from "../component/Loader";
 
@@ -32,7 +32,7 @@ const TwoFAForm = (props) => {
 
     axios({
       method: "post",
-      url: `${BASEURL}/verify`,
+      url: `${process.env.REACT_APP_SERVERURL}/verify`,
       data: { otp: otp.join("") },
       params: { email },
       headers: {

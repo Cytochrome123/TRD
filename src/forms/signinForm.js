@@ -1,14 +1,13 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
-import axios, { AxiosError } from "axios";
-import { AlertContext, AuthContext, BASEURL } from "../App";
+import axios from "axios";
+import { AlertContext, AuthContext } from "../App";
 
-import { hard } from "../App";
 import Loader from "../component/Loader";
 
 const Signin = (props) => {
-  const { authenticatedUser, handleAuth } = useContext(AuthContext);
+  const { handleAuth } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,6 +18,8 @@ const Signin = (props) => {
   const {notify} = useContext(AlertContext)
 
   const emailRef = useRef();
+  const location = useLocation();
+  const url = new URLSearchParams(location.search);
   
   useEffect(() => {
     emailRef.current.focus()
@@ -39,7 +40,7 @@ const Signin = (props) => {
     setLoading(true);
     axios({
       method: "post",
-      url: `${BASEURL}/signin`,
+      url: `${process.env.REACT_APP_SERVERURL}/auth/signin`,
       data: formData,
       headers: {
         'Content-Type': 'application/json',
@@ -50,19 +51,27 @@ const Signin = (props) => {
     .then((res) => {
       setLoading(false);
       console.log(res.data);
-      notify('success', res.data.msg);
-      console.log(res.data.accessToken, 'res.data.accessToken');
+      notify('success', res.data.message);
+      console.log(res.data.data.token, 'res.data.accessToken');
       // cookies.set('token', hard );
       // cookies.set("temp", res.data.accessToken);
       // navigate(`/verify?email=${formData.email}`);
-      const token = cookies.set("token", res.data.accessToken);
-      if (res.data.user.userType === "admin") {
+
+      const token = cookies.set("token", res.data.data.token);
+
+      const prev = url.get('rd');
+      if(prev) {
+        handleAuth(token);
+        navigate(`${process.env.REACT_APP_CLIENTURL}/${prev}`);
+      }
+
+      if (res.data.data.user.userType === "admin") {
         navigate("/admin/dashboard");
         handleAuth(token);
-      } else if (res.data.user.userType === "instructor") {
+      } else if (res.data.data.user.userType === "instructor") {
         navigate("/instructor/dashboard");
         handleAuth(token);
-      } else if (res.data.user.userType === "student") {
+      } else if (res.data.data.user.userType === "student") {
         navigate("/student/dashboard");
         handleAuth(token);
       } else {
@@ -73,12 +82,12 @@ const Signin = (props) => {
     .catch((err) => {
       setLoading(false);
       console.log(err);
-      if (Array.isArray(err.response?.data.msg)) {
-        notify('error', err.response.data.msg[0].msg)
+      if (Array.isArray(err.response?.data.message)) {
+        notify('error', err.response.data.errors[0].msg)
       } else if (err.response) {
         // This can happen when the required headers or options to access the endpoint r not provided
-        if (err.response.data.msg) {
-          notify('error', err.response.data.msg)
+        if (err.response.data.message) {
+          notify('error', err.response.data.message)
         } else {
           notify('error', err.response.data)
         }

@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AlertContext, AuthContext, BASEURL } from "../../../../App";
+import { AlertContext, AuthContext } from "../../../../App";
 import axios from "axios";
 import cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
@@ -24,7 +24,7 @@ const Quizz = () => {
 
     const [module_0, setModule_0] = useState(null);
 
-    const { course_id, quizID } = useParams();
+    const { course_id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,19 +32,19 @@ const Quizz = () => {
             try {
                 const res = await axios({
                     method: 'get',
-                    url: `${BASEURL}/entry_quiz/status`,
+                    url: `${process.env.REACT_APP_SERVERURL}/entry_quiz/status`,
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${cookies.get('token')}`
                     }
                 });
-                const { hasTakenQuiz, quizPassed } = res.data;
-            console.log({ hasTakenQuiz, quizPassed })
-            setQuizStatus(prev => ({
-                ...prev,
-                taken: hasTakenQuiz,
-                passed: quizPassed
-            }));
+                const { hasTakenQuiz, quizPassed } = res.data.data;
+                console.log({ hasTakenQuiz, quizPassed })
+                setQuizStatus(prev => ({
+                    ...prev,
+                    taken: hasTakenQuiz,
+                    passed: quizPassed
+                }));
 
                 if (!hasTakenQuiz) {
                     await fetchQuiz();
@@ -62,19 +62,19 @@ const Quizz = () => {
         try {
             const res = await axios({
                 method: 'get',
-                url: `${BASEURL}/entry_quiz`,
+                url: `${process.env.REACT_APP_SERVERURL}/entry_quiz`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
                 }
             });
             console.log(res, 'QUIZ')
-        setQuiz(prev => ({
-            ...prev,
-            name: res.data.quiz.name,
-            sheet_id: res.data.quiz.sheet_id,
-            link: res.data.quiz.link
-        }))
+            setQuiz(prev => ({
+                ...prev,
+                name: res.data.data.name,
+                sheet_id: res.data.data.sheet_id,
+                link: res.data.data.link
+            }))
         } catch (error) {
             notify('error', 'Failed to fetch quiz details.');
         }
@@ -88,7 +88,7 @@ const Quizz = () => {
             setLoading(true)
             const res = await axios({
                 method: 'post',
-                url: `${BASEURL}/entry_quiz/${quiz.name}/${quiz.sheet_id}/completed/proceed`,
+                url: `${process.env.REACT_APP_SERVERURL}/entry_quiz/${quiz.name}/${quiz.sheet_id}/completed/proceed`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
@@ -97,7 +97,7 @@ const Quizz = () => {
             setLoading(false)
             if (!res) throw new Error('FAiled to submit quiz. Try again!');
 
-            const { hasTakenQuiz, quizPassed } = res.data;
+            const { hasTakenQuiz, quizPassed } = res.data.data;
             if (hasTakenQuiz && quizPassed) {
                 notify('success', 'Congratulations! you can proceed with the enrollment');
                 setQuizStatus(prev => ({
@@ -106,26 +106,26 @@ const Quizz = () => {
                     passed: quizPassed
                 }))
             } else if (hasTakenQuiz && !quizPassed) {
-                notify('error', 'Unfotunately, you didn\'t pass ......, You have the option to take the basic course before you can enroll for any other course');
+                notify('success', 'Unfotunately, you didn\'t pass ......, You have the option to take the basic course before you can enroll for any other course');
                 setQuizStatus(prev => ({
                     ...prev,
                     taken: hasTakenQuiz,
                     passed: quizPassed
                 }))
             } else {
-                notify('error', 'You need to take a preliminar test before you can continue. Kindly click on the link below to take the required test');
+                notify('error', 'You need to take a preliminary test before you can continue. Kindly click on the link below to take the required test');
             }
 
         } catch (err) {
             setLoading(false)
-            if(err.response.data.msg.includes('duplicate')) return notify('error', "You can't the entry quiz more than once")
+            // if (err.response?.data.message.includes('duplicate')) return notify('error', "You can't attempt the test more than once")
 
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -141,11 +141,11 @@ const Quizz = () => {
             const token = cookies.get('token');
             if (!token) {
                 notify('error', 'You need to be logged in to continue');
-                return navigate(`/signin`);
+                return navigate(`/auth/signin?rd=enrol/entry_quiz`);
             }
             const register = await axios({
                 method: "post",
-                url: `${BASEURL}/course/${id}/register`,
+                url: `${process.env.REACT_APP_SERVERURL}/course/${id}/register`,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
@@ -153,10 +153,10 @@ const Quizz = () => {
             })
             setLoading(false);
             if (!register) {
-                notify('error', 'Registrtion failed')
+                notify('error', 'Registration failed')
                 // onClose()
             }
-            if(register.data.renewToken) handleAuth(register.data.renewToken);
+            if (register.data.data?.renewToken) handleAuth(register.data.data.renewToken);
             // onClose()
             notify('success', 'Registration sucessfull!!!')
             navigate(`/student/dashboard/enrolled-courses/${id}`)
@@ -164,12 +164,12 @@ const Quizz = () => {
             console.log(err);
             setLoading(false)
             // console.log(instanceof err)
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -185,7 +185,7 @@ const Quizz = () => {
             setLoading(true);
             const module = await axios({
                 method: 'get',
-                url: `${BASEURL}/module_zero`,
+                url: `${process.env.REACT_APP_SERVERURL}/module_zero`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${cookies.get('token')}`
@@ -193,7 +193,7 @@ const Quizz = () => {
             })
             if (!module) throw new Error('failed to fetch the module_zero course!');
             console.log(module.data, 'module_zero COURSE');
-            const { _id, image, title, description, duration, start_date, end_date } = module.data.module_zero;
+            const { _id, image, title, description, duration, start_date, end_date } = module.data.data;
             setModule_0({
                 _id,
                 image,
@@ -202,15 +202,15 @@ const Quizz = () => {
                 duration,
                 start_date, end_date
             })
-            
+
         } catch (err) {
             console.log(err);
-            if (Array.isArray(err.response?.data.msg)) {
-                notify('error', err.response.data.msg[0].msg)
+            if (Array.isArray(err.response?.data.message)) {
+                notify('error', err.response.data.errors[0].msg)
             } else if (err.response) {
                 // This can happen when the required headers or options to access the endpoint r not provided
-                if (err.response.data.msg) {
-                    notify('error', err.response.data.msg)
+                if (err.response.data.message) {
+                    notify('error', err.response.data.message)
                 } else {
                     notify('error', err.response.data)
                 }
@@ -269,7 +269,7 @@ const Quizz = () => {
                     duration={module_0.duration}
                     onClose={handleCloseModuleZero}
                     isModuleZero={true}
-                    // fetchModule0={fetchModule0}
+                // fetchModule0={fetchModule0}
                 />
             )}
         </div>

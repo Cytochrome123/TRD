@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useLoaderData, useNavigation } from "react-router-dom";
-import { useQuery } from '@tanstack/react-query';
-import { Form, Button } from "react-bootstrap";
-import axios, { AxiosError } from "axios";
+// import { useLoaderData, useNavigation } from "react-router-dom";
+// import { useQuery } from '@tanstack/react-query';
+// import { Form, Button } from "react-bootstrap";
+import axios from "axios";
 import { BsSearch } from "react-icons/bs";
 import { AiFillStar } from "react-icons/ai";
 import { LuCalendarClock } from "react-icons/lu";
@@ -17,8 +17,7 @@ import CourseReact from "../images/react.jpg";
 import CourseDetails from "../component/CourseDetails";
 // import CourseCard from "../component/courseCard
 
-import cookies from "js-cookie";
-import { AlertContext, BASEURL } from "../App";
+import { AlertContext } from "../App";
 
 const Courses = () => {
   // const courses = useLoaderData();
@@ -156,9 +155,11 @@ const Courses = () => {
     },
   ];
 
-  const [courses, setCourses] = useState(initialCourses);
+  // const [courses, setCourses] = useState(initialCourses);
+  const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Featured");
+  // const [selectedCategory, setSelectedCategory] = useState(null);
   const [showCourse, setShowCourse] = useState("hidden");
 
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -171,17 +172,20 @@ const Courses = () => {
     if(ref.current) {
       axios({
         method: 'get',
-        url: `${BASEURL}/courses`,
+        url: `${process.env.REACT_APP_SERVERURL}/courses`,
         // url: `http://localhost:5001/api/courses`,
         headers: {
           'Content-Type': 'application/json',
           // Authorization: `Bearer ${token}`
         }
       }).then(res => {
-        console.log(res)
+        // console.log(res)
+        // const p = [...courses];
+        // p.unshift(...res.data.data)
+        // setCourses(p)
         setCourses(prev => ([
+          ...res.data.data,
           ...prev,
-          ...res.data.courses
         ]))
       })
       .catch(err => {
@@ -194,12 +198,12 @@ const Courses = () => {
         // } else {
         //   alert('Error')
         // }
-        if (Array.isArray(err.response?.data.msg)) {
-          notify('error', err.response.data.msg[0].msg)
+        if (Array.isArray(err.response?.data.message)) {
+          notify('error', err.response.data.errors[0].msg)
         } else if (err.response) {
           // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.msg) {
-            notify('error', err.response.data.msg)
+          if (err.response.data.message) {
+            notify('error', err.response.data.message)
           } else {
             notify('error', err.response.data)
           }
@@ -212,7 +216,7 @@ const Courses = () => {
     return () => (ref.current = false);
   }, [])
 
-  console.log(courses);
+  // console.log(courses);
 
   const fetchModule0 = () => {
     const moduleZero = courses.find(course => course.isModuleZero);
@@ -254,7 +258,8 @@ const Courses = () => {
       : courses.filter((course) => course.category === selectedCategory)
     : courses;
 
-  filteredCourses = [...filteredCourses, ...courses]
+  // filteredCourses = [...filteredCourses, ...courses]
+
   // if (loading) {
   //   return (
   //     <div>
@@ -284,7 +289,7 @@ const Courses = () => {
   // }
 
   return (
-    <div className="px-4 py-4 pb-20 my-16 md:px-8 lg:px-16 xl:px-20">
+    <div className="px-4 py-4 pb-20 my-16 md:px-8 lg:px-16 xl:px-20 min-h-screen">
       {selectedCourse && (
         <CourseDetails
           id={selectedCourse._id}
@@ -364,17 +369,18 @@ const Courses = () => {
 
       {/* Display courses */}
       <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 md:grid-cols-3">
-        {filteredCourses.map((course) => (
+        {filteredCourses.map((course, i) => (
           <div
             className="overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
             onClick={() => handleViewDetails(course)}
-            key={course.id}
+            key={i}
           >
             <div className="overflow-hidden h-44">
+            {console.log(course.image)}
               <img
                 className="object-cover w-full h-full"
                 // src={course.image}
-                src={`${course.image?.path}`.includes('/s') ? `${course.image?.path}` : `https://trd-server.onrender.com/api/file/${course.image?.path}`}
+                src={`${course.image?.path}`.includes('/s') ? `${course.image?.path}` : `${process.env.REACT_APP_SERVERURL}/file/${course.image?.path}`}
                 alt="Pic"
               />
             </div>

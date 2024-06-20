@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 // import instructor from "../../Data/Instructor";
-import { AlertContext, BASEURL } from "../../../../App";
-import axios, { AxiosError } from "axios";
+import { AlertContext } from "../../../../App";
+import axios from "axios";
 import Cookies from "js-cookie";
-import { useOutletContext } from 'react-router-dom';
+// import { useOutletContext } from 'react-router-dom';
 
 function InstructorsProfile() {
   // const { instructor, setinstructor } = useContext(AuthContext);
@@ -19,7 +19,7 @@ function InstructorsProfile() {
 
   const { id } = useParams();
   console.log("params", id);
-  const [isSidebarOpen] = useOutletContext();
+  // const [isSidebarOpen] = useOutletContext();
   const {notify} = useContext(AlertContext)
 
 
@@ -44,7 +44,7 @@ function InstructorsProfile() {
     const token = Cookies.get('token');
     axios({
       method: "get",
-      url: `${BASEURL}/admin/instructor/${id}`,
+      url: `${process.env.REACT_APP_SERVERURL}/admin/instructor/${id}`,
       headers: {
         // 'Content-Type': 'text/html',
         'Content-Type': 'application/json',
