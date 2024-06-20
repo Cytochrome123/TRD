@@ -55,13 +55,13 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
         className={`hidden fixed h-full bg-blue-400 w-64 text-white transform transition-transform duration-300 md:block`}
       >
         {/* ... Desktop) */}
-
         <div className={`p-4`}>
           <div className="mt-12 text-center">
             <img
               className="w-40 h-40 mx-auto mb-4 rounded-full"
-              src="http://i.pravatar.cc/300"
-              alt="User Avatar"
+              // src="http://i.pravatar.cc/300"
+              src={`${process.env.REACT_APP_SERVERURL}/file/${authenticatedUser.image}`}
+              alt="Profile pic"
             />
             <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>
           </div>
@@ -148,7 +148,8 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
           <div className="mt-12 text-center">
             <img
               className="w-40 h-40 mx-auto mb-4 rounded-full"
-              src="http://i.pravatar.cc/300"
+              // src="http://i.pravatar.cc/300"
+              src={`${process.env.REACT_APP_SERVERURL}/file/${authenticatedUser.image}`}
               alt="User Avatar"
             />
             <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>

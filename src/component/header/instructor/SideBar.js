@@ -54,7 +54,8 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
             <img
               className="w-40 h-40 mx-auto mb-4 rounded-full"
               // src="http://i.pravatar.cc/300"
-              src="https://via.placeholder.com/150"
+              // src="https://via.placeholder.com/150"
+              src={`${process.env.REACT_APP_SERVERURL}/file/${authenticatedUser.image}`}
               alt="User Avatar"
             />
             <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>
@@ -112,7 +113,8 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
           <div className="mt-12 text-center">
             <img
               className="w-40 h-40 mx-auto mb-4 rounded-full"
-              src="http://i.pravatar.cc/300"
+              // src="http://i.pravatar.cc/300"
+              src={`${process.env.REACT_APP_SERVERURL}/file/${authenticatedUser.image}`}
               alt="User Avatar"
             />
             <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>

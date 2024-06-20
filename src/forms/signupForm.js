@@ -17,11 +17,14 @@ const Signup = (props) => {
     phoneNumber: "",
     image: null,
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    password: "",
+    file: ""
+  });
   const [loading, setLoading] = useState(false);
 
   // const navigate = useNavigate();
-  const {notify} = useContext(AlertContext);
+  const { notify } = useContext(AlertContext);
   const firstNameRef = useRef();
 
   useEffect(() => {
@@ -46,9 +49,34 @@ const Signup = (props) => {
   //   image seperate start
   const onFileChange = (e) => {
 
-    const file = e.target.files[0]; // Get the selected file
-    // This if statement prevent an error that arises when an img has previously being selected
-    if (file) {
+    const file = e.target.files[0]
+
+    if (!file) {
+      setError(prev => ({ ...prev, file: 'No file selected' }));
+      return;
+    }
+
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    const maxSize = 500 * 1024; // 500 KB in bytes
+
+    if (!validTypes.includes(file.type)) {
+      setError(prev => ({ ...prev, file: 'Only PNG, JPG, and JPEG files are allowed' }));
+      // Clear the input field
+      e.target.value = '';
+      return;
+    }
+
+    if (file.size > maxSize) {
+      setError(prev => ({ ...prev, file: 'File size must be less than 500 KB' }));
+      // Clear the input field
+      e.target.value = '';
+      return;
+    }
+
+    // Proceed with file processing
+    console.log('Selected file:', file);
+    // You can handle file upload or any other logic here
+    // if (file) {
       setFormData(prevData => (
         {
           ...prevData,
@@ -56,7 +84,7 @@ const Signup = (props) => {
         }
       ));
       setSelectedImage(URL.createObjectURL(file));
-    };
+    // };
 
   };
   // img end
@@ -67,13 +95,13 @@ const Signup = (props) => {
     event.preventDefault();
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match .");
+      setError(prev => ({ ...prev, password: "Passwords do not match" }));
       return;
     } else {
-      setError("");
+      setError(prev => ({ ...prev, password: "" }));
       // Perform further actions like submitting the form or making API calls here
     }
-    
+
     setLoading(true)
     axios({
       method: "post",
@@ -186,7 +214,7 @@ const Signup = (props) => {
                 onChange={handleChange}
                 value={formData.password}
               />
-              <p className="text-red-500">{error}</p>
+              <p className="text-red-500">{error.password}</p>
             </div>
             <div className="mb-3 form-control">
               <label className="text-xs font-semibold text-slate-800">
@@ -229,13 +257,14 @@ const Signup = (props) => {
                 id="image"
                 name="image"
                 // value={Course.image}
-                accept='image/*'
+                // accept='image/*'
+                accept="image/png, image/jpeg, image/jpg"
                 onChange={onFileChange}
                 placeholder="Upload img"
               // required
 
               />
-
+              <p className="text-red-500">{error.file}</p>
             </div>
             {/* <br/> */}
             <button

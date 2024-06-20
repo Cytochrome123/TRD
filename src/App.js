@@ -90,7 +90,7 @@ function App() {
     lastName: decoded ? decoded.lastName : '',
     // courses: decoded ? decoded.courses : [],
     role: decoded ? decoded.userType : '',
-    // token: decoded ? decoded.token : '',
+    image: decoded ? decoded.image : '',
     exp: decoded ? decoded.exp : ''
   })
 
@@ -106,7 +106,7 @@ function App() {
         lastName: decoded.lastName,
         // courses: decoded.courses
         role: decoded.userType,
-        // token
+        image: decoded.image,
         exp: decoded.exp
       }))
     } else {

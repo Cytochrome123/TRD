@@ -46,25 +46,49 @@ const AddCourseForm = ({ onClose, onData }) => {
     }))
   }
   console.log(courseData, 'dta')
+  const [error, setError] = useState('')
   const [selectedImage, setSelectedImage] = useState(null);
 
-  //   image seperate start
   const onFileChange = (e) => {
 
-    const file = e.target.files[0]; // Get the selected file
-    // This if statement prevent an error that arises when an img has previously being selected
-    if (file) {
-      setCourseData(prevData => (
-        {
-          ...prevData,
-          image: file
-        }
-      ));
-      setSelectedImage(URL.createObjectURL(file));
-    };
+    const file = e.target.files[0]
+
+    if (!file) {
+      setError('No file selected');
+      return;
+    }
+
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    const maxSize = 500 * 1024; // 500 KB in bytes
+
+    if (!validTypes.includes(file.type)) {
+      setError('Only PNG, JPG, and JPEG files are allowed');
+      // Clear the input field
+      e.target.value = '';
+      return;
+    }
+
+    if (file.size > maxSize) {
+      setError('File size must be less than 500 KB');
+      // Clear the input field
+      e.target.value = '';
+      return;
+    }
+
+    // Proceed with file processing
+    console.log('Selected file:', file);
+    // You can handle file upload or any other logic here
+    // if (file) {
+    setCourseData(prevData => (
+      {
+        ...prevData,
+        image: file
+      }
+    ));
+    setSelectedImage(URL.createObjectURL(file));
+    // };
 
   };
-  //   image seperate end
 
 
   //   HandleAddCourse
@@ -303,7 +327,7 @@ const AddCourseForm = ({ onClose, onData }) => {
             required
           />
         </div>
-
+        <p className="text-red-500">{error}</p>
         {/* {selectedImage && <img src={selectedImage} alt="Selected Image" />} */}
         <button
           className="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
