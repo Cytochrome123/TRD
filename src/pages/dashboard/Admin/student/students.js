@@ -18,6 +18,7 @@ import AddStudent from "../../../../forms/AddStudent";
 import { AlertContext } from "../../../../App";
 import { IoMdOptions } from 'react-icons/io';
 import DropdownItem from '../../../../component/DropdownItem';
+import { formatDate } from '../../../../utils';
 // import { useEffect } from 'react';
 
 const Students = () => {
@@ -260,7 +261,7 @@ const Students = () => {
                     <td className="px-4 py-2">{student.firstName} {student.lastName}</td>
                     <td className="px-4 py-2">{student._id}</td>
                     <td className="px-4 py-2">{student.phoneNumber}</td>
-                    <td className="px-4 py-2">{student.createdDate}</td>
+                    <td className="px-4 py-2">{formatDate(student.createdDate)}</td>
                     <td className="px-4 py-2 ">
                       <div className='relative flex justify-between'>
                         <Link to={`${student._id}`} className="h-8 text-blue-500 hover:underline">

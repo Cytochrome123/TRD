@@ -20,10 +20,6 @@ export const isTokenExpiredv1 = (token) => {
     }
 }
 
-
-
-
-
 export const isTokenExpiredv2 = (token) => {
     // Split the token into parts and decode the payload
     const payload = token.split('.')[1];
@@ -39,4 +35,12 @@ export const isTokenExpiredv2 = (token) => {
     }
 
     return false; // Token is not expired
+}
+
+export function formatDate(dateString) {
+    const date = new Date(dateString);
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
 }

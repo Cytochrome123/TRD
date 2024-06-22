@@ -4,6 +4,7 @@ import { AlertContext } from "../../../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { formatDate } from "../../../../utils";
 // import { useOutletContext } from 'react-router-dom';
 
 
@@ -131,8 +132,8 @@ const IndividualCourse = () => {
               <p className="mb-2 text-gray-600">{course.description}</p>
               <p className="mb-2 text-gray-600">Duration: {course.duration}</p>
               <p className="mb-2 text-gray-600">Location: {course.location}</p>
-              <p className="mb-2 text-gray-600">Start Date: {course.start_date}</p>
-              <p className="mb-2 text-gray-600">End Date: {course.end_date}</p>
+              <p className="mb-2 text-gray-600">Start Date: {formatDate(course.start_date)}</p>
+              <p className="mb-2 text-gray-600">End Date: {formatDate(course.end_date)}</p>
               <div className="flex justify-end m-2">
                 <button
                   className="px-4 py-2 text-xs text-white bg-blue-500 rounded hover:bg-blue-600 md:text-base"

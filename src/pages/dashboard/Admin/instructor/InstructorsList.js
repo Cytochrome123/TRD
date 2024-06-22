@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AlertContext } from "../../../../App";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import { formatDate } from '../../../../utils';
 // import { useOutletContext } from 'react-router-dom';
 
 const InstructorsList = () => {
@@ -265,7 +266,7 @@ const InstructorsList = () => {
                     <td className="px-4 py-2">{instructor.firstName} {instructor.lastName}</td>
                     <td className="px-4 py-2">{instructor.email}</td>
                     <td className="px-4 py-2">{instructor.phoneNumber}</td>
-                    <td className="px-4 py-2">{instructor.createdDate}</td>
+                    <td className="px-4 py-2">{formatDate(instructor.createdDate)}</td>
                     <td className="px-4 py-2 ">
                       <div className='relative flex justify-between'>
                         <Link to={`${instructor._id}`} className="h-8 text-blue-500 hover:underline">
