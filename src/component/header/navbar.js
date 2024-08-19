@@ -145,7 +145,18 @@ const Navbarr = () => {
             {mobileMenuOpen ? (
               <CiMenuBurger className="w-6 h-6" />
             ) : (
+              <div className="flex items-center">
+              <button
+                onClick={openSearchModal}
+                className="text-white text-lg p-2 rounded-full"
+              >
+                🔍
+              </button>
+              {/* <span className="absolute right-0 mt-2 p-1 text-xs text-gray-400 bg-gray-900 rounded-lg opacity-75">
+                Press Ctrl + / to search
+              </span> */}
               <CiMenuBurger className="w-6 h-6" />
+            </div>
             )}
           </button>
           <div

@@ -22,7 +22,7 @@ const SearchModal = ({ isOpen, onClose, inputRef }) => {
             if (value) {
                 fetchSearchResults(value);
             }
-        }, 3000));
+        }, 1000));
     };
 
     const fetchSearchResults = async (query) => {
@@ -50,7 +50,7 @@ const SearchModal = ({ isOpen, onClose, inputRef }) => {
             isOpen={isOpen}
             onRequestClose={onClose}
             contentLabel="Search"
-            className="p-6 bg-white rounded-lg shadow-lg max-w-xl w-full mx-auto my-20"
+            className="p-6 bg-white rounded-lg shadow-lg w-[350px] sm:max-w-lg sm:w-full mx-auto my-20"
             overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
         >
             <div className="flex justify-end">

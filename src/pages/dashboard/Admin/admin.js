@@ -301,17 +301,12 @@ const AdminDashboard = () => {
                                 <div className="p-3 border-b">
                                     <h5 className="font-bold text-gray-600 uppercase">Courses</h5>
                                 </div>
-                                <div className="p-1">
-                                    <Chart options={chartData.options} series={chartData.series} type="donut" width="380" />
-
+                                <div className="p-1 chart-container">
+                                    <Chart options={chartData.options} series={chartData.series} type="donut" width="100%" height="auto" />
                                 </div>
                             </div>
                             {/* <!--/Graph Card--> */}
                         </div>
-
-
-
-
 
 
                         <div className="w-full p-3">
