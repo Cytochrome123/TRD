@@ -36,18 +36,18 @@ function StudentProfile() {
       // withCredentials: true
     })
       .then((res) => {
-        console.log("abc", res.data);
+        console.log("abc", res.data.data);
         setStudent(prev => ({
           ...prev,
-          firstName: res.data.student.firstName,
-          lastName: res.data.student.lastName,
-          email: res.data.student.email,
-          phoneNumber: res.data.student.phoneNumber,
-          image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.student.image.path}`,
+          firstName: res.data.data.firstName,
+          lastName: res.data.data.lastName,
+          email: res.data.data.email,
+          phoneNumber: res.data.data.phoneNumber,
+          image: `${process.env.REACT_APP_SERVERURL}/file/${res.data.data.image.path}`,
         }))
         // console.log("url", url)
-        // const studentData = res.data.students
-        // setItems(() => res.data.students)
+        // const studentData = res.data.data.students
+        // setItems(() => res.data.data.students)
 
       })
       .catch((err) => {

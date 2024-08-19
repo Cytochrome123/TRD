@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 // import jwtDecode from "jwt-decode";
@@ -8,6 +8,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import LOGO from "../../images/logo.png";
 import { AuthContext } from "../../App";
 import { isTokenExpiredv1 } from "../../utils";
+import SearchModal from './SearchModal';
 
 const Navbarr = () => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
@@ -19,6 +20,40 @@ const Navbarr = () => {
   //   lastName: "",
   //   role: "",
   // });
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const inputRef = useRef(null);
+
+  const openSearchModal = () => {
+    setIsSearchOpen(true);
+
+    setTimeout(() => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, 0);
+  };
+
+  const closeSearchModal = () => {
+    setIsSearchOpen(false);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey && event.key === '/') {
+        event.preventDefault();
+        openSearchModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
 
   useEffect(() => {
     const expired = isTokenExpiredv1(cookies.get('token'))
@@ -53,8 +88,8 @@ const Navbarr = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-screen py-4 text-gray-900 bg-white shadow-md px-7 md:px-0">
-      <div className="container flex items-center justify-between mx-auto">
-        <div className="flex items-center space-x-10">
+      <div className="container flex items-center justify-between mx-auto lg:justify-center lg:gap-56">
+        <div className="flex items-center justify-center space-x-10">
           <Link to='/' className="flex items-center text-gray-900">
             <img src={LOGO} alt="logo" className="mr-2 w-14" />
           </Link>
@@ -96,6 +131,7 @@ const Navbarr = () => {
             >
               Contact Us
             </Link>
+
           </div>
         </div>
 
@@ -243,6 +279,19 @@ const Navbarr = () => {
 
         {/* Desktop nav authenticated*/}
         <div className="items-center justify-end hidden md:flex">
+          {authenticatedUser.authenticated && (
+            <div>
+              <button
+                onClick={openSearchModal}
+                className="text-white text-lg p-2 rounded-full"
+              >
+                🔍
+              </button>
+              {/* <span className="absolute right-0 mt-2 p-1 text-xs text-gray-400 bg-gray-900 rounded-lg opacity-75">
+                Press Ctrl + / to search
+              </span> */}
+            </div>
+          )}
           {authenticatedUser.role === "admin" && (
             <div className="flex items-center space-x-5">
               <Link
@@ -307,6 +356,9 @@ const Navbarr = () => {
           )}
         </div>
       </div>
+
+
+      <SearchModal isOpen={isSearchOpen} onClose={closeSearchModal} inputRef={inputRef} />
     </nav>
   );
 };

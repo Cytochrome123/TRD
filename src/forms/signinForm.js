@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import cookies from "js-cookie";
 import axios from "axios";
 import { AlertContext, AuthContext } from "../App";
@@ -97,11 +97,22 @@ const Signin = (props) => {
     });
   };
 
+  const style = {
+    background: "green",
+    /* For Firefox */
+    'scrollbar-width': 'none',
+    /* For Chrome, Safari, and Edge */
+    'webkit-scrollbar': {
+      display: 'none',
+      overflow: 'auto'
+    },
+  }
+
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col mt-20 h-screen overflow-scroll scrollbar-hide">
       {loading && <Loader />}
-      <div className="flex items-center justify-center flex-1">
-        <div className="w-full p-10 mt-32 mb-10 bg-blue-300 border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
+      <div className="flex items-center justify-center">
+        <div className="w-full p-10 mb-10 bg-blue-300 border rounded-lg shadow sm:mx-7 md:m-10 md:max-w-md border-slate-200">
           <div className="mb-8 text-xl font-semibold text-center text-blue-600 lg:justify-center">
             Log in to your account
           </div>
@@ -144,6 +155,13 @@ const Signin = (props) => {
             >
               LOG IN
             </button>
+
+            <div className='flex items-center justify-center gap-1 w-full mt-5 text-sm'>
+                <p className='text-gray-200'>Don't have an account?</p>
+                <p className="text-blue-700">
+                  <Link to="/auth/signup">Create an account</Link>
+                </p>
+             </div>
           </form>
         </div>
       </div>

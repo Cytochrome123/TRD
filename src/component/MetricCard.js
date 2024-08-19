@@ -7,7 +7,7 @@ const MetricCard = ({title, value}) => {
                     {/* <!--Metric Card--> */}
                     <div className="p-2 bg-white border rounded shadow">
                         <div className="flex flex-row items-center">
-                            <div className="flex-shrink pr-4">
+                            <div className="flex-shrink">
                                 <div className="p-3 bg-blue-600 rounded"><i className="fa fa-wallet fa-2x fa-fw fa-inverse"></i></div>
                             </div>
                             <div className="flex-1 text-right md:text-center">

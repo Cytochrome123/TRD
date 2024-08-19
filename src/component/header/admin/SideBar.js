@@ -56,17 +56,17 @@ const SideBar = ({ isSidebarOpen, handleSidebarToggle }) => {
       >
         {/* ... Desktop) */}
         <div className={`p-4`}>
-          <div className="mt-12 text-center">
+          <div className="mt-7 text-center">
             <img
-              className="w-40 h-40 mx-auto mb-4 rounded-full"
+              className="w-32 h-32 mx-auto mb-4 rounded-full"
               // src="http://i.pravatar.cc/300"
               src={`${process.env.REACT_APP_SERVERURL}/file/${authenticatedUser.image}`}
               alt="Profile pic"
             />
             <p className="font-semibold">{authenticatedUser.firstName} {authenticatedUser.lastName}</p>
           </div>
-          <div className="mt-12">
-            <ul className="flex flex-col gap-5">
+          <div className="mt-10">
+            <ul className="flex flex-col gap-3">
               <li>
                 <Link
                   to="/admin/dashboard"

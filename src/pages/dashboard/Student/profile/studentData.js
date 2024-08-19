@@ -70,7 +70,7 @@ const StudentData = () => {
   return (
     <div>
       {/* <SideBar /> */}
-      <div className={`flex flex-col items-center min-h-screen p-6 md:ml-96 my-20`}>
+      <div className={`flex flex-col items-center min-h-screen p-6 md:ml-64 my-20`}>
         {data && (
           // <div className="w-full p-8 bg-white rounded-lg shadow-lg sm:w-2/3 md:w-3/4 lg:w-1/2 xl:w-2/3">
           <div className="w-full p-8 bg-white rounded-lg shadow-lg">

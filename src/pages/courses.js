@@ -34,7 +34,7 @@ const Courses = () => {
   // }, [navigation.state]);
 
   // const token = cookies.get('token');
-  
+
 
 
   const initialCourses = [
@@ -46,7 +46,7 @@ const Courses = () => {
       image: {
         imageID: 1,
         path: CourseWord
-        
+
       },
       featured: true,
       duration: "2 weeks",
@@ -61,7 +61,7 @@ const Courses = () => {
       image: {
         imageID: 2,
         path: CourseHTML
-        
+
       },
       featured: true,
       duration: "4 weeks",
@@ -76,7 +76,7 @@ const Courses = () => {
       image: {
         imageID: 3,
         path: CourseDAP
-        
+
       },
       duration: "6 weeks",
       description:
@@ -90,7 +90,7 @@ const Courses = () => {
       image: {
         imageID: 4,
         path: CourseExcel
-        
+
       },
       featured: true,
       duration: "3 weeks",
@@ -105,7 +105,7 @@ const Courses = () => {
       image: {
         imageID: 5,
         path: CoursePHP
-        
+
       },
       duration: "5 weeks",
       description:
@@ -119,7 +119,7 @@ const Courses = () => {
       image: {
         imageID: 6,
         path: CoursePython
-        
+
       },
       featured: true,
       duration: "4 weeks",
@@ -133,7 +133,7 @@ const Courses = () => {
       image: {
         imageID: 7,
         path: CoursePPT
-        
+
       },
       duration: "2 weeks",
       description: "Design captivating presentations using PowerPoint.",
@@ -146,7 +146,7 @@ const Courses = () => {
       image: {
         imageID: 8,
         path: CourseReact
-        
+
       },
       featured: true,
       duration: "6 weeks",
@@ -169,7 +169,7 @@ const Courses = () => {
 
 
   useEffect(() => {
-    if(ref.current) {
+    if (ref.current) {
       axios({
         method: 'get',
         url: `${process.env.REACT_APP_SERVERURL}/courses`,
@@ -188,30 +188,30 @@ const Courses = () => {
           ...prev,
         ]))
       })
-      .catch(err => {
-        console.log(err);
-        // if (err && err instanceof Error && !AxiosError) {
-        //   alert(err.response?.data.msg);
-        // } else if (err && err instanceof AxiosError) {
-        //   // err.response?.data ? alert(err.response?.data) : alert(err.message)
-        //   alert(err.message)
-        // } else {
-        //   alert('Error')
-        // }
-        if (Array.isArray(err.response?.data.message)) {
-          notify('error', err.response.data.errors[0].msg)
-        } else if (err.response) {
-          // This can happen when the required headers or options to access the endpoint r not provided
-          if (err.response.data.message) {
-            notify('error', err.response.data.message)
+        .catch(err => {
+          console.log(err);
+          // if (err && err instanceof Error && !AxiosError) {
+          //   alert(err.response?.data.msg);
+          // } else if (err && err instanceof AxiosError) {
+          //   // err.response?.data ? alert(err.response?.data) : alert(err.message)
+          //   alert(err.message)
+          // } else {
+          //   alert('Error')
+          // }
+          if (Array.isArray(err.response?.data.message)) {
+            notify('error', err.response.data.errors[0].msg)
+          } else if (err.response) {
+            // This can happen when the required headers or options to access the endpoint r not provided
+            if (err.response.data.message) {
+              notify('error', err.response.data.message)
+            } else {
+              notify('error', err.response.data)
+            }
           } else {
-            notify('error', err.response.data)
+            notify('error', err.message)
           }
-        } else {
-          notify('error', err.message)
-        }
-      });
-      
+        });
+
     }
     return () => (ref.current = false);
   }, [])
@@ -225,7 +225,7 @@ const Courses = () => {
     setSelectedCourse(moduleZero);
     document.body.style.overflow = "hidden";
   }
-  
+
   const handleViewDetails = (course) => {
     setShowCourse("block");
     setSelectedCourse(course);
@@ -298,6 +298,7 @@ const Courses = () => {
           image={selectedCourse.image.path}
           description={selectedCourse.description}
           duration={selectedCourse.duration}
+          price={selectedCourse.price} // Add price here
           onClose={handleCloseDetails}
           isModuleZero={selectedCourse.isModuleZero}
           fetchModule0={fetchModule0}
@@ -335,8 +336,8 @@ const Courses = () => {
 
         <button
           className={`px-3 py-2 md:text-sm text-xs rounded-full text-blue-600 ${selectedCategory === "Featured"
-              ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
-              : "border border-blue-500"
+            ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
+            : "border border-blue-500"
             }`}
           onClick={() => handleCategoryClick("Featured")}
         >
@@ -344,8 +345,8 @@ const Courses = () => {
         </button>
         <button
           className={`px-3 py-2 md:text-sm text-xs rounded-full  ${selectedCategory === null
-              ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
-              : "border border-blue-500 text-gray-700"
+            ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
+            : "border border-blue-500 text-gray-700"
             }`}
           onClick={() => handleCategoryClick(null)}
         >
@@ -356,8 +357,8 @@ const Courses = () => {
             <button
               key={i}
               className={`py-2 px-4 md:text-sm text-xs rounded-full  ${selectedCategory === category
-                  ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
-                  : "border border-blue-500 text-slate-500"
+                ? "bg-blue-600 text-white hover:bg-blue-500 transition duration-300 ease-in-out"
+                : "border border-blue-500 text-slate-500"
                 }`}
               onClick={() => handleCategoryClick(category)}
             >
@@ -376,10 +377,8 @@ const Courses = () => {
             key={i}
           >
             <div className="overflow-hidden h-44">
-            {console.log(course.image)}
               <img
                 className="object-cover w-full h-full"
-                // src={course.image}
                 src={`${course.image?.path}`.includes('/s') ? `${course.image?.path}` : `${process.env.REACT_APP_SERVERURL}/file/${course.image?.path}`}
                 alt="Pic"
               />
@@ -388,21 +387,23 @@ const Courses = () => {
               <div className="px-3 py-2 mb-3 text-xs rounded-full text-slate-600 bg-slate-300 w-max">
                 {course.category}
               </div>
-              <h3 className="mb-5 text-lg font-bold text-gray-800">
+              <h3 className="mb-3 text-lg font-bold text-gray-800">
                 {course.title}
               </h3>
-              <div className="flex flex-row items-center justify-between space-x-2">
+              <div className="flex flex-row items-center justify-between mb-3">
                 <div className="flex items-center space-x-2 text-sm text-slate-700">
-                  {" "}
                   <LuCalendarClock className="text-xl " />
                   <span>{course.duration}</span>
                 </div>
-                <span
-                  className="text-sm font-medium text-blue-500 transition duration-300 ease-in-out cursor-pointer hover:text-blue-600"
-                  onClick={() => handleViewDetails(course)}
-                >
-                  View Details →
-                </span>
+                <div className="text-lg font-semibold text-black">
+                  ₦{course.amount?.toFixed(2) ?? 10000}
+                </div>
+              </div>
+              <div
+                className="mt-5 text-sm font-medium text-blue-500 text-right transition duration-300 ease-in-out cursor-pointer hover:text-blue-600"
+                onClick={() => handleViewDetails(course)}
+              >
+                View Details →
               </div>
             </div>
           </div>
@@ -414,7 +415,7 @@ const Courses = () => {
 
 export default Courses;
 
-  // Add a response interceptor
+// Add a response interceptor
 // axios.interceptors.response.use(
 //   response => response,
 //   error => {
