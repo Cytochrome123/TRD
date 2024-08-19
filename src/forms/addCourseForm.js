@@ -17,7 +17,7 @@ const AddCourseForm = ({ onClose, onData }) => {
     amount: '',
     isModuleZero: false,
     image: null,
-    tags: null,
+    tags: [],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -27,8 +27,6 @@ const AddCourseForm = ({ onClose, onData }) => {
 
   const { notify } = useContext(AlertContext);
   const token = cookies.get('token');
-  const temp = cookies.get('temp');
-console.log(courseData, 'COURSEDATA');
 
   const handleChange = (event) => {
     setCourseData(prevData => ({
@@ -95,6 +93,7 @@ console.log(courseData, 'COURSEDATA');
           amount: '',
           isModuleZero: false,
           image: null,
+          tags: [],
         });
         setTags([]);
         onClose();
@@ -140,7 +139,7 @@ console.log(courseData, 'COURSEDATA');
   };
 
   return (
-    <div className="w-full max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-md md:p-8 lg:p-10">
+    <div className="w-full max-w-3xl p-6 mx-auto bg-white rounded-lg shadow-md md:p-8 lg:p-10 max-h-screen overflow-auto">
       {loading && <Loader />}
       <button className='float-right' onClick={handleCancel}><img src={Icon_x} alt='Icon x close' /></button>
       <h2 className="mb-6 text-2xl font-semibold text-blue-600 md:text-3xl">Add Course</h2>
